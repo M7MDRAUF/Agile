@@ -1,0 +1,532 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - img [ref=e5]
+      - generic [ref=e7]: AgileForge
+    - navigation "Primary" [ref=e8]:
+      - generic [ref=e9]:
+        - paragraph [ref=e10]: Overview
+        - list [ref=e11]:
+          - listitem [ref=e12]:
+            - link "Dashboard" [ref=e13] [cursor=pointer]:
+              - /url: /dashboard
+              - img [ref=e14]
+              - text: Dashboard
+          - listitem [ref=e19]:
+            - link "My Work" [ref=e20] [cursor=pointer]:
+              - /url: /my-work
+              - img [ref=e21]
+              - text: My Work
+      - generic [ref=e25]:
+        - paragraph [ref=e26]: Delivery
+        - list [ref=e27]:
+          - listitem [ref=e28]:
+            - link "Projects" [ref=e29] [cursor=pointer]:
+              - /url: /projects
+              - img [ref=e30]
+              - text: Projects
+          - listitem [ref=e32]:
+            - link "Work Items" [ref=e33] [cursor=pointer]:
+              - /url: /work-items
+              - img [ref=e34]
+              - text: Work Items
+          - listitem [ref=e37]:
+            - link "Backlog" [ref=e38] [cursor=pointer]:
+              - /url: /backlog
+              - img [ref=e39]
+              - text: Backlog
+          - listitem [ref=e42]:
+            - link "Sprints" [ref=e43] [cursor=pointer]:
+              - /url: /sprints
+              - img [ref=e44]
+              - text: Sprints
+          - listitem [ref=e46]:
+            - link "Scrum Board" [ref=e47] [cursor=pointer]:
+              - /url: /boards/scrum
+              - img [ref=e48]
+              - text: Scrum Board
+          - listitem [ref=e50]:
+            - link "Kanban Board" [ref=e51] [cursor=pointer]:
+              - /url: /boards/kanban
+              - img [ref=e52]
+              - text: Kanban Board
+      - generic [ref=e54]:
+        - paragraph [ref=e55]: Quality & Insights
+        - list [ref=e56]:
+          - listitem [ref=e57]:
+            - link "QA" [ref=e58] [cursor=pointer]:
+              - /url: /qa
+              - img [ref=e59]
+              - text: QA
+          - listitem [ref=e61]:
+            - link "Reports" [ref=e62] [cursor=pointer]:
+              - /url: /reports
+              - img [ref=e63]
+              - text: Reports
+      - generic [ref=e65]:
+        - paragraph [ref=e66]: Organization
+        - list [ref=e67]:
+          - listitem [ref=e68]:
+            - link "Teams" [ref=e69] [cursor=pointer]:
+              - /url: /teams
+              - img [ref=e70]
+              - text: Teams
+          - listitem [ref=e74]:
+            - link "Users" [ref=e75] [cursor=pointer]:
+              - /url: /users
+              - img [ref=e76]
+              - text: Users
+          - listitem [ref=e81]:
+            - link "Notifications" [ref=e82] [cursor=pointer]:
+              - /url: /notifications
+              - img [ref=e83]
+              - text: Notifications
+          - listitem [ref=e86]:
+            - link "Settings" [ref=e87] [cursor=pointer]:
+              - /url: /settings
+              - img [ref=e88]
+              - text: Settings
+          - listitem [ref=e91]:
+            - link "Admin" [ref=e92] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e93]
+              - text: Admin
+    - button "Collapse sidebar" [ref=e96]:
+      - img [ref=e97]
+      - text: Collapse
+  - generic [ref=e100]:
+    - banner [ref=e101]:
+      - search [ref=e102]:
+        - img
+        - searchbox "Global search" [ref=e103]
+      - link "Notifications" [ref=e104] [cursor=pointer]:
+        - /url: /notifications
+        - img [ref=e105]
+      - button "Alex Morgan Alex Morgan System Admin" [ref=e109]:
+        - generic "Alex Morgan" [ref=e110]: AM
+        - generic [ref=e111]:
+          - generic [ref=e112]: Alex Morgan
+          - generic [ref=e113]: System Admin
+    - main [ref=e114]:
+      - generic [ref=e115]:
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - heading "Quality Assurance" [level=1] [ref=e118]
+            - generic [ref=e119]: Test coverage, execution and release readiness.
+          - link "New test case" [ref=e121] [cursor=pointer]:
+            - /url: /qa/test-cases/new
+            - img [ref=e122]
+            - text: New test case
+        - generic [ref=e123]:
+          - generic [ref=e125]:
+            - generic [ref=e126]:
+              - paragraph [ref=e127]: Passed
+              - paragraph [ref=e128]: "21"
+            - img [ref=e130]
+          - generic [ref=e134]:
+            - generic [ref=e135]:
+              - paragraph [ref=e136]: Failed
+              - paragraph [ref=e137]: "3"
+            - img [ref=e139]
+          - generic [ref=e144]:
+            - generic [ref=e145]:
+              - paragraph [ref=e146]: Blocked
+              - paragraph [ref=e147]: "2"
+            - img [ref=e149]
+          - generic [ref=e153]:
+            - generic [ref=e154]:
+              - paragraph [ref=e155]: Not Run
+              - paragraph [ref=e156]: "16"
+            - img [ref=e158]
+        - generic [ref=e161]:
+          - heading "Release Readiness" [level=3] [ref=e163]
+          - generic [ref=e165]:
+            - generic [ref=e166]: 21/42 test cases passing
+            - generic [ref=e167]: 50%
+        - table [ref=e171]:
+          - rowgroup [ref=e172]:
+            - row "Key Title Project Status Runs" [ref=e173]:
+              - columnheader "Key" [ref=e174]
+              - columnheader "Title" [ref=e175]
+              - columnheader "Project" [ref=e176]
+              - columnheader "Status" [ref=e177]
+              - columnheader "Runs" [ref=e178]
+          - rowgroup [ref=e179]:
+            - row "TC-AID-7 Verify error message on invalid login AID Passed 1" [ref=e180]:
+              - cell "TC-AID-7" [ref=e181]
+              - cell "Verify error message on invalid login" [ref=e182]:
+                - link "Verify error message on invalid login" [ref=e183] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04cn00nbsw8tzcix530i
+              - cell "AID" [ref=e184]
+              - cell "Passed" [ref=e185]:
+                - generic [ref=e186]: Passed
+              - cell "1" [ref=e187]
+            - row "TC-AID-6 Verify notification marks as read AID Not Run 0" [ref=e188]:
+              - cell "TC-AID-6" [ref=e189]
+              - cell "Verify notification marks as read" [ref=e190]:
+                - link "Verify notification marks as read" [ref=e191] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04ck00nasw8tv6cvr7kb
+              - cell "AID" [ref=e192]
+              - cell "Not Run" [ref=e193]:
+                - generic [ref=e194]: Not Run
+              - cell "0" [ref=e195]
+            - row "TC-AID-5 Verify work item can be created with required fields AID Not Run 0" [ref=e196]:
+              - cell "TC-AID-5" [ref=e197]
+              - cell "Verify work item can be created with required fields" [ref=e198]:
+                - link "Verify work item can be created with required fields" [ref=e199] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04cg00n9sw8t8d6y0gmc
+              - cell "AID" [ref=e200]
+              - cell "Not Run" [ref=e201]:
+                - generic [ref=e202]: Not Run
+              - cell "0" [ref=e203]
+            - row "TC-AID-4 Verify notification marks as read AID Not Run 0" [ref=e204]:
+              - cell "TC-AID-4" [ref=e205]
+              - cell "Verify notification marks as read" [ref=e206]:
+                - link "Verify notification marks as read" [ref=e207] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04cd00n8sw8t1kwiit01
+              - cell "AID" [ref=e208]
+              - cell "Not Run" [ref=e209]:
+                - generic [ref=e210]: Not Run
+              - cell "0" [ref=e211]
+            - row "TC-AID-3 Verify report charts render with data AID Not Run 0" [ref=e212]:
+              - cell "TC-AID-3" [ref=e213]
+              - cell "Verify report charts render with data" [ref=e214]:
+                - link "Verify report charts render with data" [ref=e215] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04c800n7sw8tpwk3ybkp
+              - cell "AID" [ref=e216]
+              - cell "Not Run" [ref=e217]:
+                - generic [ref=e218]: Not Run
+              - cell "0" [ref=e219]
+            - row "TC-AID-2 Verify dashboard loads all widgets AID Passed 1" [ref=e220]:
+              - cell "TC-AID-2" [ref=e221]
+              - cell "Verify dashboard loads all widgets" [ref=e222]:
+                - link "Verify dashboard loads all widgets" [ref=e223] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04c100n5sw8tivdi2lnf
+              - cell "AID" [ref=e224]
+              - cell "Passed" [ref=e225]:
+                - generic [ref=e226]: Passed
+              - cell "1" [ref=e227]
+            - row "TC-AID-1 Verify role restrictions on admin pages AID Failed 1" [ref=e228]:
+              - cell "TC-AID-1" [ref=e229]
+              - cell "Verify role restrictions on admin pages" [ref=e230]:
+                - link "Verify role restrictions on admin pages" [ref=e231] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04bu00n3sw8tykdrn1w3
+              - cell "AID" [ref=e232]
+              - cell "Failed" [ref=e233]:
+                - generic [ref=e234]: Failed
+              - cell "1" [ref=e235]
+            - row "TC-BRP-7 Verify dashboard loads all widgets BRP Passed 1" [ref=e236]:
+              - cell "TC-BRP-7" [ref=e237]
+              - cell "Verify dashboard loads all widgets" [ref=e238]:
+                - link "Verify dashboard loads all widgets" [ref=e239] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04bn00n1sw8ta6h1v4xi
+              - cell "BRP" [ref=e240]
+              - cell "Passed" [ref=e241]:
+                - generic [ref=e242]: Passed
+              - cell "1" [ref=e243]
+            - row "TC-BRP-6 Verify role restrictions on admin pages BRP Not Run 0" [ref=e244]:
+              - cell "TC-BRP-6" [ref=e245]
+              - cell "Verify role restrictions on admin pages" [ref=e246]:
+                - link "Verify role restrictions on admin pages" [ref=e247] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04bj00n0sw8txoifskb1
+              - cell "BRP" [ref=e248]
+              - cell "Not Run" [ref=e249]:
+                - generic [ref=e250]: Not Run
+              - cell "0" [ref=e251]
+            - row "TC-BRP-5 Verify notification marks as read BRP Passed 1" [ref=e252]:
+              - cell "TC-BRP-5" [ref=e253]
+              - cell "Verify notification marks as read" [ref=e254]:
+                - link "Verify notification marks as read" [ref=e255] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04bd00mysw8ti0fcdat7
+              - cell "BRP" [ref=e256]
+              - cell "Passed" [ref=e257]:
+                - generic [ref=e258]: Passed
+              - cell "1" [ref=e259]
+            - row "TC-BRP-4 Verify report charts render with data BRP Passed 1" [ref=e260]:
+              - cell "TC-BRP-4" [ref=e261]
+              - cell "Verify report charts render with data" [ref=e262]:
+                - link "Verify report charts render with data" [ref=e263] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04b500mwsw8tr0v5ihko
+              - cell "BRP" [ref=e264]
+              - cell "Passed" [ref=e265]:
+                - generic [ref=e266]: Passed
+              - cell "1" [ref=e267]
+            - row "TC-BRP-3 Verify report charts render with data BRP Not Run 0" [ref=e268]:
+              - cell "TC-BRP-3" [ref=e269]
+              - cell "Verify report charts render with data" [ref=e270]:
+                - link "Verify report charts render with data" [ref=e271] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04b100mvsw8ttymuoiuu
+              - cell "BRP" [ref=e272]
+              - cell "Not Run" [ref=e273]:
+                - generic [ref=e274]: Not Run
+              - cell "0" [ref=e275]
+            - row "TC-BRP-2 Verify dashboard loads all widgets BRP Passed 1" [ref=e276]:
+              - cell "TC-BRP-2" [ref=e277]
+              - cell "Verify dashboard loads all widgets" [ref=e278]:
+                - link "Verify dashboard loads all widgets" [ref=e279] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04av00mtsw8t26gqqj8f
+              - cell "BRP" [ref=e280]
+              - cell "Passed" [ref=e281]:
+                - generic [ref=e282]: Passed
+              - cell "1" [ref=e283]
+            - row "TC-BRP-1 Verify board card moves persist after refresh BRP Not Run 0" [ref=e284]:
+              - cell "TC-BRP-1" [ref=e285]
+              - cell "Verify board card moves persist after refresh" [ref=e286]:
+                - link "Verify board card moves persist after refresh" [ref=e287] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04ar00mssw8to2ui66dz
+              - cell "BRP" [ref=e288]
+              - cell "Not Run" [ref=e289]:
+                - generic [ref=e290]: Not Run
+              - cell "0" [ref=e291]
+            - row "TC-MAR-7 Verify role restrictions on admin pages MAR Passed 1" [ref=e292]:
+              - cell "TC-MAR-7" [ref=e293]
+              - cell "Verify role restrictions on admin pages" [ref=e294]:
+                - link "Verify role restrictions on admin pages" [ref=e295] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04aj00mqsw8tg1qcyl4a
+              - cell "MAR" [ref=e296]
+              - cell "Passed" [ref=e297]:
+                - generic [ref=e298]: Passed
+              - cell "1" [ref=e299]
+            - row "TC-MAR-6 Verify dashboard loads all widgets MAR Passed 1" [ref=e300]:
+              - cell "TC-MAR-6" [ref=e301]
+              - cell "Verify dashboard loads all widgets" [ref=e302]:
+                - link "Verify dashboard loads all widgets" [ref=e303] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04ac00mosw8ts0n42g33
+              - cell "MAR" [ref=e304]
+              - cell "Passed" [ref=e305]:
+                - generic [ref=e306]: Passed
+              - cell "1" [ref=e307]
+            - row "TC-MAR-5 Verify successful login with valid credentials MAR Not Run 0" [ref=e308]:
+              - cell "TC-MAR-5" [ref=e309]
+              - cell "Verify successful login with valid credentials" [ref=e310]:
+                - link "Verify successful login with valid credentials" [ref=e311] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04a800mnsw8t9b0s0yrm
+              - cell "MAR" [ref=e312]
+              - cell "Not Run" [ref=e313]:
+                - generic [ref=e314]: Not Run
+              - cell "0" [ref=e315]
+            - row "TC-MAR-4 Verify error message on invalid login MAR Not Run 0" [ref=e316]:
+              - cell "TC-MAR-4" [ref=e317]
+              - cell "Verify error message on invalid login" [ref=e318]:
+                - link "Verify error message on invalid login" [ref=e319] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj04a500mmsw8ttp06nxvc
+              - cell "MAR" [ref=e320]
+              - cell "Not Run" [ref=e321]:
+                - generic [ref=e322]: Not Run
+              - cell "0" [ref=e323]
+            - row "TC-MAR-3 Verify error message on invalid login MAR Passed 1" [ref=e324]:
+              - cell "TC-MAR-3" [ref=e325]
+              - cell "Verify error message on invalid login" [ref=e326]:
+                - link "Verify error message on invalid login" [ref=e327] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj049z00mksw8tolflsmth
+              - cell "MAR" [ref=e328]
+              - cell "Passed" [ref=e329]:
+                - generic [ref=e330]: Passed
+              - cell "1" [ref=e331]
+            - row "TC-MAR-2 Verify work item can be created with required fields MAR Not Run 0" [ref=e332]:
+              - cell "TC-MAR-2" [ref=e333]
+              - cell "Verify work item can be created with required fields" [ref=e334]:
+                - link "Verify work item can be created with required fields" [ref=e335] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj049v00mjsw8tc4h27pul
+              - cell "MAR" [ref=e336]
+              - cell "Not Run" [ref=e337]:
+                - generic [ref=e338]: Not Run
+              - cell "0" [ref=e339]
+            - row "TC-MAR-1 Verify role restrictions on admin pages MAR Passed 1" [ref=e340]:
+              - cell "TC-MAR-1" [ref=e341]
+              - cell "Verify role restrictions on admin pages" [ref=e342]:
+                - link "Verify role restrictions on admin pages" [ref=e343] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj048z00mhsw8ttv5xke1z
+              - cell "MAR" [ref=e344]
+              - cell "Passed" [ref=e345]:
+                - generic [ref=e346]: Passed
+              - cell "1" [ref=e347]
+            - row "TC-AISA-7 Verify notification marks as read AISA Passed 1" [ref=e348]:
+              - cell "TC-AISA-7" [ref=e349]
+              - cell "Verify notification marks as read" [ref=e350]:
+                - link "Verify notification marks as read" [ref=e351] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj047t00mfsw8t0xde9an3
+              - cell "AISA" [ref=e352]
+              - cell "Passed" [ref=e353]:
+                - generic [ref=e354]: Passed
+              - cell "1" [ref=e355]
+            - row "TC-AISA-6 Verify dashboard loads all widgets AISA Blocked 1" [ref=e356]:
+              - cell "TC-AISA-6" [ref=e357]
+              - cell "Verify dashboard loads all widgets" [ref=e358]:
+                - link "Verify dashboard loads all widgets" [ref=e359] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj046y00mdsw8tsl3cc4to
+              - cell "AISA" [ref=e360]
+              - cell "Blocked" [ref=e361]:
+                - generic [ref=e362]: Blocked
+              - cell "1" [ref=e363]
+            - row "TC-AISA-5 Verify role restrictions on admin pages AISA Not Run 0" [ref=e364]:
+              - cell "TC-AISA-5" [ref=e365]
+              - cell "Verify role restrictions on admin pages" [ref=e366]:
+                - link "Verify role restrictions on admin pages" [ref=e367] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj046u00mcsw8t86cib9xc
+              - cell "AISA" [ref=e368]
+              - cell "Not Run" [ref=e369]:
+                - generic [ref=e370]: Not Run
+              - cell "0" [ref=e371]
+            - row "TC-AISA-4 Verify board card moves persist after refresh AISA Not Run 0" [ref=e372]:
+              - cell "TC-AISA-4" [ref=e373]
+              - cell "Verify board card moves persist after refresh" [ref=e374]:
+                - link "Verify board card moves persist after refresh" [ref=e375] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj046r00mbsw8typai8sog
+              - cell "AISA" [ref=e376]
+              - cell "Not Run" [ref=e377]:
+                - generic [ref=e378]: Not Run
+              - cell "0" [ref=e379]
+            - row "TC-AISA-3 Verify report charts render with data AISA Passed 1" [ref=e380]:
+              - cell "TC-AISA-3" [ref=e381]
+              - cell "Verify report charts render with data" [ref=e382]:
+                - link "Verify report charts render with data" [ref=e383] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj046k00m9sw8t6tx75qwz
+              - cell "AISA" [ref=e384]
+              - cell "Passed" [ref=e385]:
+                - generic [ref=e386]: Passed
+              - cell "1" [ref=e387]
+            - row "TC-AISA-2 Verify dashboard loads all widgets AISA Passed 1" [ref=e388]:
+              - cell "TC-AISA-2" [ref=e389]
+              - cell "Verify dashboard loads all widgets" [ref=e390]:
+                - link "Verify dashboard loads all widgets" [ref=e391] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj046e00m7sw8tli6pe2yx
+              - cell "AISA" [ref=e392]
+              - cell "Passed" [ref=e393]:
+                - generic [ref=e394]: Passed
+              - cell "1" [ref=e395]
+            - row "TC-AISA-1 Verify board card moves persist after refresh AISA Passed 1" [ref=e396]:
+              - cell "TC-AISA-1" [ref=e397]
+              - cell "Verify board card moves persist after refresh" [ref=e398]:
+                - link "Verify board card moves persist after refresh" [ref=e399] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj046700m5sw8txp15v3uf
+              - cell "AISA" [ref=e400]
+              - cell "Passed" [ref=e401]:
+                - generic [ref=e402]: Passed
+              - cell "1" [ref=e403]
+            - row "TC-IDP-7 Verify report charts render with data IDP Not Run 0" [ref=e404]:
+              - cell "TC-IDP-7" [ref=e405]
+              - cell "Verify report charts render with data" [ref=e406]:
+                - link "Verify report charts render with data" [ref=e407] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj046300m4sw8tzp9tudda
+              - cell "IDP" [ref=e408]
+              - cell "Not Run" [ref=e409]:
+                - generic [ref=e410]: Not Run
+              - cell "0" [ref=e411]
+            - row "TC-IDP-6 Verify notification marks as read IDP Not Run 0" [ref=e412]:
+              - cell "TC-IDP-6" [ref=e413]
+              - cell "Verify notification marks as read" [ref=e414]:
+                - link "Verify notification marks as read" [ref=e415] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj045z00m3sw8tywmg0fx1
+              - cell "IDP" [ref=e416]
+              - cell "Not Run" [ref=e417]:
+                - generic [ref=e418]: Not Run
+              - cell "0" [ref=e419]
+            - row "TC-IDP-5 Verify report charts render with data IDP Passed 1" [ref=e420]:
+              - cell "TC-IDP-5" [ref=e421]
+              - cell "Verify report charts render with data" [ref=e422]:
+                - link "Verify report charts render with data" [ref=e423] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj045s00m1sw8tj33lqhgi
+              - cell "IDP" [ref=e424]
+              - cell "Passed" [ref=e425]:
+                - generic [ref=e426]: Passed
+              - cell "1" [ref=e427]
+            - row "TC-IDP-4 Verify role restrictions on admin pages IDP Passed 1" [ref=e428]:
+              - cell "TC-IDP-4" [ref=e429]
+              - cell "Verify role restrictions on admin pages" [ref=e430]:
+                - link "Verify role restrictions on admin pages" [ref=e431] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj045l00lzsw8trhb1k91l
+              - cell "IDP" [ref=e432]
+              - cell "Passed" [ref=e433]:
+                - generic [ref=e434]: Passed
+              - cell "1" [ref=e435]
+            - row "TC-IDP-3 Verify role restrictions on admin pages IDP Passed 1" [ref=e436]:
+              - cell "TC-IDP-3" [ref=e437]
+              - cell "Verify role restrictions on admin pages" [ref=e438]:
+                - link "Verify role restrictions on admin pages" [ref=e439] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj045e00lxsw8tznmsbfxi
+              - cell "IDP" [ref=e440]
+              - cell "Passed" [ref=e441]:
+                - generic [ref=e442]: Passed
+              - cell "1" [ref=e443]
+            - row "TC-IDP-2 Verify board card moves persist after refresh IDP Blocked 1" [ref=e444]:
+              - cell "TC-IDP-2" [ref=e445]
+              - cell "Verify board card moves persist after refresh" [ref=e446]:
+                - link "Verify board card moves persist after refresh" [ref=e447] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj045700lvsw8t2masr9mk
+              - cell "IDP" [ref=e448]
+              - cell "Blocked" [ref=e449]:
+                - generic [ref=e450]: Blocked
+              - cell "1" [ref=e451]
+            - row "TC-IDP-1 Verify notification marks as read IDP Failed 1" [ref=e452]:
+              - cell "TC-IDP-1" [ref=e453]
+              - cell "Verify notification marks as read" [ref=e454]:
+                - link "Verify notification marks as read" [ref=e455] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj045100ltsw8t5098kylg
+              - cell "IDP" [ref=e456]
+              - cell "Failed" [ref=e457]:
+                - generic [ref=e458]: Failed
+              - cell "1" [ref=e459]
+            - row "TC-CPM-7 Verify notification marks as read CPM Failed 1" [ref=e460]:
+              - cell "TC-CPM-7" [ref=e461]
+              - cell "Verify notification marks as read" [ref=e462]:
+                - link "Verify notification marks as read" [ref=e463] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj044u00lrsw8tfapmfnf7
+              - cell "CPM" [ref=e464]
+              - cell "Failed" [ref=e465]:
+                - generic [ref=e466]: Failed
+              - cell "1" [ref=e467]
+            - row "TC-CPM-6 Verify error message on invalid login CPM Passed 1" [ref=e468]:
+              - cell "TC-CPM-6" [ref=e469]
+              - cell "Verify error message on invalid login" [ref=e470]:
+                - link "Verify error message on invalid login" [ref=e471] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj044n00lpsw8t69d50o9e
+              - cell "CPM" [ref=e472]
+              - cell "Passed" [ref=e473]:
+                - generic [ref=e474]: Passed
+              - cell "1" [ref=e475]
+            - row "TC-CPM-5 Verify notification marks as read CPM Not Run 0" [ref=e476]:
+              - cell "TC-CPM-5" [ref=e477]
+              - cell "Verify notification marks as read" [ref=e478]:
+                - link "Verify notification marks as read" [ref=e479] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj044j00losw8ti1bdavw5
+              - cell "CPM" [ref=e480]
+              - cell "Not Run" [ref=e481]:
+                - generic [ref=e482]: Not Run
+              - cell "0" [ref=e483]
+            - row "TC-CPM-4 Verify report charts render with data CPM Passed 1" [ref=e484]:
+              - cell "TC-CPM-4" [ref=e485]
+              - cell "Verify report charts render with data" [ref=e486]:
+                - link "Verify report charts render with data" [ref=e487] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj044c00lmsw8tnqsgcr5s
+              - cell "CPM" [ref=e488]
+              - cell "Passed" [ref=e489]:
+                - generic [ref=e490]: Passed
+              - cell "1" [ref=e491]
+            - row "TC-CPM-3 Verify dashboard loads all widgets CPM Passed 1" [ref=e492]:
+              - cell "TC-CPM-3" [ref=e493]
+              - cell "Verify dashboard loads all widgets" [ref=e494]:
+                - link "Verify dashboard loads all widgets" [ref=e495] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj044600lksw8tbchj7rmw
+              - cell "CPM" [ref=e496]
+              - cell "Passed" [ref=e497]:
+                - generic [ref=e498]: Passed
+              - cell "1" [ref=e499]
+            - row "TC-CPM-2 Verify error message on invalid login CPM Not Run 0" [ref=e500]:
+              - cell "TC-CPM-2" [ref=e501]
+              - cell "Verify error message on invalid login" [ref=e502]:
+                - link "Verify error message on invalid login" [ref=e503] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj044200ljsw8tg5wd1gt7
+              - cell "CPM" [ref=e504]
+              - cell "Not Run" [ref=e505]:
+                - generic [ref=e506]: Not Run
+              - cell "0" [ref=e507]
+            - row "TC-CPM-1 Verify dashboard loads all widgets CPM Passed 1" [ref=e508]:
+              - cell "TC-CPM-1" [ref=e509]
+              - cell "Verify dashboard loads all widgets" [ref=e510]:
+                - link "Verify dashboard loads all widgets" [ref=e511] [cursor=pointer]:
+                  - /url: /qa/test-cases/cmpqj043v00lhsw8ts2mfyv12
+              - cell "CPM" [ref=e512]
+              - cell "Passed" [ref=e513]:
+                - generic [ref=e514]: Passed
+              - cell "1" [ref=e515]

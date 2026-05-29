@@ -1,0 +1,680 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - img [ref=e5]
+      - generic [ref=e7]: AgileForge
+    - navigation "Primary" [ref=e8]:
+      - generic [ref=e9]:
+        - paragraph [ref=e10]: Overview
+        - list [ref=e11]:
+          - listitem [ref=e12]:
+            - link "Dashboard" [ref=e13] [cursor=pointer]:
+              - /url: /dashboard
+              - img [ref=e14]
+              - text: Dashboard
+          - listitem [ref=e19]:
+            - link "My Work" [ref=e20] [cursor=pointer]:
+              - /url: /my-work
+              - img [ref=e21]
+              - text: My Work
+      - generic [ref=e25]:
+        - paragraph [ref=e26]: Delivery
+        - list [ref=e27]:
+          - listitem [ref=e28]:
+            - link "Projects" [ref=e29] [cursor=pointer]:
+              - /url: /projects
+              - img [ref=e30]
+              - text: Projects
+          - listitem [ref=e32]:
+            - link "Work Items" [ref=e33] [cursor=pointer]:
+              - /url: /work-items
+              - img [ref=e34]
+              - text: Work Items
+          - listitem [ref=e37]:
+            - link "Backlog" [ref=e38] [cursor=pointer]:
+              - /url: /backlog
+              - img [ref=e39]
+              - text: Backlog
+          - listitem [ref=e42]:
+            - link "Sprints" [ref=e43] [cursor=pointer]:
+              - /url: /sprints
+              - img [ref=e44]
+              - text: Sprints
+          - listitem [ref=e46]:
+            - link "Scrum Board" [ref=e47] [cursor=pointer]:
+              - /url: /boards/scrum
+              - img [ref=e48]
+              - text: Scrum Board
+          - listitem [ref=e50]:
+            - link "Kanban Board" [ref=e51] [cursor=pointer]:
+              - /url: /boards/kanban
+              - img [ref=e52]
+              - text: Kanban Board
+      - generic [ref=e54]:
+        - paragraph [ref=e55]: Quality & Insights
+        - list [ref=e56]:
+          - listitem [ref=e57]:
+            - link "QA" [ref=e58] [cursor=pointer]:
+              - /url: /qa
+              - img [ref=e59]
+              - text: QA
+          - listitem [ref=e61]:
+            - link "Reports" [ref=e62] [cursor=pointer]:
+              - /url: /reports
+              - img [ref=e63]
+              - text: Reports
+      - generic [ref=e65]:
+        - paragraph [ref=e66]: Organization
+        - list [ref=e67]:
+          - listitem [ref=e68]:
+            - link "Teams" [ref=e69] [cursor=pointer]:
+              - /url: /teams
+              - img [ref=e70]
+              - text: Teams
+          - listitem [ref=e74]:
+            - link "Users" [ref=e75] [cursor=pointer]:
+              - /url: /users
+              - img [ref=e76]
+              - text: Users
+          - listitem [ref=e81]:
+            - link "Notifications" [ref=e82] [cursor=pointer]:
+              - /url: /notifications
+              - img [ref=e83]
+              - text: Notifications
+          - listitem [ref=e86]:
+            - link "Settings" [ref=e87] [cursor=pointer]:
+              - /url: /settings
+              - img [ref=e88]
+              - text: Settings
+          - listitem [ref=e91]:
+            - link "Admin" [ref=e92] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e93]
+              - text: Admin
+    - button "Collapse sidebar" [ref=e96]:
+      - img [ref=e97]
+      - text: Collapse
+  - generic [ref=e100]:
+    - banner [ref=e101]:
+      - search [ref=e102]:
+        - img
+        - searchbox "Global search" [ref=e103]
+      - link "Notifications" [ref=e104] [cursor=pointer]:
+        - /url: /notifications
+        - img [ref=e105]
+      - button "Alex Morgan Alex Morgan System Admin" [ref=e109]:
+        - generic "Alex Morgan" [ref=e110]: AM
+        - generic [ref=e111]:
+          - generic [ref=e112]: Alex Morgan
+          - generic [ref=e113]: System Admin
+    - main [ref=e114]:
+      - generic [ref=e115]:
+        - generic [ref=e117]:
+          - heading "Administration" [level=1] [ref=e118]
+          - generic [ref=e119]: Manage users, roles and review the audit trail.
+        - generic [ref=e120]:
+          - generic [ref=e122]:
+            - generic [ref=e123]:
+              - paragraph [ref=e124]: Users
+              - paragraph [ref=e125]: "24"
+            - img [ref=e127]
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - paragraph [ref=e135]: Projects
+              - paragraph [ref=e136]: "6"
+            - img [ref=e138]
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - paragraph [ref=e143]: Work Items
+              - paragraph [ref=e144]: "190"
+            - img [ref=e146]
+          - generic [ref=e150]:
+            - generic [ref=e151]:
+              - paragraph [ref=e152]: Audit Events
+              - paragraph [ref=e153]: "12"
+            - img [ref=e155]
+        - generic [ref=e158]:
+          - heading "User Management" [level=3] [ref=e160]
+          - generic [ref=e161]:
+            - button "New user" [ref=e163]:
+              - img [ref=e164]
+              - text: New user
+            - table [ref=e168]:
+              - rowgroup [ref=e169]:
+                - row "Name Email Role Status Actions" [ref=e170]:
+                  - columnheader "Name" [ref=e171]
+                  - columnheader "Email" [ref=e172]
+                  - columnheader "Role" [ref=e173]
+                  - columnheader "Status" [ref=e174]
+                  - columnheader "Actions" [ref=e175]
+              - rowgroup [ref=e176]:
+                - row "Ahmed Hassan Ahmed Hassan eng4@novacore.dev Software Engineer Active Deactivate" [ref=e177]:
+                  - cell "Ahmed Hassan Ahmed Hassan" [ref=e178]:
+                    - generic [ref=e179]:
+                      - generic "Ahmed Hassan" [ref=e180]: AH
+                      - generic [ref=e181]: Ahmed Hassan
+                  - cell "eng4@novacore.dev" [ref=e182]
+                  - cell "Software Engineer" [ref=e183]:
+                    - combobox "User role" [ref=e184]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer" [selected]
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e185]:
+                    - generic [ref=e186]: Active
+                  - cell "Deactivate" [ref=e187]:
+                    - button "Deactivate" [ref=e188]
+                - row "Aisha Khan Aisha Khan qa3@novacore.dev QA Engineer Active Deactivate" [ref=e189]:
+                  - cell "Aisha Khan Aisha Khan" [ref=e190]:
+                    - generic [ref=e191]:
+                      - generic "Aisha Khan" [ref=e192]: AK
+                      - generic [ref=e193]: Aisha Khan
+                  - cell "qa3@novacore.dev" [ref=e194]
+                  - cell "QA Engineer" [ref=e195]:
+                    - combobox "User role" [ref=e196]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer" [selected]
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e197]:
+                    - generic [ref=e198]: Active
+                  - cell "Deactivate" [ref=e199]:
+                    - button "Deactivate" [ref=e200]
+                - row "Alex Morgan Alex Morgan admin@novacore.dev System Admin Active You" [ref=e201]:
+                  - cell "Alex Morgan Alex Morgan" [ref=e202]:
+                    - generic [ref=e203]:
+                      - generic "Alex Morgan" [ref=e204]: AM
+                      - generic [ref=e205]: Alex Morgan
+                  - cell "admin@novacore.dev" [ref=e206]
+                  - cell "System Admin" [ref=e207]:
+                    - combobox "User role" [ref=e208]:
+                      - option "System Admin" [selected]
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e209]:
+                    - generic [ref=e210]: Active
+                  - cell "You" [ref=e211]
+                - row "Ben Carter Ben Carter qa2@novacore.dev QA Engineer Active Deactivate" [ref=e212]:
+                  - cell "Ben Carter Ben Carter" [ref=e213]:
+                    - generic [ref=e214]:
+                      - generic "Ben Carter" [ref=e215]: BC
+                      - generic [ref=e216]: Ben Carter
+                  - cell "qa2@novacore.dev" [ref=e217]
+                  - cell "QA Engineer" [ref=e218]:
+                    - combobox "User role" [ref=e219]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer" [selected]
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e220]:
+                    - generic [ref=e221]: Active
+                  - cell "Deactivate" [ref=e222]:
+                    - button "Deactivate" [ref=e223]
+                - row "Daniel Okoye Daniel Okoye em2@novacore.dev Engineering Manager Active Deactivate" [ref=e224]:
+                  - cell "Daniel Okoye Daniel Okoye" [ref=e225]:
+                    - generic [ref=e226]:
+                      - generic "Daniel Okoye" [ref=e227]: DO
+                      - generic [ref=e228]: Daniel Okoye
+                  - cell "em2@novacore.dev" [ref=e229]
+                  - cell "Engineering Manager" [ref=e230]:
+                    - combobox "User role" [ref=e231]:
+                      - option "System Admin"
+                      - option "Engineering Manager" [selected]
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e232]:
+                    - generic [ref=e233]: Active
+                  - cell "Deactivate" [ref=e234]:
+                    - button "Deactivate" [ref=e235]
+                - row "Diego Santos Diego Santos eng6@novacore.dev Software Engineer Active Deactivate" [ref=e236]:
+                  - cell "Diego Santos Diego Santos" [ref=e237]:
+                    - generic [ref=e238]:
+                      - generic "Diego Santos" [ref=e239]: DS
+                      - generic [ref=e240]: Diego Santos
+                  - cell "eng6@novacore.dev" [ref=e241]
+                  - cell "Software Engineer" [ref=e242]:
+                    - combobox "User role" [ref=e243]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer" [selected]
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e244]:
+                    - generic [ref=e245]: Active
+                  - cell "Deactivate" [ref=e246]:
+                    - button "Deactivate" [ref=e247]
+                - row "Emma Dubois Emma Dubois designer@novacore.dev Designer Active Deactivate" [ref=e248]:
+                  - cell "Emma Dubois Emma Dubois" [ref=e249]:
+                    - generic [ref=e250]:
+                      - generic "Emma Dubois" [ref=e251]: ED
+                      - generic [ref=e252]: Emma Dubois
+                  - cell "designer@novacore.dev" [ref=e253]
+                  - cell "Designer" [ref=e254]:
+                    - combobox "User role" [ref=e255]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer" [selected]
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e256]:
+                    - generic [ref=e257]: Active
+                  - cell "Deactivate" [ref=e258]:
+                    - button "Deactivate" [ref=e259]
+                - row "Fatima Zahra Fatima Zahra qa@novacore.dev QA Engineer Active Deactivate" [ref=e260]:
+                  - cell "Fatima Zahra Fatima Zahra" [ref=e261]:
+                    - generic [ref=e262]:
+                      - generic "Fatima Zahra" [ref=e263]: FZ
+                      - generic [ref=e264]: Fatima Zahra
+                  - cell "qa@novacore.dev" [ref=e265]
+                  - cell "QA Engineer" [ref=e266]:
+                    - combobox "User role" [ref=e267]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer" [selected]
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e268]:
+                    - generic [ref=e269]: Active
+                  - cell "Deactivate" [ref=e270]:
+                    - button "Deactivate" [ref=e271]
+                - row "Grace Mwangi Grace Mwangi eng8@novacore.dev Software Engineer Active Deactivate" [ref=e272]:
+                  - cell "Grace Mwangi Grace Mwangi" [ref=e273]:
+                    - generic [ref=e274]:
+                      - generic "Grace Mwangi" [ref=e275]: GM
+                      - generic [ref=e276]: Grace Mwangi
+                  - cell "eng8@novacore.dev" [ref=e277]
+                  - cell "Software Engineer" [ref=e278]:
+                    - combobox "User role" [ref=e279]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer" [selected]
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e280]:
+                    - generic [ref=e281]: Active
+                  - cell "Deactivate" [ref=e282]:
+                    - button "Deactivate" [ref=e283]
+                - row "Hannah Bergström Hannah Bergström sm@novacore.dev Scrum Master Active Deactivate" [ref=e284]:
+                  - cell "Hannah Bergström Hannah Bergström" [ref=e285]:
+                    - generic [ref=e286]:
+                      - generic "Hannah Bergström" [ref=e287]: HB
+                      - generic [ref=e288]: Hannah Bergström
+                  - cell "sm@novacore.dev" [ref=e289]
+                  - cell "Scrum Master" [ref=e290]:
+                    - combobox "User role" [ref=e291]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master" [selected]
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e292]:
+                    - generic [ref=e293]: Active
+                  - cell "Deactivate" [ref=e294]:
+                    - button "Deactivate" [ref=e295]
+                - row "Jordan Patel Jordan Patel engineer@novacore.dev Software Engineer Active Deactivate" [ref=e296]:
+                  - cell "Jordan Patel Jordan Patel" [ref=e297]:
+                    - generic [ref=e298]:
+                      - generic "Jordan Patel" [ref=e299]: JP
+                      - generic [ref=e300]: Jordan Patel
+                  - cell "engineer@novacore.dev" [ref=e301]
+                  - cell "Software Engineer" [ref=e302]:
+                    - combobox "User role" [ref=e303]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer" [selected]
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e304]:
+                    - generic [ref=e305]: Active
+                  - cell "Deactivate" [ref=e306]:
+                    - button "Deactivate" [ref=e307]
+                - row "Liam O'Connor Liam O'Connor eng9@novacore.dev Software Engineer Active Deactivate" [ref=e308]:
+                  - cell "Liam O'Connor Liam O'Connor" [ref=e309]:
+                    - generic [ref=e310]:
+                      - generic "Liam O'Connor" [ref=e311]: LO
+                      - generic [ref=e312]: Liam O'Connor
+                  - cell "eng9@novacore.dev" [ref=e313]
+                  - cell "Software Engineer" [ref=e314]:
+                    - combobox "User role" [ref=e315]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer" [selected]
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e316]:
+                    - generic [ref=e317]: Active
+                  - cell "Deactivate" [ref=e318]:
+                    - button "Deactivate" [ref=e319]
+                - row "Marcus Lee Marcus Lee po2@novacore.dev Product Owner Active Deactivate" [ref=e320]:
+                  - cell "Marcus Lee Marcus Lee" [ref=e321]:
+                    - generic [ref=e322]:
+                      - generic "Marcus Lee" [ref=e323]: ML
+                      - generic [ref=e324]: Marcus Lee
+                  - cell "po2@novacore.dev" [ref=e325]
+                  - cell "Product Owner" [ref=e326]:
+                    - combobox "User role" [ref=e327]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner" [selected]
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e328]:
+                    - generic [ref=e329]: Active
+                  - cell "Deactivate" [ref=e330]:
+                    - button "Deactivate" [ref=e331]
+                - row "Nina Kowalski Nina Kowalski eng5@novacore.dev Software Engineer Active Deactivate" [ref=e332]:
+                  - cell "Nina Kowalski Nina Kowalski" [ref=e333]:
+                    - generic [ref=e334]:
+                      - generic "Nina Kowalski" [ref=e335]: NK
+                      - generic [ref=e336]: Nina Kowalski
+                  - cell "eng5@novacore.dev" [ref=e337]
+                  - cell "Software Engineer" [ref=e338]:
+                    - combobox "User role" [ref=e339]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer" [selected]
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e340]:
+                    - generic [ref=e341]: Active
+                  - cell "Deactivate" [ref=e342]:
+                    - button "Deactivate" [ref=e343]
+                - row "Noah Fischer Noah Fischer designer2@novacore.dev Designer Active Deactivate" [ref=e344]:
+                  - cell "Noah Fischer Noah Fischer" [ref=e345]:
+                    - generic [ref=e346]:
+                      - generic "Noah Fischer" [ref=e347]: NF
+                      - generic [ref=e348]: Noah Fischer
+                  - cell "designer2@novacore.dev" [ref=e349]
+                  - cell "Designer" [ref=e350]:
+                    - combobox "User role" [ref=e351]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer" [selected]
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e352]:
+                    - generic [ref=e353]: Active
+                  - cell "Deactivate" [ref=e354]:
+                    - button "Deactivate" [ref=e355]
+                - row "Olivia Brooks Olivia Brooks eng3@novacore.dev Software Engineer Active Deactivate" [ref=e356]:
+                  - cell "Olivia Brooks Olivia Brooks" [ref=e357]:
+                    - generic [ref=e358]:
+                      - generic "Olivia Brooks" [ref=e359]: OB
+                      - generic [ref=e360]: Olivia Brooks
+                  - cell "eng3@novacore.dev" [ref=e361]
+                  - cell "Software Engineer" [ref=e362]:
+                    - combobox "User role" [ref=e363]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer" [selected]
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e364]:
+                    - generic [ref=e365]: Active
+                  - cell "Deactivate" [ref=e366]:
+                    - button "Deactivate" [ref=e367]
+                - row "Priya Sharma Priya Sharma em@novacore.dev Engineering Manager Active Deactivate" [ref=e368]:
+                  - cell "Priya Sharma Priya Sharma" [ref=e369]:
+                    - generic [ref=e370]:
+                      - generic "Priya Sharma" [ref=e371]: PS
+                      - generic [ref=e372]: Priya Sharma
+                  - cell "em@novacore.dev" [ref=e373]
+                  - cell "Engineering Manager" [ref=e374]:
+                    - combobox "User role" [ref=e375]:
+                      - option "System Admin"
+                      - option "Engineering Manager" [selected]
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e376]:
+                    - generic [ref=e377]: Active
+                  - cell "Deactivate" [ref=e378]:
+                    - button "Deactivate" [ref=e379]
+                - row "Robert Klein Robert Klein exec2@novacore.dev Executive / Stakeholder Active Deactivate" [ref=e380]:
+                  - cell "Robert Klein Robert Klein" [ref=e381]:
+                    - generic [ref=e382]:
+                      - generic "Robert Klein" [ref=e383]: RK
+                      - generic [ref=e384]: Robert Klein
+                  - cell "exec2@novacore.dev" [ref=e385]
+                  - cell "Executive / Stakeholder" [ref=e386]:
+                    - combobox "User role" [ref=e387]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder" [selected]
+                  - cell "Active" [ref=e388]:
+                    - generic [ref=e389]: Active
+                  - cell "Deactivate" [ref=e390]:
+                    - button "Deactivate" [ref=e391]
+                - row "Sandra Nilsson Sandra Nilsson exec3@novacore.dev Executive / Stakeholder Active Deactivate" [ref=e392]:
+                  - cell "Sandra Nilsson Sandra Nilsson" [ref=e393]:
+                    - generic [ref=e394]:
+                      - generic "Sandra Nilsson" [ref=e395]: SN
+                      - generic [ref=e396]: Sandra Nilsson
+                  - cell "exec3@novacore.dev" [ref=e397]
+                  - cell "Executive / Stakeholder" [ref=e398]:
+                    - combobox "User role" [ref=e399]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder" [selected]
+                  - cell "Active" [ref=e400]:
+                    - generic [ref=e401]: Active
+                  - cell "Deactivate" [ref=e402]:
+                    - button "Deactivate" [ref=e403]
+                - row "Sofia Reyes Sofia Reyes po@novacore.dev Product Owner Active Deactivate" [ref=e404]:
+                  - cell "Sofia Reyes Sofia Reyes" [ref=e405]:
+                    - generic [ref=e406]:
+                      - generic "Sofia Reyes" [ref=e407]: SR
+                      - generic [ref=e408]: Sofia Reyes
+                  - cell "po@novacore.dev" [ref=e409]
+                  - cell "Product Owner" [ref=e410]:
+                    - combobox "User role" [ref=e411]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner" [selected]
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e412]:
+                    - generic [ref=e413]: Active
+                  - cell "Deactivate" [ref=e414]:
+                    - button "Deactivate" [ref=e415]
+                - row "Tomás Alvarez Tomás Alvarez sm2@novacore.dev Scrum Master Active Deactivate" [ref=e416]:
+                  - cell "Tomás Alvarez Tomás Alvarez" [ref=e417]:
+                    - generic [ref=e418]:
+                      - generic "Tomás Alvarez" [ref=e419]: TA
+                      - generic [ref=e420]: Tomás Alvarez
+                  - cell "sm2@novacore.dev" [ref=e421]
+                  - cell "Scrum Master" [ref=e422]:
+                    - combobox "User role" [ref=e423]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master" [selected]
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e424]:
+                    - generic [ref=e425]: Active
+                  - cell "Deactivate" [ref=e426]:
+                    - button "Deactivate" [ref=e427]
+                - row "Victoria Hughes Victoria Hughes stakeholder@novacore.dev Executive / Stakeholder Active Deactivate" [ref=e428]:
+                  - cell "Victoria Hughes Victoria Hughes" [ref=e429]:
+                    - generic [ref=e430]:
+                      - generic "Victoria Hughes" [ref=e431]: VH
+                      - generic [ref=e432]: Victoria Hughes
+                  - cell "stakeholder@novacore.dev" [ref=e433]
+                  - cell "Executive / Stakeholder" [ref=e434]:
+                    - combobox "User role" [ref=e435]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer"
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder" [selected]
+                  - cell "Active" [ref=e436]:
+                    - generic [ref=e437]: Active
+                  - cell "Deactivate" [ref=e438]:
+                    - button "Deactivate" [ref=e439]
+                - row "Wei Chen Wei Chen eng2@novacore.dev Software Engineer Active Deactivate" [ref=e440]:
+                  - cell "Wei Chen Wei Chen" [ref=e441]:
+                    - generic [ref=e442]:
+                      - generic "Wei Chen" [ref=e443]: WC
+                      - generic [ref=e444]: Wei Chen
+                  - cell "eng2@novacore.dev" [ref=e445]
+                  - cell "Software Engineer" [ref=e446]:
+                    - combobox "User role" [ref=e447]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer" [selected]
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e448]:
+                    - generic [ref=e449]: Active
+                  - cell "Deactivate" [ref=e450]:
+                    - button "Deactivate" [ref=e451]
+                - row "Yuki Tanaka Yuki Tanaka eng7@novacore.dev Software Engineer Active Deactivate" [ref=e452]:
+                  - cell "Yuki Tanaka Yuki Tanaka" [ref=e453]:
+                    - generic [ref=e454]:
+                      - generic "Yuki Tanaka" [ref=e455]: YT
+                      - generic [ref=e456]: Yuki Tanaka
+                  - cell "eng7@novacore.dev" [ref=e457]
+                  - cell "Software Engineer" [ref=e458]:
+                    - combobox "User role" [ref=e459]:
+                      - option "System Admin"
+                      - option "Engineering Manager"
+                      - option "Product Owner"
+                      - option "Scrum Master"
+                      - option "Software Engineer" [selected]
+                      - option "QA Engineer"
+                      - option "Designer"
+                      - option "Executive / Stakeholder"
+                  - cell "Active" [ref=e460]:
+                    - generic [ref=e461]: Active
+                  - cell "Deactivate" [ref=e462]:
+                    - button "Deactivate" [ref=e463]
+        - generic [ref=e464]:
+          - heading "Audit Log" [level=3] [ref=e466]
+          - generic [ref=e467]:
+            - generic [ref=e468]:
+              - generic [ref=e469]: Role.Changed
+              - generic [ref=e470]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e471]: May 27, 23:13
+            - generic [ref=e472]:
+              - generic [ref=e473]: Role.Changed
+              - generic [ref=e474]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e475]: May 27, 23:13
+            - generic [ref=e476]:
+              - generic [ref=e477]: Project.Created
+              - generic [ref=e478]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e479]: May 26, 23:13
+            - generic [ref=e480]:
+              - generic [ref=e481]: Project.Created
+              - generic [ref=e482]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e483]: May 24, 23:13
+            - generic [ref=e484]:
+              - generic [ref=e485]: Role.Changed
+              - generic [ref=e486]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e487]: May 19, 23:13
+            - generic [ref=e488]:
+              - generic [ref=e489]: User.Deactivated
+              - generic [ref=e490]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e491]: May 19, 23:13
+            - generic [ref=e492]:
+              - generic [ref=e493]: Project.Created
+              - generic [ref=e494]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e495]: May 18, 23:13
+            - generic [ref=e496]:
+              - generic [ref=e497]: User.Deactivated
+              - generic [ref=e498]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e499]: May 14, 23:13
+            - generic [ref=e500]:
+              - generic [ref=e501]: Settings.Updated
+              - generic [ref=e502]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e503]: May 10, 23:13
+            - generic [ref=e504]:
+              - generic [ref=e505]: Role.Changed
+              - generic [ref=e506]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e507]: May 7, 23:13
+            - generic [ref=e508]:
+              - generic [ref=e509]: Project.Created
+              - generic [ref=e510]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e511]: May 4, 23:13
+            - generic [ref=e512]:
+              - generic [ref=e513]: User.Created
+              - generic [ref=e514]: Alex Morgan Administrative action recorded for compliance.
+              - generic [ref=e515]: May 1, 23:13

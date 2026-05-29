@@ -1,0 +1,709 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - img [ref=e5]
+      - generic [ref=e7]: AgileForge
+    - navigation "Primary" [ref=e8]:
+      - generic [ref=e9]:
+        - paragraph [ref=e10]: Overview
+        - list [ref=e11]:
+          - listitem [ref=e12]:
+            - link "Dashboard" [ref=e13] [cursor=pointer]:
+              - /url: /dashboard
+              - img [ref=e14]
+              - text: Dashboard
+          - listitem [ref=e19]:
+            - link "My Work" [ref=e20] [cursor=pointer]:
+              - /url: /my-work
+              - img [ref=e21]
+              - text: My Work
+      - generic [ref=e25]:
+        - paragraph [ref=e26]: Delivery
+        - list [ref=e27]:
+          - listitem [ref=e28]:
+            - link "Projects" [ref=e29] [cursor=pointer]:
+              - /url: /projects
+              - img [ref=e30]
+              - text: Projects
+          - listitem [ref=e32]:
+            - link "Work Items" [ref=e33] [cursor=pointer]:
+              - /url: /work-items
+              - img [ref=e34]
+              - text: Work Items
+          - listitem [ref=e37]:
+            - link "Backlog" [ref=e38] [cursor=pointer]:
+              - /url: /backlog
+              - img [ref=e39]
+              - text: Backlog
+          - listitem [ref=e42]:
+            - link "Sprints" [ref=e43] [cursor=pointer]:
+              - /url: /sprints
+              - img [ref=e44]
+              - text: Sprints
+          - listitem [ref=e46]:
+            - link "Scrum Board" [ref=e47] [cursor=pointer]:
+              - /url: /boards/scrum
+              - img [ref=e48]
+              - text: Scrum Board
+          - listitem [ref=e50]:
+            - link "Kanban Board" [ref=e51] [cursor=pointer]:
+              - /url: /boards/kanban
+              - img [ref=e52]
+              - text: Kanban Board
+      - generic [ref=e54]:
+        - paragraph [ref=e55]: Quality & Insights
+        - list [ref=e56]:
+          - listitem [ref=e57]:
+            - link "QA" [ref=e58] [cursor=pointer]:
+              - /url: /qa
+              - img [ref=e59]
+              - text: QA
+          - listitem [ref=e61]:
+            - link "Reports" [ref=e62] [cursor=pointer]:
+              - /url: /reports
+              - img [ref=e63]
+              - text: Reports
+      - generic [ref=e65]:
+        - paragraph [ref=e66]: Organization
+        - list [ref=e67]:
+          - listitem [ref=e68]:
+            - link "Teams" [ref=e69] [cursor=pointer]:
+              - /url: /teams
+              - img [ref=e70]
+              - text: Teams
+          - listitem [ref=e74]:
+            - link "Users" [ref=e75] [cursor=pointer]:
+              - /url: /users
+              - img [ref=e76]
+              - text: Users
+          - listitem [ref=e81]:
+            - link "Notifications" [ref=e82] [cursor=pointer]:
+              - /url: /notifications
+              - img [ref=e83]
+              - text: Notifications
+          - listitem [ref=e86]:
+            - link "Settings" [ref=e87] [cursor=pointer]:
+              - /url: /settings
+              - img [ref=e88]
+              - text: Settings
+          - listitem [ref=e91]:
+            - link "Admin" [ref=e92] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e93]
+              - text: Admin
+    - button "Collapse sidebar" [ref=e96]:
+      - img [ref=e97]
+      - text: Collapse
+  - generic [ref=e100]:
+    - banner [ref=e101]:
+      - search [ref=e102]:
+        - img
+        - searchbox "Global search" [ref=e103]
+      - link "Notifications" [ref=e104] [cursor=pointer]:
+        - /url: /notifications
+        - img [ref=e105]
+      - button "Alex Morgan Alex Morgan System Admin" [ref=e109]:
+        - generic "Alex Morgan" [ref=e110]: AM
+        - generic [ref=e111]:
+          - generic [ref=e112]: Alex Morgan
+          - generic [ref=e113]: System Admin
+    - main [ref=e114]:
+      - generic [ref=e115]:
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - heading "Kanban Board" [level=1] [ref=e118]
+            - generic [ref=e119]: Continuous flow across all work in a project.
+          - generic [ref=e121]:
+            - combobox [ref=e122]:
+              - option "AID · Analytics Insights Dashboard" [selected]
+              - option "AISA · AI Support Assistant"
+              - option "BRP · Billing Reliability Program"
+              - option "CPM · Customer Portal Modernization"
+              - option "IDP · Internal Developer Platform"
+              - option "MAR · Mobile App Redesign"
+            - button "View" [ref=e123]
+        - generic [ref=e124]:
+          - generic [ref=e125]:
+            - generic [ref=e126]:
+              - heading "Backlog" [level=3] [ref=e127]
+              - generic [ref=e128]: "4"
+            - generic [ref=e129]:
+              - generic [ref=e130]:
+                - link "Story Paginate large work item lists for performance" [ref=e131] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02pv007rsw8t2eviiqpk
+                  - img "Story" [ref=e132]
+                  - generic [ref=e134]: Paginate large work item lists for performance
+                - generic [ref=e135]:
+                  - generic [ref=e136]: AID-9
+                  - generic [ref=e137]: High
+                - generic [ref=e138]:
+                  - combobox "Update status" [ref=e139]:
+                    - option "Backlog" [selected]
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Olivia Brooks" [ref=e140]: OB
+              - generic [ref=e141]:
+                - link "Story Add keyboard shortcuts for board navigation" [ref=e142] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02q3007tsw8tngenwpjc
+                  - img "Story" [ref=e143]
+                  - generic [ref=e145]: Add keyboard shortcuts for board navigation
+                - generic [ref=e146]:
+                  - generic [ref=e147]: AID-11
+                  - generic [ref=e148]: Medium
+                - generic [ref=e149]:
+                  - combobox "Update status" [ref=e150]:
+                    - option "Backlog" [selected]
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Liam O'Connor" [ref=e151]: LO
+              - generic [ref=e152]:
+                - link "Task Improve query performance for revenue dashboards" [ref=e153] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02rf0085sw8tww1aa8gt
+                  - img "Task" [ref=e154]
+                  - generic [ref=e157]: Improve query performance for revenue dashboards
+                - generic [ref=e158]:
+                  - generic [ref=e159]: AID-23
+                  - generic [ref=e160]: Medium
+                - generic [ref=e161]:
+                  - combobox "Update status" [ref=e162]:
+                    - option "Backlog" [selected]
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Grace Mwangi" [ref=e163]: GM
+              - generic [ref=e164]:
+                - link "Task Add audit logging for product usage insights" [ref=e165] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02ri0086sw8t391nscck
+                  - img "Task" [ref=e166]
+                  - generic [ref=e169]: Add audit logging for product usage insights
+                - generic [ref=e170]:
+                  - generic [ref=e171]: AID-24
+                  - generic [ref=e172]: Low
+                - generic [ref=e173]:
+                  - combobox "Update status" [ref=e174]:
+                    - option "Backlog" [selected]
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Olivia Brooks" [ref=e175]: OB
+          - generic [ref=e176]:
+            - generic [ref=e177]:
+              - heading "Ready" [level=3] [ref=e178]
+              - generic [ref=e179]: "6"
+            - generic [ref=e180]:
+              - generic [ref=e181]:
+                - link "Story Let users customize notification preferences" [ref=e182] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02p0007jsw8tt9a7uw8b
+                  - img "Story" [ref=e183]
+                  - generic [ref=e185]: Let users customize notification preferences
+                - generic [ref=e186]:
+                  - generic [ref=e187]: AID-1
+                  - generic [ref=e188]: Critical
+                - generic [ref=e189]:
+                  - combobox "Update status" [ref=e190]:
+                    - option "Backlog"
+                    - option "Ready" [selected]
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Nina Kowalski" [ref=e191]: NK
+              - generic [ref=e192]:
+                - link "Story Support dark mode across the application" [ref=e193] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02pg007nsw8t03ab1452
+                  - img "Story" [ref=e194]
+                  - generic [ref=e196]: Support dark mode across the application
+                - generic [ref=e197]:
+                  - generic [ref=e198]: AID-5
+                  - generic [ref=e199]: Critical
+                - generic [ref=e200]:
+                  - combobox "Update status" [ref=e201]:
+                    - option "Backlog"
+                    - option "Ready" [selected]
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Fatima Zahra" [ref=e202]: FZ
+              - generic [ref=e203]:
+                - link "Task Handle edge-case validation for product usage insights" [ref=e204] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02r30082sw8t4xoagi70
+                  - img "Task" [ref=e205]
+                  - generic [ref=e208]: Handle edge-case validation for product usage insights
+                - generic [ref=e209]:
+                  - generic [ref=e210]: AID-20
+                  - generic [ref=e211]: Low
+                - generic [ref=e212]:
+                  - combobox "Update status" [ref=e213]:
+                    - option "Backlog"
+                    - option "Ready" [selected]
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Diego Santos" [ref=e214]: DS
+              - generic [ref=e215]:
+                - link "Story Paginate large work item lists for performance" [ref=e216] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02pz007ssw8tdtzc9ks1
+                  - img "Story" [ref=e217]
+                  - generic [ref=e219]: Paginate large work item lists for performance
+                - generic [ref=e220]:
+                  - generic [ref=e221]: AID-10
+                  - generic [ref=e222]: Critical
+                - generic [ref=e223]:
+                  - combobox "Update status" [ref=e224]:
+                    - option "Backlog"
+                    - option "Ready" [selected]
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Aisha Khan" [ref=e225]: AK
+              - generic [ref=e226]:
+                - link "Task Instrument metrics for revenue dashboards" [ref=e227] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02rb0084sw8tqtulwl72
+                  - img "Task" [ref=e228]
+                  - generic [ref=e231]: Instrument metrics for revenue dashboards
+                - generic [ref=e232]:
+                  - generic [ref=e233]: AID-22
+                  - generic [ref=e234]: Medium
+                - generic [ref=e235]:
+                  - combobox "Update status" [ref=e236]:
+                    - option "Backlog"
+                    - option "Ready" [selected]
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Wei Chen" [ref=e237]: WC
+              - generic [ref=e238]:
+                - link "Task Instrument metrics for product usage insights" [ref=e239] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02rm0087sw8tbattiwyf
+                  - img "Task" [ref=e240]
+                  - generic [ref=e243]: Instrument metrics for product usage insights
+                - generic [ref=e244]:
+                  - generic [ref=e245]: AID-25
+                  - generic [ref=e246]: Medium
+                - generic [ref=e247]:
+                  - combobox "Update status" [ref=e248]:
+                    - option "Backlog"
+                    - option "Ready" [selected]
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Diego Santos" [ref=e249]: DS
+          - generic [ref=e250]:
+            - generic [ref=e251]:
+              - heading "In Progress" [level=3] [ref=e252]
+              - generic [ref=e253]: "9"
+            - generic [ref=e254]:
+              - generic [ref=e255]:
+                - link "Subtask Add feature flag (subtask)" [ref=e256] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02p7007lsw8tynelg1ub
+                  - img "Subtask" [ref=e257]
+                  - generic [ref=e261]: Add feature flag (subtask)
+                - generic [ref=e262]:
+                  - generic [ref=e263]: AID-3
+                  - generic [ref=e264]: Medium
+                - generic [ref=e265]:
+                  - combobox "Update status" [ref=e266]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress" [selected]
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Wei Chen" [ref=e267]: WC
+              - generic [ref=e268]:
+                - link "Subtask Add accessibility attributes (subtask)" [ref=e269] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02pr007qsw8t5zc44a79
+                  - img "Subtask" [ref=e270]
+                  - generic [ref=e274]: Add accessibility attributes (subtask)
+                - generic [ref=e275]:
+                  - generic [ref=e276]: AID-8
+                  - generic [ref=e277]: Medium
+                - generic [ref=e278]:
+                  - combobox "Update status" [ref=e279]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress" [selected]
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Olivia Brooks" [ref=e280]: OB
+              - generic [ref=e281]:
+                - link "Subtask Add database migration (subtask)" [ref=e282] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02q6007usw8tllahxzf4
+                  - img "Subtask" [ref=e283]
+                  - generic [ref=e287]: Add database migration (subtask)
+                - generic [ref=e288]:
+                  - generic [ref=e289]: AID-12
+                  - generic [ref=e290]: Medium
+                - generic [ref=e291]:
+                  - combobox "Update status" [ref=e292]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress" [selected]
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Ahmed Hassan" [ref=e293]: AH
+              - generic [ref=e294]:
+                - link "Bug Mobile layout overflows on small screens" [ref=e295] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02rr0088sw8tbrlp9oqi
+                  - img "Bug" [ref=e296]
+                  - generic [ref=e305]: Mobile layout overflows on small screens
+                - generic [ref=e306]:
+                  - generic [ref=e307]: AID-26
+                  - generic [ref=e308]: Low
+                - generic [ref=e309]:
+                  - combobox "Update status" [ref=e310]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress" [selected]
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Nina Kowalski" [ref=e311]: NK
+              - generic [ref=e312]:
+                - link "Story As a user I can reset my password from the login screen" [ref=e313] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02p4007ksw8t6v1btb56
+                  - img "Story" [ref=e314]
+                  - generic [ref=e316]: As a user I can reset my password from the login screen
+                - generic [ref=e317]:
+                  - generic [ref=e318]: AID-2
+                  - generic [ref=e319]: Medium
+                - generic [ref=e320]:
+                  - combobox "Update status" [ref=e321]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress" [selected]
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Ben Carter" [ref=e322]: BC
+              - generic [ref=e323]:
+                - link "Subtask Handle edge-case validation (subtask)" [ref=e324] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02qa007vsw8t71ok9a1k
+                  - img "Subtask" [ref=e325]
+                  - generic [ref=e329]: Handle edge-case validation (subtask)
+                - generic [ref=e330]:
+                  - generic [ref=e331]: AID-13
+                  - generic [ref=e332]: Medium
+                - generic [ref=e333]:
+                  - combobox "Update status" [ref=e334]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress" [selected]
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Fatima Zahra" [ref=e335]: FZ
+              - generic [ref=e336]:
+                - link "Task Add database migration for product usage insights" [ref=e337] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02qk007xsw8t52xcdni6
+                  - img "Task" [ref=e338]
+                  - generic [ref=e341]: Add database migration for product usage insights
+                - generic [ref=e342]:
+                  - generic [ref=e343]: AID-15
+                  - generic [ref=e344]: Medium
+                - generic [ref=e345]:
+                  - combobox "Update status" [ref=e346]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress" [selected]
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Grace Mwangi" [ref=e347]: GM
+              - generic [ref=e348]:
+                - link "Bug Search returns stale results after edit" [ref=e349] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02ry008asw8ttyhw7le9
+                  - img "Bug" [ref=e350]
+                  - generic [ref=e359]: Search returns stale results after edit
+                - generic [ref=e360]:
+                  - generic [ref=e361]: AID-28
+                  - generic [ref=e362]: Medium
+                - generic [ref=e363]:
+                  - combobox "Update status" [ref=e364]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress" [selected]
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Ahmed Hassan" [ref=e365]: AH
+              - generic [ref=e366]:
+                - link "Task Implement API endpoint for product usage insights" [ref=e367] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02qv0080sw8tbtev6h2k
+                  - img "Task" [ref=e368]
+                  - generic [ref=e371]: Implement API endpoint for product usage insights
+                - generic [ref=e372]:
+                  - generic [ref=e373]: AID-18
+                  - generic [ref=e374]: Low
+                - generic [ref=e375]:
+                  - combobox "Update status" [ref=e376]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress" [selected]
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done"
+                    - option "Canceled"
+                  - generic "Grace Mwangi" [ref=e377]: GM
+          - generic [ref=e378]:
+            - generic [ref=e379]:
+              - heading "In Review" [level=3] [ref=e380]
+              - generic [ref=e381]: "1"
+            - generic [ref=e383]:
+              - link "Task Handle edge-case validation for revenue dashboards" [ref=e384] [cursor=pointer]:
+                - /url: /work-items/cmpqj02qz0081sw8tpa4uledn
+                - img "Task" [ref=e385]
+                - generic [ref=e388]: Handle edge-case validation for revenue dashboards
+              - generic [ref=e389]:
+                - generic [ref=e390]: AID-19
+                - generic [ref=e391]: Medium
+              - generic [ref=e392]:
+                - combobox "Update status" [ref=e393]:
+                  - option "Backlog"
+                  - option "Ready"
+                  - option "In Progress"
+                  - option "In Review" [selected]
+                  - option "Qa"
+                  - option "Blocked"
+                  - option "Done"
+                  - option "Canceled"
+                - generic "Jordan Patel" [ref=e394]: JP
+          - generic [ref=e395]:
+            - generic [ref=e396]:
+              - heading "Qa" [level=3] [ref=e397]
+              - generic [ref=e398]: "0"
+            - paragraph [ref=e400]: No items
+          - generic [ref=e401]:
+            - generic [ref=e402]:
+              - heading "Blocked" [level=3] [ref=e403]
+              - generic [ref=e404]: "1"
+            - generic [ref=e406]:
+              - link "Task Add accessibility attributes for revenue dashboards" [ref=e407] [cursor=pointer]:
+                - /url: /work-items/cmpqj02qf007wsw8tt32hdj1e
+                - img "Task" [ref=e408]
+                - generic [ref=e411]: Add accessibility attributes for revenue dashboards
+              - generic [ref=e412]:
+                - generic [ref=e413]: AID-14
+                - generic [ref=e414]: Medium
+              - generic [ref=e415]:
+                - combobox "Update status" [ref=e416]:
+                  - option "Backlog"
+                  - option "Ready"
+                  - option "In Progress"
+                  - option "In Review"
+                  - option "Qa"
+                  - option "Blocked" [selected]
+                  - option "Done"
+                  - option "Canceled"
+                - generic "Jordan Patel" [ref=e417]: JP
+          - generic [ref=e418]:
+            - generic [ref=e419]:
+              - heading "Done" [level=3] [ref=e420]
+              - generic [ref=e421]: "8"
+            - generic [ref=e422]:
+              - generic [ref=e423]:
+                - link "Bug Date picker shows wrong timezone" [ref=e424] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02ru0089sw8t8p8ijpoo
+                  - img "Bug" [ref=e425]
+                  - generic [ref=e434]: Date picker shows wrong timezone
+                - generic [ref=e435]:
+                  - generic [ref=e436]: AID-27
+                  - generic [ref=e437]: Low
+                - generic [ref=e438]:
+                  - combobox "Update status" [ref=e439]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done" [selected]
+                    - option "Canceled"
+                  - generic "Nina Kowalski" [ref=e440]: NK
+              - generic [ref=e441]:
+                - link "Story Add a global search across projects and people" [ref=e442] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02pb007msw8tt7y20vm1
+                  - img "Story" [ref=e443]
+                  - generic [ref=e445]: Add a global search across projects and people
+                - generic [ref=e446]:
+                  - generic [ref=e447]: AID-4
+                  - generic [ref=e448]: Critical
+                - generic [ref=e449]:
+                  - combobox "Update status" [ref=e450]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done" [selected]
+                    - option "Canceled"
+                  - generic "Noah Fischer" [ref=e451]: NF
+              - generic [ref=e452]:
+                - link "Task Add feature flag for product usage insights" [ref=e453] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02qn007ysw8thkves4yr
+                  - img "Task" [ref=e454]
+                  - generic [ref=e457]: Add feature flag for product usage insights
+                - generic [ref=e458]:
+                  - generic [ref=e459]: AID-16
+                  - generic [ref=e460]: Low
+                - generic [ref=e461]:
+                  - combobox "Update status" [ref=e462]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done" [selected]
+                    - option "Canceled"
+                  - generic "Ahmed Hassan" [ref=e463]: AH
+              - generic [ref=e464]:
+                - link "Task Instrument metrics for product usage insights" [ref=e465] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02qr007zsw8texukvrjr
+                  - img "Task" [ref=e466]
+                  - generic [ref=e469]: Instrument metrics for product usage insights
+                - generic [ref=e470]:
+                  - generic [ref=e471]: AID-17
+                  - generic [ref=e472]: Low
+                - generic [ref=e473]:
+                  - combobox "Update status" [ref=e474]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done" [selected]
+                    - option "Canceled"
+                  - generic "Liam O'Connor" [ref=e475]: LO
+              - generic [ref=e476]:
+                - link "Bug Login fails intermittently on slow connections" [ref=e477] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02s2008bsw8tztxjvnr4
+                  - img "Bug" [ref=e478]
+                  - generic [ref=e487]: Login fails intermittently on slow connections
+                - generic [ref=e488]:
+                  - generic [ref=e489]: AID-29
+                  - generic [ref=e490]: High
+                - generic [ref=e491]:
+                  - combobox "Update status" [ref=e492]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done" [selected]
+                    - option "Canceled"
+                  - generic "Olivia Brooks" [ref=e493]: OB
+              - generic [ref=e494]:
+                - link "Story Let users customize notification preferences" [ref=e495] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02pk007osw8tn2ti6727
+                  - img "Story" [ref=e496]
+                  - generic [ref=e498]: Let users customize notification preferences
+                - generic [ref=e499]:
+                  - generic [ref=e500]: AID-6
+                  - generic [ref=e501]: High
+                - generic [ref=e502]:
+                  - combobox "Update status" [ref=e503]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done" [selected]
+                    - option "Canceled"
+                  - generic "Ben Carter" [ref=e504]: BC
+              - generic [ref=e505]:
+                - link "Story Add keyboard shortcuts for board navigation" [ref=e506] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02po007psw8t2c588o0m
+                  - img "Story" [ref=e507]
+                  - generic [ref=e509]: Add keyboard shortcuts for board navigation
+                - generic [ref=e510]:
+                  - generic [ref=e511]: AID-7
+                  - generic [ref=e512]: Medium
+                - generic [ref=e513]:
+                  - combobox "Update status" [ref=e514]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done" [selected]
+                    - option "Canceled"
+                  - generic "Nina Kowalski" [ref=e515]: NK
+              - generic [ref=e516]:
+                - link "Task Update documentation for product usage insights" [ref=e517] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02r70083sw8tj42kc43c
+                  - img "Task" [ref=e518]
+                  - generic [ref=e521]: Update documentation for product usage insights
+                - generic [ref=e522]:
+                  - generic [ref=e523]: AID-21
+                  - generic [ref=e524]: Medium
+                - generic [ref=e525]:
+                  - combobox "Update status" [ref=e526]:
+                    - option "Backlog"
+                    - option "Ready"
+                    - option "In Progress"
+                    - option "In Review"
+                    - option "Qa"
+                    - option "Blocked"
+                    - option "Done" [selected]
+                    - option "Canceled"
+                  - generic "Olivia Brooks" [ref=e527]: OB

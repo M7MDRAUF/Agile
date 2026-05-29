@@ -1,0 +1,268 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - img [ref=e6]
+        - generic [ref=e8]: AgileForge
+      - navigation "Primary" [ref=e9]:
+        - generic [ref=e10]:
+          - paragraph [ref=e11]: Overview
+          - list [ref=e12]:
+            - listitem [ref=e13]:
+              - link "Dashboard" [ref=e14] [cursor=pointer]:
+                - /url: /dashboard
+                - img [ref=e15]
+                - text: Dashboard
+            - listitem [ref=e20]:
+              - link "My Work" [ref=e21] [cursor=pointer]:
+                - /url: /my-work
+                - img [ref=e22]
+                - text: My Work
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: Delivery
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Projects" [ref=e30] [cursor=pointer]:
+                - /url: /projects
+                - img [ref=e31]
+                - text: Projects
+            - listitem [ref=e33]:
+              - link "Work Items" [ref=e34] [cursor=pointer]:
+                - /url: /work-items
+                - img [ref=e35]
+                - text: Work Items
+            - listitem [ref=e38]:
+              - link "Backlog" [ref=e39] [cursor=pointer]:
+                - /url: /backlog
+                - img [ref=e40]
+                - text: Backlog
+            - listitem [ref=e43]:
+              - link "Sprints" [ref=e44] [cursor=pointer]:
+                - /url: /sprints
+                - img [ref=e45]
+                - text: Sprints
+            - listitem [ref=e47]:
+              - link "Scrum Board" [ref=e48] [cursor=pointer]:
+                - /url: /boards/scrum
+                - img [ref=e49]
+                - text: Scrum Board
+            - listitem [ref=e51]:
+              - link "Kanban Board" [ref=e52] [cursor=pointer]:
+                - /url: /boards/kanban
+                - img [ref=e53]
+                - text: Kanban Board
+        - generic [ref=e55]:
+          - paragraph [ref=e56]: Quality & Insights
+          - list [ref=e57]:
+            - listitem [ref=e58]:
+              - link "QA" [ref=e59] [cursor=pointer]:
+                - /url: /qa
+                - img [ref=e60]
+                - text: QA
+            - listitem [ref=e62]:
+              - link "Reports" [ref=e63] [cursor=pointer]:
+                - /url: /reports
+                - img [ref=e64]
+                - text: Reports
+        - generic [ref=e66]:
+          - paragraph [ref=e67]: Organization
+          - list [ref=e68]:
+            - listitem [ref=e69]:
+              - link "Teams" [ref=e70] [cursor=pointer]:
+                - /url: /teams
+                - img [ref=e71]
+                - text: Teams
+            - listitem [ref=e75]:
+              - link "Users" [ref=e76] [cursor=pointer]:
+                - /url: /users
+                - img [ref=e77]
+                - text: Users
+            - listitem [ref=e82]:
+              - link "Notifications" [ref=e83] [cursor=pointer]:
+                - /url: /notifications
+                - img [ref=e84]
+                - text: Notifications
+            - listitem [ref=e87]:
+              - link "Settings" [ref=e88] [cursor=pointer]:
+                - /url: /settings
+                - img [ref=e89]
+                - text: Settings
+            - listitem [ref=e92]:
+              - link "Admin" [ref=e93] [cursor=pointer]:
+                - /url: /admin
+                - img [ref=e94]
+                - text: Admin
+      - button "Collapse sidebar" [ref=e97]:
+        - img [ref=e98]
+        - text: Collapse
+    - generic [ref=e101]:
+      - banner [ref=e102]:
+        - search [ref=e103]:
+          - img
+          - searchbox "Global search" [ref=e104]
+        - link "Notifications" [ref=e105] [cursor=pointer]:
+          - /url: /notifications
+          - img [ref=e106]
+        - button "Admin QA 1780043000001 Admin QA 1780043000001 System Admin" [ref=e110]:
+          - generic "Admin QA 1780043000001" [ref=e111]: AQ
+          - generic [ref=e112]:
+            - generic [ref=e113]: Admin QA 1780043000001
+            - generic [ref=e114]: System Admin
+      - main [ref=e115]:
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - generic [ref=e118]:
+              - heading "Projects" [level=1] [ref=e119]
+              - generic [ref=e120]: All delivery initiatives across the organization.
+            - link "New Project" [ref=e122] [cursor=pointer]:
+              - /url: /projects/new
+              - img [ref=e123]
+              - text: New Project
+          - generic [ref=e124]:
+            - link "AISA On Track AI Support Assistant An AI assistant that triages and resolves customer support tickets. 7/27 done 26% 2 epics · 3 sprints · Active Sofia Reyes" [ref=e125] [cursor=pointer]:
+              - /url: /projects/cmpqj01xi001rsw8tk28jhp8t
+              - generic [ref=e126]:
+                - generic [ref=e127]:
+                  - generic [ref=e128]:
+                    - generic [ref=e129]: AISA
+                    - generic [ref=e130]: On Track
+                  - heading "AI Support Assistant" [level=3] [ref=e131]
+                - generic [ref=e132]:
+                  - paragraph [ref=e133]: An AI assistant that triages and resolves customer support tickets.
+                  - generic [ref=e135]:
+                    - generic [ref=e136]: 7/27 done
+                    - generic [ref=e137]: 26%
+                  - generic [ref=e140]:
+                    - generic [ref=e141]: 2 epics · 3 sprints · Active
+                    - generic "Sofia Reyes" [ref=e142]: SR
+            - link "AID On Track Analytics Insights Dashboard Self-serve analytics dashboards for product and revenue insights. 8/29 done 28% 2 epics · 3 sprints · On Hold Marcus Lee" [ref=e143] [cursor=pointer]:
+              - /url: /projects/cmpqj01xw001usw8t9ydv2cyj
+              - generic [ref=e144]:
+                - generic [ref=e145]:
+                  - generic [ref=e146]:
+                    - generic [ref=e147]: AID
+                    - generic [ref=e148]: On Track
+                  - heading "Analytics Insights Dashboard" [level=3] [ref=e149]
+                - generic [ref=e150]:
+                  - paragraph [ref=e151]: Self-serve analytics dashboards for product and revenue insights.
+                  - generic [ref=e153]:
+                    - generic [ref=e154]: 8/29 done
+                    - generic [ref=e155]: 28%
+                  - generic [ref=e158]:
+                    - generic [ref=e159]: 2 epics · 3 sprints · On Hold
+                    - generic "Marcus Lee" [ref=e160]: ML
+            - link "BRP Off Track Billing Reliability Program Eliminate billing defects and improve invoicing reliability to 99.99%. 9/34 done 26% 2 epics · 3 sprints · Active Marcus Lee" [ref=e161] [cursor=pointer]:
+              - /url: /projects/cmpqj01xt001tsw8tow26oioh
+              - generic [ref=e162]:
+                - generic [ref=e163]:
+                  - generic [ref=e164]:
+                    - generic [ref=e165]: BRP
+                    - generic [ref=e166]: Off Track
+                  - heading "Billing Reliability Program" [level=3] [ref=e167]
+                - generic [ref=e168]:
+                  - paragraph [ref=e169]: Eliminate billing defects and improve invoicing reliability to 99.99%.
+                  - generic [ref=e171]:
+                    - generic [ref=e172]: 9/34 done
+                    - generic [ref=e173]: 26%
+                  - generic [ref=e176]:
+                    - generic [ref=e177]: 2 epics · 3 sprints · Active
+                    - generic "Marcus Lee" [ref=e178]: ML
+            - link "CPM At Risk Customer Portal Modernization Rebuild the customer self-service portal with a modern, accessible UI and a unified design system. 7/34 done 21% 2 epics · 12 sprints · Active Marcus Lee" [ref=e179] [cursor=pointer]:
+              - /url: /projects/cmpqj01xb001psw8tzscnibbm
+              - generic [ref=e180]:
+                - generic [ref=e181]:
+                  - generic [ref=e182]:
+                    - generic [ref=e183]: CPM
+                    - generic [ref=e184]: At Risk
+                  - heading "Customer Portal Modernization" [level=3] [ref=e185]
+                - generic [ref=e186]:
+                  - paragraph [ref=e187]: Rebuild the customer self-service portal with a modern, accessible UI and a unified design system.
+                  - generic [ref=e189]:
+                    - generic [ref=e190]: 7/34 done
+                    - generic [ref=e191]: 21%
+                  - generic [ref=e194]:
+                    - generic [ref=e195]: 2 epics · 12 sprints · Active
+                    - generic "Marcus Lee" [ref=e196]: ML
+            - link "35618 On Track E2E Project 1780042835618 No description. 0/0 done 0% 0 epics · 0 sprints · Active Admin QA 1780043000001" [ref=e197] [cursor=pointer]:
+              - /url: /projects/cmpqnjmco000w108tglyn5729
+              - generic [ref=e198]:
+                - generic [ref=e199]:
+                  - generic [ref=e200]:
+                    - generic [ref=e201]: "35618"
+                    - generic [ref=e202]: On Track
+                  - heading "E2E Project 1780042835618" [level=3] [ref=e203]
+                - generic [ref=e204]:
+                  - paragraph [ref=e205]: No description.
+                  - generic [ref=e207]:
+                    - generic [ref=e208]: 0/0 done
+                    - generic [ref=e209]: 0%
+                  - generic [ref=e211]:
+                    - generic [ref=e212]: 0 epics · 0 sprints · Active
+                    - generic "Admin QA 1780043000001" [ref=e213]: AQ
+            - link "04322 On Track E2E Project 1780042904322 No description. 0/0 done 0% 0 epics · 0 sprints · Active Admin QA 1780043000001" [ref=e214] [cursor=pointer]:
+              - /url: /projects/cmpqnl3d0000wwc8tezfktnlm
+              - generic [ref=e215]:
+                - generic [ref=e216]:
+                  - generic [ref=e217]:
+                    - generic [ref=e218]: "04322"
+                    - generic [ref=e219]: On Track
+                  - heading "E2E Project 1780042904322" [level=3] [ref=e220]
+                - generic [ref=e221]:
+                  - paragraph [ref=e222]: No description.
+                  - generic [ref=e224]:
+                    - generic [ref=e225]: 0/0 done
+                    - generic [ref=e226]: 0%
+                  - generic [ref=e228]:
+                    - generic [ref=e229]: 0 epics · 0 sprints · Active
+                    - generic "Admin QA 1780043000001" [ref=e230]: AQ
+            - link "97904 On Track E2E Project 1780042997904 No description. 0/0 done 0% 0 epics · 0 sprints · Active Admin QA 1780043000001" [ref=e231] [cursor=pointer]:
+              - /url: /projects/cmpqnn3kr000wvw8ttg7gueza
+              - generic [ref=e232]:
+                - generic [ref=e233]:
+                  - generic [ref=e234]:
+                    - generic [ref=e235]: "97904"
+                    - generic [ref=e236]: On Track
+                  - heading "E2E Project 1780042997904" [level=3] [ref=e237]
+                - generic [ref=e238]:
+                  - paragraph [ref=e239]: No description.
+                  - generic [ref=e241]:
+                    - generic [ref=e242]: 0/0 done
+                    - generic [ref=e243]: 0%
+                  - generic [ref=e245]:
+                    - generic [ref=e246]: 0 epics · 0 sprints · Active
+                    - generic "Admin QA 1780043000001" [ref=e247]: AQ
+            - link "IDP At Risk Internal Developer Platform Golden paths, self-service infrastructure and CI/CD for all engineering teams. 13/35 done 37% 2 epics · 3 sprints · Active Marcus Lee" [ref=e248] [cursor=pointer]:
+              - /url: /projects/cmpqj01xe001qsw8tzoacllox
+              - generic [ref=e249]:
+                - generic [ref=e250]:
+                  - generic [ref=e251]:
+                    - generic [ref=e252]: IDP
+                    - generic [ref=e253]: At Risk
+                  - heading "Internal Developer Platform" [level=3] [ref=e254]
+                - generic [ref=e255]:
+                  - paragraph [ref=e256]: Golden paths, self-service infrastructure and CI/CD for all engineering teams.
+                  - generic [ref=e258]:
+                    - generic [ref=e259]: 13/35 done
+                    - generic [ref=e260]: 37%
+                  - generic [ref=e263]:
+                    - generic [ref=e264]: 2 epics · 3 sprints · Active
+                    - generic "Marcus Lee" [ref=e265]: ML
+            - link "MAR At Risk Mobile App Redesign Refresh the mobile experience with offline support and a new navigation model. 5/32 done 16% 2 epics · 3 sprints · Active Sofia Reyes" [ref=e266] [cursor=pointer]:
+              - /url: /projects/cmpqj01xo001ssw8tbklxij6p
+              - generic [ref=e267]:
+                - generic [ref=e268]:
+                  - generic [ref=e269]:
+                    - generic [ref=e270]: MAR
+                    - generic [ref=e271]: At Risk
+                  - heading "Mobile App Redesign" [level=3] [ref=e272]
+                - generic [ref=e273]:
+                  - paragraph [ref=e274]: Refresh the mobile experience with offline support and a new navigation model.
+                  - generic [ref=e276]:
+                    - generic [ref=e277]: 5/32 done
+                    - generic [ref=e278]: 16%
+                  - generic [ref=e281]:
+                    - generic [ref=e282]: 2 epics · 3 sprints · Active
+                    - generic "Sofia Reyes" [ref=e283]: SR
+  - alert [ref=e284]

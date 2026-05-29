@@ -1,0 +1,190 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - img [ref=e5]
+        - generic [ref=e7]: AgileForge
+      - navigation "Primary" [ref=e8]:
+        - generic [ref=e9]:
+          - paragraph [ref=e10]: Overview
+          - list [ref=e11]:
+            - listitem [ref=e12]:
+              - link "Dashboard" [ref=e13] [cursor=pointer]:
+                - /url: /dashboard
+                - img [ref=e14]
+                - text: Dashboard
+            - listitem [ref=e19]:
+              - link "My Work" [ref=e20] [cursor=pointer]:
+                - /url: /my-work
+                - img [ref=e21]
+                - text: My Work
+        - generic [ref=e25]:
+          - paragraph [ref=e26]: Delivery
+          - list [ref=e27]:
+            - listitem [ref=e28]:
+              - link "Projects" [ref=e29] [cursor=pointer]:
+                - /url: /projects
+                - img [ref=e30]
+                - text: Projects
+            - listitem [ref=e32]:
+              - link "Work Items" [ref=e33] [cursor=pointer]:
+                - /url: /work-items
+                - img [ref=e34]
+                - text: Work Items
+            - listitem [ref=e37]:
+              - link "Backlog" [ref=e38] [cursor=pointer]:
+                - /url: /backlog
+                - img [ref=e39]
+                - text: Backlog
+            - listitem [ref=e42]:
+              - link "Sprints" [ref=e43] [cursor=pointer]:
+                - /url: /sprints
+                - img [ref=e44]
+                - text: Sprints
+            - listitem [ref=e46]:
+              - link "Scrum Board" [ref=e47] [cursor=pointer]:
+                - /url: /boards/scrum
+                - img [ref=e48]
+                - text: Scrum Board
+            - listitem [ref=e50]:
+              - link "Kanban Board" [ref=e51] [cursor=pointer]:
+                - /url: /boards/kanban
+                - img [ref=e52]
+                - text: Kanban Board
+        - generic [ref=e54]:
+          - paragraph [ref=e55]: Quality & Insights
+          - list [ref=e56]:
+            - listitem [ref=e57]:
+              - link "QA" [ref=e58] [cursor=pointer]:
+                - /url: /qa
+                - img [ref=e59]
+                - text: QA
+            - listitem [ref=e61]:
+              - link "Reports" [ref=e62] [cursor=pointer]:
+                - /url: /reports
+                - img [ref=e63]
+                - text: Reports
+        - generic [ref=e65]:
+          - paragraph [ref=e66]: Organization
+          - list [ref=e67]:
+            - listitem [ref=e68]:
+              - link "Teams" [ref=e69] [cursor=pointer]:
+                - /url: /teams
+                - img [ref=e70]
+                - text: Teams
+            - listitem [ref=e74]:
+              - link "Users" [ref=e75] [cursor=pointer]:
+                - /url: /users
+                - img [ref=e76]
+                - text: Users
+            - listitem [ref=e81]:
+              - link "Notifications" [ref=e82] [cursor=pointer]:
+                - /url: /notifications
+                - img [ref=e83]
+                - text: Notifications
+            - listitem [ref=e86]:
+              - link "Settings" [ref=e87] [cursor=pointer]:
+                - /url: /settings
+                - img [ref=e88]
+                - text: Settings
+            - listitem [ref=e91]:
+              - link "Admin" [ref=e92] [cursor=pointer]:
+                - /url: /admin
+                - img [ref=e93]
+                - text: Admin
+      - button "Collapse sidebar" [ref=e96]:
+        - img [ref=e97]
+        - text: Collapse
+    - generic [ref=e100]:
+      - banner [ref=e101]:
+        - search [ref=e102]:
+          - img
+          - searchbox "Global search" [ref=e103]
+        - link "Notifications" [ref=e104] [cursor=pointer]:
+          - /url: /notifications
+          - img [ref=e105]
+        - button "Alex Morgan Alex Morgan System Admin" [ref=e109]:
+          - generic "Alex Morgan" [ref=e110]: AM
+          - generic [ref=e111]:
+            - generic [ref=e112]: Alex Morgan
+            - generic [ref=e113]: System Admin
+      - main [ref=e114]:
+        - generic [ref=e115]:
+          - generic [ref=e117]:
+            - heading "Teams" [level=1] [ref=e118]
+            - generic [ref=e119]: Cross-functional delivery squads.
+          - button "New team" [ref=e121]:
+            - img [ref=e122]
+            - text: New team
+          - generic [ref=e123]:
+            - link "Data & AI Data pipelines, analytics and AI features. Marcus Lee Nina Kowalski Liam O'Connor 3 members · 2 projects" [ref=e124] [cursor=pointer]:
+              - /url: /teams/cmpqj01ta000rsw8tmbdnr9lo
+              - generic [ref=e125]:
+                - heading "Data & AI" [level=3] [ref=e127]
+                - generic [ref=e128]:
+                  - paragraph [ref=e129]: Data pipelines, analytics and AI features.
+                  - generic [ref=e130]:
+                    - generic "Marcus Lee" [ref=e131]: ML
+                    - generic "Nina Kowalski" [ref=e132]: NK
+                    - generic "Liam O'Connor" [ref=e133]: LO
+                  - paragraph [ref=e134]: 3 members · 2 projects
+            - link "Mobile Apps iOS and Android native experiences. Ahmed Hassan Grace Mwangi Noah Fischer 3 members · 1 projects" [ref=e135] [cursor=pointer]:
+              - /url: /teams/cmpqj01t6000qsw8t3aelv241
+              - generic [ref=e136]:
+                - heading "Mobile Apps" [level=3] [ref=e138]
+                - generic [ref=e139]:
+                  - paragraph [ref=e140]: iOS and Android native experiences.
+                  - generic [ref=e141]:
+                    - generic "Ahmed Hassan" [ref=e142]: AH
+                    - generic "Grace Mwangi" [ref=e143]: GM
+                    - generic "Noah Fischer" [ref=e144]: NF
+                  - paragraph [ref=e145]: 3 members · 1 projects
+            - link "Platform Engineering Core platform, infrastructure and developer tooling. Priya Sharma Hannah Bergström Jordan Patel Wei Chen Diego Santos 5 members · 2 projects" [ref=e146] [cursor=pointer]:
+              - /url: /teams/cmpqj01sy000osw8tietjcmf2
+              - generic [ref=e147]:
+                - heading "Platform Engineering" [level=3] [ref=e149]
+                - generic [ref=e150]:
+                  - paragraph [ref=e151]: Core platform, infrastructure and developer tooling.
+                  - generic [ref=e152]:
+                    - generic "Priya Sharma" [ref=e153]: PS
+                    - generic "Hannah Bergström" [ref=e154]: HB
+                    - generic "Jordan Patel" [ref=e155]: JP
+                    - generic "Wei Chen" [ref=e156]: WC
+                    - generic "Diego Santos" [ref=e157]: DS
+                  - paragraph [ref=e158]: 5 members · 2 projects
+            - link "Product Design UX research, interaction and visual design. Emma Dubois Noah Fischer 2 members · 0 projects" [ref=e159] [cursor=pointer]:
+              - /url: /teams/cmpqj01ti000tsw8tbpj1eoj9
+              - generic [ref=e160]:
+                - heading "Product Design" [level=3] [ref=e162]
+                - generic [ref=e163]:
+                  - paragraph [ref=e164]: UX research, interaction and visual design.
+                  - generic [ref=e165]:
+                    - generic "Emma Dubois" [ref=e166]: ED
+                    - generic "Noah Fischer" [ref=e167]: NF
+                  - paragraph [ref=e168]: 2 members · 0 projects
+            - link "QA Automation Quality engineering and test automation. Fatima Zahra Ben Carter Aisha Khan 3 members · 0 projects" [ref=e169] [cursor=pointer]:
+              - /url: /teams/cmpqj01td000ssw8toiahv3pi
+              - generic [ref=e170]:
+                - heading "QA Automation" [level=3] [ref=e172]
+                - generic [ref=e173]:
+                  - paragraph [ref=e174]: Quality engineering and test automation.
+                  - generic [ref=e175]:
+                    - generic "Fatima Zahra" [ref=e176]: FZ
+                    - generic "Ben Carter" [ref=e177]: BC
+                    - generic "Aisha Khan" [ref=e178]: AK
+                  - paragraph [ref=e179]: 3 members · 0 projects
+            - link "Web Experience Customer-facing web applications and portals. Daniel Okoye Sofia Reyes Tomás Alvarez Olivia Brooks Yuki Tanaka 5 members · 1 projects" [ref=e180] [cursor=pointer]:
+              - /url: /teams/cmpqj01t3000psw8t3zpxnq5t
+              - generic [ref=e181]:
+                - heading "Web Experience" [level=3] [ref=e183]
+                - generic [ref=e184]:
+                  - paragraph [ref=e185]: Customer-facing web applications and portals.
+                  - generic [ref=e186]:
+                    - generic "Daniel Okoye" [ref=e187]: DO
+                    - generic "Sofia Reyes" [ref=e188]: SR
+                    - generic "Tomás Alvarez" [ref=e189]: TA
+                    - generic "Olivia Brooks" [ref=e190]: OB
+                    - generic "Yuki Tanaka" [ref=e191]: YT
+                  - paragraph [ref=e192]: 5 members · 1 projects
+  - button "Open Next.js Dev Tools" [ref=e198] [cursor=pointer]:
+    - img [ref=e199]

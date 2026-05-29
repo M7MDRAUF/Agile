@@ -1,0 +1,606 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - img [ref=e6]
+        - generic [ref=e8]: AgileForge
+      - navigation "Primary" [ref=e9]:
+        - generic [ref=e10]:
+          - paragraph [ref=e11]: Overview
+          - list [ref=e12]:
+            - listitem [ref=e13]:
+              - link "Dashboard" [ref=e14] [cursor=pointer]:
+                - /url: /dashboard
+                - img [ref=e15]
+                - text: Dashboard
+            - listitem [ref=e20]:
+              - link "My Work" [ref=e21] [cursor=pointer]:
+                - /url: /my-work
+                - img [ref=e22]
+                - text: My Work
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: Delivery
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Projects" [ref=e30] [cursor=pointer]:
+                - /url: /projects
+                - img [ref=e31]
+                - text: Projects
+            - listitem [ref=e33]:
+              - link "Work Items" [ref=e34] [cursor=pointer]:
+                - /url: /work-items
+                - img [ref=e35]
+                - text: Work Items
+            - listitem [ref=e38]:
+              - link "Backlog" [ref=e39] [cursor=pointer]:
+                - /url: /backlog
+                - img [ref=e40]
+                - text: Backlog
+            - listitem [ref=e43]:
+              - link "Sprints" [ref=e44] [cursor=pointer]:
+                - /url: /sprints
+                - img [ref=e45]
+                - text: Sprints
+            - listitem [ref=e47]:
+              - link "Scrum Board" [ref=e48] [cursor=pointer]:
+                - /url: /boards/scrum
+                - img [ref=e49]
+                - text: Scrum Board
+            - listitem [ref=e51]:
+              - link "Kanban Board" [ref=e52] [cursor=pointer]:
+                - /url: /boards/kanban
+                - img [ref=e53]
+                - text: Kanban Board
+        - generic [ref=e55]:
+          - paragraph [ref=e56]: Quality & Insights
+          - list [ref=e57]:
+            - listitem [ref=e58]:
+              - link "QA" [ref=e59] [cursor=pointer]:
+                - /url: /qa
+                - img [ref=e60]
+                - text: QA
+            - listitem [ref=e62]:
+              - link "Reports" [ref=e63] [cursor=pointer]:
+                - /url: /reports
+                - img [ref=e64]
+                - text: Reports
+        - generic [ref=e66]:
+          - paragraph [ref=e67]: Organization
+          - list [ref=e68]:
+            - listitem [ref=e69]:
+              - link "Teams" [ref=e70] [cursor=pointer]:
+                - /url: /teams
+                - img [ref=e71]
+                - text: Teams
+            - listitem [ref=e75]:
+              - link "Users" [ref=e76] [cursor=pointer]:
+                - /url: /users
+                - img [ref=e77]
+                - text: Users
+            - listitem [ref=e82]:
+              - link "Notifications" [ref=e83] [cursor=pointer]:
+                - /url: /notifications
+                - img [ref=e84]
+                - text: Notifications
+            - listitem [ref=e87]:
+              - link "Settings" [ref=e88] [cursor=pointer]:
+                - /url: /settings
+                - img [ref=e89]
+                - text: Settings
+            - listitem [ref=e92]:
+              - link "Admin" [ref=e93] [cursor=pointer]:
+                - /url: /admin
+                - img [ref=e94]
+                - text: Admin
+      - button "Collapse sidebar" [ref=e97]:
+        - img [ref=e98]
+        - text: Collapse
+    - generic [ref=e101]:
+      - banner [ref=e102]:
+        - search [ref=e103]:
+          - img
+          - searchbox "Global search" [ref=e104]
+        - link "Notifications" [ref=e105] [cursor=pointer]:
+          - /url: /notifications
+          - img [ref=e106]
+        - button "Admin QA 1780043000001 Admin QA 1780043000001 System Admin" [ref=e110]:
+          - generic "Admin QA 1780043000001" [ref=e111]: AQ
+          - generic [ref=e112]:
+            - generic [ref=e113]: Admin QA 1780043000001
+            - generic [ref=e114]: System Admin
+      - main [ref=e115]:
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - generic [ref=e118]:
+              - heading "Work Items" [level=1] [ref=e119]
+              - generic [ref=e120]: All epics, stories, tasks, bugs and subtasks.
+            - link "New Work Item" [ref=e122] [cursor=pointer]:
+              - /url: /work-items/new
+              - img [ref=e123]
+              - text: New Work Item
+          - generic [ref=e124]:
+            - textbox "Search title…" [ref=e125]
+            - combobox [ref=e126]:
+              - option "All types" [selected]
+              - option "Epic"
+              - option "Story"
+              - option "Task"
+              - option "Bug"
+              - option "Subtask"
+            - combobox [ref=e127]:
+              - option "All statuses" [selected]
+              - option "Backlog"
+              - option "Ready"
+              - option "In Progress"
+              - option "In Review"
+              - option "Qa"
+              - option "Blocked"
+              - option "Done"
+              - option "Canceled"
+            - combobox [ref=e128]:
+              - option "All priorities" [selected]
+              - option "Low"
+              - option "Medium"
+              - option "High"
+              - option "Critical"
+            - combobox [ref=e129]:
+              - option "All projects" [selected]
+              - option "04322"
+              - option "35618"
+              - option "97904"
+              - option "AID"
+              - option "AISA"
+              - option "BRP"
+              - option "CPM"
+              - option "IDP"
+              - option "MAR"
+            - button "Filter" [ref=e130]
+            - link "Reset" [ref=e131] [cursor=pointer]:
+              - /url: /work-items
+          - table [ref=e133]:
+            - rowgroup [ref=e134]:
+              - row "Key Title Project Status Priority Points Assignee" [ref=e135]:
+                - columnheader "Key" [ref=e136]
+                - columnheader "Title" [ref=e137]
+                - columnheader "Project" [ref=e138]
+                - columnheader "Status" [ref=e139]
+                - columnheader "Priority" [ref=e140]
+                - columnheader "Points" [ref=e141]
+                - columnheader "Assignee" [ref=e142]
+            - rowgroup [ref=e143]:
+              - row "AISA-27 Task E2E smoke item 1780043002507 AISA Backlog High — Unassigned" [ref=e144]:
+                - cell "AISA-27" [ref=e145]
+                - cell "Task E2E smoke item 1780043002507" [ref=e146]:
+                  - link "Task E2E smoke item 1780043002507" [ref=e147] [cursor=pointer]:
+                    - /url: /work-items/cmpqnn7530017vw8tnqga7drj
+                    - img "Task" [ref=e148]
+                    - generic [ref=e151]: E2E smoke item 1780043002507
+                - cell "AISA" [ref=e152]
+                - cell "Backlog" [ref=e153]:
+                  - generic [ref=e154]: Backlog
+                - cell "High" [ref=e155]:
+                  - generic [ref=e156]: High
+                - cell "—" [ref=e157]
+                - cell "Unassigned" [ref=e158]
+              - row "IDP-8 Subtask Instrument metrics (subtask) (e2e 1780042266639) (e2e 1780042527244) (e2e 1780042823420) (e2e 1780042892541) (e2e 1780042986158) IDP Blocked Medium 3 Jordan Patel Jordan Patel" [ref=e159]:
+                - cell "IDP-8" [ref=e160]
+                - cell "Subtask Instrument metrics (subtask) (e2e 1780042266639) (e2e 1780042527244) (e2e 1780042823420) (e2e 1780042892541) (e2e 1780042986158)" [ref=e161]:
+                  - link "Subtask Instrument metrics (subtask) (e2e 1780042266639) (e2e 1780042527244) (e2e 1780042823420) (e2e 1780042892541) (e2e 1780042986158)" [ref=e162] [cursor=pointer]:
+                    - /url: /work-items/cmpqj028e0047sw8terdbxn00
+                    - img "Subtask" [ref=e163]
+                    - generic [ref=e167]: Instrument metrics (subtask) (e2e 1780042266639) (e2e 1780042527244) (e2e 1780042823420) (e2e 1780042892541) (e2e 1780042986158)
+                - cell "IDP" [ref=e168]
+                - cell "Blocked" [ref=e169]:
+                  - generic [ref=e170]: Blocked
+                - cell "Medium" [ref=e171]:
+                  - generic [ref=e172]: Medium
+                - cell "3" [ref=e173]
+                - cell "Jordan Patel Jordan Patel" [ref=e174]:
+                  - generic [ref=e175]:
+                    - generic "Jordan Patel" [ref=e176]: JP
+                    - generic [ref=e177]: Jordan Patel
+              - row "IDP-6 Story Enable bulk status updates from the backlog IDP Blocked High 8 Yuki Tanaka Yuki Tanaka" [ref=e178]:
+                - cell "IDP-6" [ref=e179]
+                - cell "Story Enable bulk status updates from the backlog" [ref=e180]:
+                  - link "Story Enable bulk status updates from the backlog" [ref=e181] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02860045sw8t83es2lvp
+                    - img "Story" [ref=e182]
+                    - generic [ref=e184]: Enable bulk status updates from the backlog
+                - cell "IDP" [ref=e185]
+                - cell "Blocked" [ref=e186]:
+                  - generic [ref=e187]: Blocked
+                - cell "High" [ref=e188]:
+                  - generic [ref=e189]: High
+                - cell "8" [ref=e190]
+                - cell "Yuki Tanaka Yuki Tanaka" [ref=e191]:
+                  - generic [ref=e192]:
+                    - generic "Yuki Tanaka" [ref=e193]: YT
+                    - generic [ref=e194]: Yuki Tanaka
+              - row "IDP-2 Subtask Add feature flag (subtask) IDP Blocked Medium 3 Grace Mwangi Grace Mwangi" [ref=e195]:
+                - cell "IDP-2" [ref=e196]
+                - cell "Subtask Add feature flag (subtask)" [ref=e197]:
+                  - link "Subtask Add feature flag (subtask)" [ref=e198] [cursor=pointer]:
+                    - /url: /work-items/cmpqj027q0041sw8tlqer8mfj
+                    - img "Subtask" [ref=e199]
+                    - generic [ref=e203]: Add feature flag (subtask)
+                - cell "IDP" [ref=e204]
+                - cell "Blocked" [ref=e205]:
+                  - generic [ref=e206]: Blocked
+                - cell "Medium" [ref=e207]:
+                  - generic [ref=e208]: Medium
+                - cell "3" [ref=e209]
+                - cell "Grace Mwangi Grace Mwangi" [ref=e210]:
+                  - generic [ref=e211]:
+                    - generic "Grace Mwangi" [ref=e212]: GM
+                    - generic [ref=e213]: Grace Mwangi
+              - row "CPM-34 Bug Dashboard chart renders blank on first load CPM Blocked Medium 2 Olivia Brooks Olivia Brooks" [ref=e214]:
+                - cell "CPM-34" [ref=e215]
+                - cell "Bug Dashboard chart renders blank on first load" [ref=e216]:
+                  - link "Bug Dashboard chart renders blank on first load" [ref=e217] [cursor=pointer]:
+                    - /url: /work-items/cmpqj026l003zsw8th4aym3xq
+                    - img "Bug" [ref=e218]
+                    - generic [ref=e227]: Dashboard chart renders blank on first load
+                - cell "CPM" [ref=e228]
+                - cell "Blocked" [ref=e229]:
+                  - generic [ref=e230]: Blocked
+                - cell "Medium" [ref=e231]:
+                  - generic [ref=e232]: Medium
+                - cell "2" [ref=e233]
+                - cell "Olivia Brooks Olivia Brooks" [ref=e234]:
+                  - generic [ref=e235]:
+                    - generic "Olivia Brooks" [ref=e236]: OB
+                    - generic [ref=e237]: Olivia Brooks
+              - row "CPM-29 Task Add feature flag for account & profile experience CPM Blocked Medium 5 Nina Kowalski Nina Kowalski" [ref=e238]:
+                - cell "CPM-29" [ref=e239]
+                - cell "Task Add feature flag for account & profile experience" [ref=e240]:
+                  - link "Task Add feature flag for account & profile experience" [ref=e241] [cursor=pointer]:
+                    - /url: /work-items/cmpqj025x003usw8tng1ur6zo
+                    - img "Task" [ref=e242]
+                    - generic [ref=e245]: Add feature flag for account & profile experience
+                - cell "CPM" [ref=e246]
+                - cell "Blocked" [ref=e247]:
+                  - generic [ref=e248]: Blocked
+                - cell "Medium" [ref=e249]:
+                  - generic [ref=e250]: Medium
+                - cell "5" [ref=e251]
+                - cell "Nina Kowalski Nina Kowalski" [ref=e252]:
+                  - generic [ref=e253]:
+                    - generic "Nina Kowalski" [ref=e254]: NK
+                    - generic [ref=e255]: Nina Kowalski
+              - row "CPM-26 Task Add accessibility attributes for self-service billing CPM Blocked Low 1 Grace Mwangi Grace Mwangi" [ref=e256]:
+                - cell "CPM-26" [ref=e257]
+                - cell "Task Add accessibility attributes for self-service billing" [ref=e258]:
+                  - link "Task Add accessibility attributes for self-service billing" [ref=e259] [cursor=pointer]:
+                    - /url: /work-items/cmpqj025k003rsw8txq3tszk5
+                    - img "Task" [ref=e260]
+                    - generic [ref=e263]: Add accessibility attributes for self-service billing
+                - cell "CPM" [ref=e264]
+                - cell "Blocked" [ref=e265]:
+                  - generic [ref=e266]: Blocked
+                - cell "Low" [ref=e267]:
+                  - generic [ref=e268]: Low
+                - cell "1" [ref=e269]
+                - cell "Grace Mwangi Grace Mwangi" [ref=e270]:
+                  - generic [ref=e271]:
+                    - generic "Grace Mwangi" [ref=e272]: GM
+                    - generic [ref=e273]: Grace Mwangi
+              - row "CPM-22 Task Add accessibility attributes for account & profile experience CPM Blocked Low 5 Grace Mwangi Grace Mwangi" [ref=e274]:
+                - cell "CPM-22" [ref=e275]
+                - cell "Task Add accessibility attributes for account & profile experience" [ref=e276]:
+                  - link "Task Add accessibility attributes for account & profile experience" [ref=e277] [cursor=pointer]:
+                    - /url: /work-items/cmpqj0252003nsw8tm2djjanf
+                    - img "Task" [ref=e278]
+                    - generic [ref=e281]: Add accessibility attributes for account & profile experience
+                - cell "CPM" [ref=e282]
+                - cell "Blocked" [ref=e283]:
+                  - generic [ref=e284]: Blocked
+                - cell "Low" [ref=e285]:
+                  - generic [ref=e286]: Low
+                - cell "5" [ref=e287]
+                - cell "Grace Mwangi Grace Mwangi" [ref=e288]:
+                  - generic [ref=e289]:
+                    - generic "Grace Mwangi" [ref=e290]: GM
+                    - generic [ref=e291]: Grace Mwangi
+              - row "CPM-20 Task Add database migration for account & profile experience CPM Blocked Medium 2 Liam O'Connor Liam O'Connor" [ref=e292]:
+                - cell "CPM-20" [ref=e293]
+                - cell "Task Add database migration for account & profile experience" [ref=e294]:
+                  - link "Task Add database migration for account & profile experience" [ref=e295] [cursor=pointer]:
+                    - /url: /work-items/cmpqj024v003lsw8tfdmefh1i
+                    - img "Task" [ref=e296]
+                    - generic [ref=e299]: Add database migration for account & profile experience
+                - cell "CPM" [ref=e300]
+                - cell "Blocked" [ref=e301]:
+                  - generic [ref=e302]: Blocked
+                - cell "Medium" [ref=e303]:
+                  - generic [ref=e304]: Medium
+                - cell "2" [ref=e305]
+                - cell "Liam O'Connor Liam O'Connor" [ref=e306]:
+                  - generic [ref=e307]:
+                    - generic "Liam O'Connor" [ref=e308]: LO
+                    - generic [ref=e309]: Liam O'Connor
+              - row "CPM-15 Story Add keyboard shortcuts for board navigation CPM Blocked High 1 Aisha Khan Aisha Khan" [ref=e310]:
+                - cell "CPM-15" [ref=e311]
+                - cell "Story Add keyboard shortcuts for board navigation" [ref=e312]:
+                  - link "Story Add keyboard shortcuts for board navigation" [ref=e313] [cursor=pointer]:
+                    - /url: /work-items/cmpqj024a003gsw8t1kn0wtjp
+                    - img "Story" [ref=e314]
+                    - generic [ref=e316]: Add keyboard shortcuts for board navigation
+                - cell "CPM" [ref=e317]
+                - cell "Blocked" [ref=e318]:
+                  - generic [ref=e319]: Blocked
+                - cell "High" [ref=e320]:
+                  - generic [ref=e321]: High
+                - cell "1" [ref=e322]
+                - cell "Aisha Khan Aisha Khan" [ref=e323]:
+                  - generic [ref=e324]:
+                    - generic "Aisha Khan" [ref=e325]: AK
+                    - generic [ref=e326]: Aisha Khan
+              - row "CPM-13 Subtask Add feature flag (subtask) CPM Blocked Medium 3 Yuki Tanaka Yuki Tanaka" [ref=e327]:
+                - cell "CPM-13" [ref=e328]
+                - cell "Subtask Add feature flag (subtask)" [ref=e329]:
+                  - link "Subtask Add feature flag (subtask)" [ref=e330] [cursor=pointer]:
+                    - /url: /work-items/cmpqj0241003esw8twk3jwvfd
+                    - img "Subtask" [ref=e331]
+                    - generic [ref=e335]: Add feature flag (subtask)
+                - cell "CPM" [ref=e336]
+                - cell "Blocked" [ref=e337]:
+                  - generic [ref=e338]: Blocked
+                - cell "Medium" [ref=e339]:
+                  - generic [ref=e340]: Medium
+                - cell "3" [ref=e341]
+                - cell "Yuki Tanaka Yuki Tanaka" [ref=e342]:
+                  - generic [ref=e343]:
+                    - generic "Yuki Tanaka" [ref=e344]: YT
+                    - generic [ref=e345]: Yuki Tanaka
+              - row "CPM-7 Story Allow exporting reports to CSV CPM Blocked High 8 Olivia Brooks Olivia Brooks" [ref=e346]:
+                - cell "CPM-7" [ref=e347]
+                - cell "Story Allow exporting reports to CSV" [ref=e348]:
+                  - link "Story Allow exporting reports to CSV" [ref=e349] [cursor=pointer]:
+                    - /url: /work-items/cmpqj023a0038sw8tyvqqyhz7
+                    - img "Story" [ref=e350]
+                    - generic [ref=e352]: Allow exporting reports to CSV
+                - cell "CPM" [ref=e353]
+                - cell "Blocked" [ref=e354]:
+                  - generic [ref=e355]: Blocked
+                - cell "High" [ref=e356]:
+                  - generic [ref=e357]: High
+                - cell "8" [ref=e358]
+                - cell "Olivia Brooks Olivia Brooks" [ref=e359]:
+                  - generic [ref=e360]:
+                    - generic "Olivia Brooks" [ref=e361]: OB
+                    - generic [ref=e362]: Olivia Brooks
+              - row "CPM-5 Subtask Set up CI pipeline step (subtask) CPM Blocked Medium 1 Aisha Khan Aisha Khan" [ref=e363]:
+                - cell "CPM-5" [ref=e364]
+                - cell "Subtask Set up CI pipeline step (subtask)" [ref=e365]:
+                  - link "Subtask Set up CI pipeline step (subtask)" [ref=e366] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02310036sw8tp0xbz6dm
+                    - img "Subtask" [ref=e367]
+                    - generic [ref=e371]: Set up CI pipeline step (subtask)
+                - cell "CPM" [ref=e372]
+                - cell "Blocked" [ref=e373]:
+                  - generic [ref=e374]: Blocked
+                - cell "Medium" [ref=e375]:
+                  - generic [ref=e376]: Medium
+                - cell "1" [ref=e377]
+                - cell "Aisha Khan Aisha Khan" [ref=e378]:
+                  - generic [ref=e379]:
+                    - generic "Aisha Khan" [ref=e380]: AK
+                    - generic [ref=e381]: Aisha Khan
+              - row "AID-29 Bug Login fails intermittently on slow connections AID Done High 2 Olivia Brooks Olivia Brooks" [ref=e382]:
+                - cell "AID-29" [ref=e383]
+                - cell "Bug Login fails intermittently on slow connections" [ref=e384]:
+                  - link "Bug Login fails intermittently on slow connections" [ref=e385] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02s2008bsw8tztxjvnr4
+                    - img "Bug" [ref=e386]
+                    - generic [ref=e395]: Login fails intermittently on slow connections
+                - cell "AID" [ref=e396]
+                - cell "Done" [ref=e397]:
+                  - generic [ref=e398]: Done
+                - cell "High" [ref=e399]:
+                  - generic [ref=e400]: High
+                - cell "2" [ref=e401]
+                - cell "Olivia Brooks Olivia Brooks" [ref=e402]:
+                  - generic [ref=e403]:
+                    - generic "Olivia Brooks" [ref=e404]: OB
+                    - generic [ref=e405]: Olivia Brooks
+              - row "AID-28 Bug Search returns stale results after edit AID In Progress Medium 3 Ahmed Hassan Ahmed Hassan" [ref=e406]:
+                - cell "AID-28" [ref=e407]
+                - cell "Bug Search returns stale results after edit" [ref=e408]:
+                  - link "Bug Search returns stale results after edit" [ref=e409] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02ry008asw8ttyhw7le9
+                    - img "Bug" [ref=e410]
+                    - generic [ref=e419]: Search returns stale results after edit
+                - cell "AID" [ref=e420]
+                - cell "In Progress" [ref=e421]:
+                  - generic [ref=e422]: In Progress
+                - cell "Medium" [ref=e423]:
+                  - generic [ref=e424]: Medium
+                - cell "3" [ref=e425]
+                - cell "Ahmed Hassan Ahmed Hassan" [ref=e426]:
+                  - generic [ref=e427]:
+                    - generic "Ahmed Hassan" [ref=e428]: AH
+                    - generic [ref=e429]: Ahmed Hassan
+              - row "AID-27 Bug Date picker shows wrong timezone AID Done Low 3 Nina Kowalski Nina Kowalski" [ref=e430]:
+                - cell "AID-27" [ref=e431]
+                - cell "Bug Date picker shows wrong timezone" [ref=e432]:
+                  - link "Bug Date picker shows wrong timezone" [ref=e433] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02ru0089sw8t8p8ijpoo
+                    - img "Bug" [ref=e434]
+                    - generic [ref=e443]: Date picker shows wrong timezone
+                - cell "AID" [ref=e444]
+                - cell "Done" [ref=e445]:
+                  - generic [ref=e446]: Done
+                - cell "Low" [ref=e447]:
+                  - generic [ref=e448]: Low
+                - cell "3" [ref=e449]
+                - cell "Nina Kowalski Nina Kowalski" [ref=e450]:
+                  - generic [ref=e451]:
+                    - generic "Nina Kowalski" [ref=e452]: NK
+                    - generic [ref=e453]: Nina Kowalski
+              - row "AID-26 Bug Mobile layout overflows on small screens AID In Progress Low 2 Nina Kowalski Nina Kowalski" [ref=e454]:
+                - cell "AID-26" [ref=e455]
+                - cell "Bug Mobile layout overflows on small screens" [ref=e456]:
+                  - link "Bug Mobile layout overflows on small screens" [ref=e457] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02rr0088sw8tbrlp9oqi
+                    - img "Bug" [ref=e458]
+                    - generic [ref=e467]: Mobile layout overflows on small screens
+                - cell "AID" [ref=e468]
+                - cell "In Progress" [ref=e469]:
+                  - generic [ref=e470]: In Progress
+                - cell "Low" [ref=e471]:
+                  - generic [ref=e472]: Low
+                - cell "2" [ref=e473]
+                - cell "Nina Kowalski Nina Kowalski" [ref=e474]:
+                  - generic [ref=e475]:
+                    - generic "Nina Kowalski" [ref=e476]: NK
+                    - generic [ref=e477]: Nina Kowalski
+              - row "AID-25 Task Instrument metrics for product usage insights AID Ready Medium 5 Diego Santos Diego Santos" [ref=e478]:
+                - cell "AID-25" [ref=e479]
+                - cell "Task Instrument metrics for product usage insights" [ref=e480]:
+                  - link "Task Instrument metrics for product usage insights" [ref=e481] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02rm0087sw8tbattiwyf
+                    - img "Task" [ref=e482]
+                    - generic [ref=e485]: Instrument metrics for product usage insights
+                - cell "AID" [ref=e486]
+                - cell "Ready" [ref=e487]:
+                  - generic [ref=e488]: Ready
+                - cell "Medium" [ref=e489]:
+                  - generic [ref=e490]: Medium
+                - cell "5" [ref=e491]
+                - cell "Diego Santos Diego Santos" [ref=e492]:
+                  - generic [ref=e493]:
+                    - generic "Diego Santos" [ref=e494]: DS
+                    - generic [ref=e495]: Diego Santos
+              - row "AID-24 Task Add audit logging for product usage insights AID Backlog Low 3 Olivia Brooks Olivia Brooks" [ref=e496]:
+                - cell "AID-24" [ref=e497]
+                - cell "Task Add audit logging for product usage insights" [ref=e498]:
+                  - link "Task Add audit logging for product usage insights" [ref=e499] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02ri0086sw8t391nscck
+                    - img "Task" [ref=e500]
+                    - generic [ref=e503]: Add audit logging for product usage insights
+                - cell "AID" [ref=e504]
+                - cell "Backlog" [ref=e505]:
+                  - generic [ref=e506]: Backlog
+                - cell "Low" [ref=e507]:
+                  - generic [ref=e508]: Low
+                - cell "3" [ref=e509]
+                - cell "Olivia Brooks Olivia Brooks" [ref=e510]:
+                  - generic [ref=e511]:
+                    - generic "Olivia Brooks" [ref=e512]: OB
+                    - generic [ref=e513]: Olivia Brooks
+              - row "AID-23 Task Improve query performance for revenue dashboards AID Backlog Medium 1 Grace Mwangi Grace Mwangi" [ref=e514]:
+                - cell "AID-23" [ref=e515]
+                - cell "Task Improve query performance for revenue dashboards" [ref=e516]:
+                  - link "Task Improve query performance for revenue dashboards" [ref=e517] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02rf0085sw8tww1aa8gt
+                    - img "Task" [ref=e518]
+                    - generic [ref=e521]: Improve query performance for revenue dashboards
+                - cell "AID" [ref=e522]
+                - cell "Backlog" [ref=e523]:
+                  - generic [ref=e524]: Backlog
+                - cell "Medium" [ref=e525]:
+                  - generic [ref=e526]: Medium
+                - cell "1" [ref=e527]
+                - cell "Grace Mwangi Grace Mwangi" [ref=e528]:
+                  - generic [ref=e529]:
+                    - generic "Grace Mwangi" [ref=e530]: GM
+                    - generic [ref=e531]: Grace Mwangi
+              - row "AID-22 Task Instrument metrics for revenue dashboards AID Ready Medium 1 Wei Chen Wei Chen" [ref=e532]:
+                - cell "AID-22" [ref=e533]
+                - cell "Task Instrument metrics for revenue dashboards" [ref=e534]:
+                  - link "Task Instrument metrics for revenue dashboards" [ref=e535] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02rb0084sw8tqtulwl72
+                    - img "Task" [ref=e536]
+                    - generic [ref=e539]: Instrument metrics for revenue dashboards
+                - cell "AID" [ref=e540]
+                - cell "Ready" [ref=e541]:
+                  - generic [ref=e542]: Ready
+                - cell "Medium" [ref=e543]:
+                  - generic [ref=e544]: Medium
+                - cell "1" [ref=e545]
+                - cell "Wei Chen Wei Chen" [ref=e546]:
+                  - generic [ref=e547]:
+                    - generic "Wei Chen" [ref=e548]: WC
+                    - generic [ref=e549]: Wei Chen
+              - row "AID-21 Task Update documentation for product usage insights AID Done Medium 2 Olivia Brooks Olivia Brooks" [ref=e550]:
+                - cell "AID-21" [ref=e551]
+                - cell "Task Update documentation for product usage insights" [ref=e552]:
+                  - link "Task Update documentation for product usage insights" [ref=e553] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02r70083sw8tj42kc43c
+                    - img "Task" [ref=e554]
+                    - generic [ref=e557]: Update documentation for product usage insights
+                - cell "AID" [ref=e558]
+                - cell "Done" [ref=e559]:
+                  - generic [ref=e560]: Done
+                - cell "Medium" [ref=e561]:
+                  - generic [ref=e562]: Medium
+                - cell "2" [ref=e563]
+                - cell "Olivia Brooks Olivia Brooks" [ref=e564]:
+                  - generic [ref=e565]:
+                    - generic "Olivia Brooks" [ref=e566]: OB
+                    - generic [ref=e567]: Olivia Brooks
+              - row "AID-20 Task Handle edge-case validation for product usage insights AID Ready Low 1 Diego Santos Diego Santos" [ref=e568]:
+                - cell "AID-20" [ref=e569]
+                - cell "Task Handle edge-case validation for product usage insights" [ref=e570]:
+                  - link "Task Handle edge-case validation for product usage insights" [ref=e571] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02r30082sw8t4xoagi70
+                    - img "Task" [ref=e572]
+                    - generic [ref=e575]: Handle edge-case validation for product usage insights
+                - cell "AID" [ref=e576]
+                - cell "Ready" [ref=e577]:
+                  - generic [ref=e578]: Ready
+                - cell "Low" [ref=e579]:
+                  - generic [ref=e580]: Low
+                - cell "1" [ref=e581]
+                - cell "Diego Santos Diego Santos" [ref=e582]:
+                  - generic [ref=e583]:
+                    - generic "Diego Santos" [ref=e584]: DS
+                    - generic [ref=e585]: Diego Santos
+              - row "AID-19 Task Handle edge-case validation for revenue dashboards AID In Review Medium 2 Jordan Patel Jordan Patel" [ref=e586]:
+                - cell "AID-19" [ref=e587]
+                - cell "Task Handle edge-case validation for revenue dashboards" [ref=e588]:
+                  - link "Task Handle edge-case validation for revenue dashboards" [ref=e589] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02qz0081sw8tpa4uledn
+                    - img "Task" [ref=e590]
+                    - generic [ref=e593]: Handle edge-case validation for revenue dashboards
+                - cell "AID" [ref=e594]
+                - cell "In Review" [ref=e595]:
+                  - generic [ref=e596]: In Review
+                - cell "Medium" [ref=e597]:
+                  - generic [ref=e598]: Medium
+                - cell "2" [ref=e599]
+                - cell "Jordan Patel Jordan Patel" [ref=e600]:
+                  - generic [ref=e601]:
+                    - generic "Jordan Patel" [ref=e602]: JP
+                    - generic [ref=e603]: Jordan Patel
+              - row "AID-18 Task Implement API endpoint for product usage insights AID In Progress Low 3 Grace Mwangi Grace Mwangi" [ref=e604]:
+                - cell "AID-18" [ref=e605]
+                - cell "Task Implement API endpoint for product usage insights" [ref=e606]:
+                  - link "Task Implement API endpoint for product usage insights" [ref=e607] [cursor=pointer]:
+                    - /url: /work-items/cmpqj02qv0080sw8tbtev6h2k
+                    - img "Task" [ref=e608]
+                    - generic [ref=e611]: Implement API endpoint for product usage insights
+                - cell "AID" [ref=e612]
+                - cell "In Progress" [ref=e613]:
+                  - generic [ref=e614]: In Progress
+                - cell "Low" [ref=e615]:
+                  - generic [ref=e616]: Low
+                - cell "3" [ref=e617]
+                - cell "Grace Mwangi Grace Mwangi" [ref=e618]:
+                  - generic [ref=e619]:
+                    - generic "Grace Mwangi" [ref=e620]: GM
+                    - generic [ref=e621]: Grace Mwangi
+          - navigation "Pagination" [ref=e622]:
+            - generic [ref=e623]: Showing 1–25 of 191 items
+            - generic [ref=e624]:
+              - generic [ref=e625]:
+                - img [ref=e626]
+                - text: Previous
+              - generic [ref=e628]: Page 1 of 8
+              - link "Go to next page" [ref=e629] [cursor=pointer]:
+                - /url: /work-items?page=2
+                - text: Next
+                - img [ref=e630]
+  - alert [ref=e632]

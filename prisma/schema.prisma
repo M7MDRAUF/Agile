@@ -1,0 +1,346 @@
+// AgileForge data model.
+// SQLite does not support native enums, so enum-like fields are stored as
+// String values and validated/normalised in the application layer
+// (see src/lib/domain/constants.ts).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         String // see ROLES
+  title        String?
+  department   String?
+  avatarColor  String   @default("#6366f1")
+  status       String   @default("active") // active | inactive
+  mfaEnabled   Boolean  @default(false)
+  mfaSecret    String? // base32 secret used by otplib.authenticator (RFC 6238)
+  mfaRecoveryCodes String? // newline-joined bcrypt hashes of one-time recovery codes
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  teamMemberships TeamMember[]
+  ownedProjects   Project[]      @relation("ProjectOwner")
+  assignedItems   WorkItem[]     @relation("WorkItemAssignee")
+  reportedItems   WorkItem[]     @relation("WorkItemReporter")
+  comments        Comment[]
+  activities      ActivityLog[]
+  ownedBlockers   Blocker[]      @relation("BlockerOwner")
+  notifications   Notification[]
+  createdTests    TestCase[]     @relation("TestCreatedBy")
+  testRuns        TestRun[]
+  auditLogs       AuditLog[]
+  settings        UserSetting[]
+  sessions        UserSession[]
+  apiTokens       ApiToken[]
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+
+  members  TeamMember[]
+  projects Project[]
+}
+
+model TeamMember {
+  id       String  @id @default(cuid())
+  teamId   String
+  userId   String
+  roleName String? // role within the team (e.g. Tech Lead)
+  team     Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+}
+
+model Project {
+  id          String    @id @default(cuid())
+  key         String    @unique
+  name        String
+  description String?
+  status      String    @default("active") // active | on_hold | completed | archived
+  health      String    @default("on_track") // on_track | at_risk | off_track
+  ownerId     String?
+  teamId      String?
+  startDate   DateTime?
+  targetDate  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  owner     User?         @relation("ProjectOwner", fields: [ownerId], references: [id])
+  team      Team?         @relation(fields: [teamId], references: [id])
+  epics     Epic[]
+  workItems WorkItem[]
+  sprints   Sprint[]
+  testCases TestCase[]
+  risks     ProjectRisk[]
+}
+
+model ProjectRisk {
+  id          String   @id @default(cuid())
+  projectId   String
+  title       String
+  description String?
+  severity    String   @default("medium") // low | medium | high
+  status      String   @default("open") // open | mitigated | closed
+  createdAt   DateTime @default(now())
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Epic {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  title       String
+  description String?
+  projectId   String
+  status      String   @default("in_progress") // backlog | in_progress | done
+  color       String   @default("#6366f1")
+  createdAt   DateTime @default(now())
+
+  project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  workItems WorkItem[]
+}
+
+model WorkItem {
+  id                 String    @id @default(cuid())
+  key                String    @unique
+  title              String
+  description        String?
+  type               String // epic | story | task | bug | subtask
+  status             String    @default("backlog")
+  priority           String    @default("medium") // low | medium | high | critical
+  storyPoints        Int?
+  dueDate            DateTime?
+  acceptanceCriteria String?
+  assigneeId         String?
+  reporterId         String?
+  projectId          String
+  epicId             String?
+  sprintId           String?
+  parentId           String?
+  rank               Int       @default(0)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  completedAt        DateTime?
+
+  assignee   User?           @relation("WorkItemAssignee", fields: [assigneeId], references: [id])
+  reporter   User?           @relation("WorkItemReporter", fields: [reporterId], references: [id])
+  project    Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  epic       Epic?           @relation(fields: [epicId], references: [id])
+  sprint     Sprint?         @relation(fields: [sprintId], references: [id])
+  parent     WorkItem?       @relation("WorkItemSubtasks", fields: [parentId], references: [id])
+  subtasks   WorkItem[]      @relation("WorkItemSubtasks")
+  comments   Comment[]
+  activities ActivityLog[]
+  blockers   Blocker[]
+  labels     WorkItemLabel[]
+  testCases  TestCase[]
+}
+
+model Sprint {
+  id          String    @id @default(cuid())
+  name        String
+  goal        String?
+  projectId   String
+  status      String    @default("planned") // planned | active | completed
+  startDate   DateTime?
+  endDate     DateTime?
+  capacity    Int?
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  workItems WorkItem[]
+}
+
+model Comment {
+  id         String   @id @default(cuid())
+  workItemId String
+  authorId   String
+  body       String
+  createdAt  DateTime @default(now())
+
+  workItem WorkItem @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  author   User     @relation(fields: [authorId], references: [id])
+}
+
+model ActivityLog {
+  id         String   @id @default(cuid())
+  workItemId String
+  actorId    String?
+  type       String // status_change | assignment | comment | created | sprint_change | blocker
+  message    String
+  oldValue   String?
+  newValue   String?
+  createdAt  DateTime @default(now())
+
+  workItem WorkItem @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  actor    User?    @relation(fields: [actorId], references: [id])
+}
+
+model Blocker {
+  id         String    @id @default(cuid())
+  workItemId String
+  reason     String
+  ownerId    String?
+  status     String    @default("open") // open | resolved
+  createdAt  DateTime  @default(now())
+  resolvedAt DateTime?
+
+  workItem WorkItem @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  owner    User?    @relation("BlockerOwner", fields: [ownerId], references: [id])
+}
+
+model TestCase {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  title       String
+  description String?
+  steps       String?
+  expected    String?
+  priority    String   @default("medium")
+  status      String   @default("not_run") // not_run | passed | failed | blocked
+  projectId   String
+  workItemId  String?
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  workItem  WorkItem? @relation(fields: [workItemId], references: [id])
+  createdBy User?     @relation("TestCreatedBy", fields: [createdById], references: [id])
+  runs      TestRun[]
+}
+
+model TestRun {
+  id         String   @id @default(cuid())
+  testCaseId String
+  status     String // passed | failed | blocked
+  notes      String?
+  runById    String?
+  bugId      String?
+  createdAt  DateTime @default(now())
+
+  testCase TestCase @relation(fields: [testCaseId], references: [id], onDelete: Cascade)
+  runBy    User?    @relation(fields: [runById], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String // assignment | comment | blocker | sprint | mention | system
+  message   String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Label {
+  id    String @id @default(cuid())
+  name  String @unique
+  color String @default("#64748b")
+
+  workItems WorkItemLabel[]
+}
+
+model WorkItemLabel {
+  workItemId String
+  labelId    String
+  workItem   WorkItem @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  label      Label    @relation(fields: [labelId], references: [id], onDelete: Cascade)
+
+  @@id([workItemId, labelId])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  action     String
+  entityType String
+  entityId   String?
+  detail     String?
+  createdAt  DateTime @default(now())
+
+  actor User? @relation(fields: [actorId], references: [id])
+}
+
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+// Per-user preferences (notifications, appearance, localization) stored as
+// namespaced key/value pairs so new preferences can be added without a
+// migration. Values are JSON-encoded primitives.
+model UserSetting {
+  id        String   @id @default(cuid())
+  userId    String
+  key       String
+  value     String
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, key])
+}
+
+// Active login sessions. The JWT carries the session id (`sid`); a session is
+// valid only while a matching, non-revoked row exists. Revoking a row signs
+// that device out.
+model UserSession {
+  id           String    @id @default(cuid())
+  userId       String
+  userAgent    String?
+  ipLabel      String?
+  createdAt    DateTime  @default(now())
+  lastActiveAt DateTime  @default(now())
+  revokedAt    DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Developer API tokens. Only the bcrypt hash is stored; the plaintext token is
+// shown once at creation time.
+model ApiToken {
+  id         String    @id @default(cuid())
+  userId     String
+  name       String
+  prefix     String // first 8 chars, shown in the list for identification
+  tokenHash  String
+  scopes     String // comma-separated permission scopes
+  lastUsedAt DateTime?
+  expiresAt  DateTime?
+  createdAt  DateTime  @default(now())
+  revokedAt  DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Workspace-level third-party integrations. Connection state is persisted;
+// actual OAuth is local-dev simulated.
+model Integration {
+  key           String    @id // github | slack | calendar | figma
+  name          String
+  status        String    @default("not_connected") // not_connected | connected
+  accountLabel  String?
+  config        String? // JSON blob of simulated configuration
+  connectedById String?
+  connectedAt   DateTime?
+  updatedAt     DateTime  @updatedAt
+}

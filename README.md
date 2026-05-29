@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AgileForge
 
-## Getting Started
+> A production-grade Agile project management & software engineering operations platform.
 
-First, run the development server:
+AgileForge is a full-stack web application for planning, executing and shipping
+Agile delivery across teams. It combines project & sprint management, work-item
+tracking, Scrum and Kanban boards, a prioritized backlog, blockers, QA test
+management, dashboards, charts/reports, notifications, search, role-based access
+control and an admin console — in one cohesive, themeable workspace.
+
+Built with **Next.js 16 (App Router)**, **React 19**, **TypeScript**,
+**Prisma 7 + SQLite**, **Tailwind CSS v4**, JWT auth and **Recharts**.
+
+---
+
+## Highlights
+
+- **Auth & RBAC** — JWT (jose) sessions in httpOnly cookies, bcrypt password
+  hashing, capability-based permissions for 8 roles, middleware route protection.
+- **Projects** — health, roadmap (epics + sprint timeline) and per-project reports.
+- **Work items** — epics, stories, tasks, bugs and subtasks with assignees,
+  reporters, story points, acceptance criteria, comments, activity timelines and
+  blockers.
+- **Sprints & boards** — sprint planning with burndown charts, Scrum and Kanban
+  boards with inline status changes.
+- **Backlog** — priority-sorted, project-filterable list of unscheduled work.
+- **My Work** — a personal cockpit (current sprint, overdue, blocked, recent).
+- **QA** — test cases, test runs and automatic bug creation on failures.
+- **Insights** — dashboards plus velocity, workload, bug-severity and
+  blocker-aging charts.
+- **Notifications, search, settings (incl. dark mode), teams & users.**
+- **Admin** — user role management, activation toggles and an audit log.
+
+See the [architecture overview](docs/ARCHITECTURE.md) for full detail.
+
+---
+
+## Quick start
+
+Requirements: Node.js 20+ (built/tested on Node 24) and npm.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install            # installs deps and runs `prisma generate`
+npm run db:push        # create the SQLite schema (dev.db)
+npm run db:seed        # load realistic demo data
+npm run dev            # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Full setup and troubleshooting: [docs/SETUP.md](docs/SETUP.md).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Demo accounts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All demo accounts use the password `Password123!`.
 
-## Learn More
+| Role                | Email                    |
+| ------------------- | ------------------------ |
+| System Admin        | admin@novacore.dev       |
+| Engineering Manager | em@novacore.dev          |
+| Product Owner       | po@novacore.dev          |
+| Scrum Master        | sm@novacore.dev          |
+| Software Engineer   | engineer@novacore.dev    |
+| QA Engineer         | qa@novacore.dev          |
+| Designer            | designer@novacore.dev    |
+| Stakeholder         | stakeholder@novacore.dev |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Script              | Description                       |
+| ------------------- | --------------------------------- |
+| `npm run dev`       | Start the dev server (Turbopack). |
+| `npm run build`     | Production build.                 |
+| `npm run start`     | Run the production build.         |
+| `npm run lint`      | ESLint.                           |
+| `npm run typecheck` | TypeScript, no emit.              |
+| `npm run test`      | Vitest unit & component tests.    |
+| `npm run test:e2e`  | Playwright end-to-end tests.      |
+| `npm run db:push`   | Push the Prisma schema to SQLite. |
+| `npm run db:seed`   | Seed demo data.                   |
+| `npm run db:studio` | Open Prisma Studio.               |
+| `npm run db:reset`  | Reset the database (no seed).     |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Documentation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Architecture](docs/ARCHITECTURE.md)
+- [Setup](docs/SETUP.md)
+- [Testing](docs/TESTING.md)
+- [Security](docs/SECURITY.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Final implementation report](docs/FINAL_IMPLEMENTATION_REPORT.md)
+
+## License
+
+[MIT](LICENSE)

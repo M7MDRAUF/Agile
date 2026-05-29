@@ -1,0 +1,224 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - img [ref=e5]
+        - generic [ref=e7]: AgileForge
+      - navigation "Primary" [ref=e8]:
+        - generic [ref=e9]:
+          - paragraph [ref=e10]: Overview
+          - list [ref=e11]:
+            - listitem [ref=e12]:
+              - link "Dashboard" [ref=e13] [cursor=pointer]:
+                - /url: /dashboard
+                - img [ref=e14]
+                - text: Dashboard
+            - listitem [ref=e19]:
+              - link "My Work" [ref=e20] [cursor=pointer]:
+                - /url: /my-work
+                - img [ref=e21]
+                - text: My Work
+        - generic [ref=e25]:
+          - paragraph [ref=e26]: Delivery
+          - list [ref=e27]:
+            - listitem [ref=e28]:
+              - link "Projects" [ref=e29] [cursor=pointer]:
+                - /url: /projects
+                - img [ref=e30]
+                - text: Projects
+            - listitem [ref=e32]:
+              - link "Work Items" [ref=e33] [cursor=pointer]:
+                - /url: /work-items
+                - img [ref=e34]
+                - text: Work Items
+            - listitem [ref=e37]:
+              - link "Backlog" [ref=e38] [cursor=pointer]:
+                - /url: /backlog
+                - img [ref=e39]
+                - text: Backlog
+            - listitem [ref=e42]:
+              - link "Sprints" [ref=e43] [cursor=pointer]:
+                - /url: /sprints
+                - img [ref=e44]
+                - text: Sprints
+            - listitem [ref=e46]:
+              - link "Scrum Board" [ref=e47] [cursor=pointer]:
+                - /url: /boards/scrum
+                - img [ref=e48]
+                - text: Scrum Board
+            - listitem [ref=e50]:
+              - link "Kanban Board" [ref=e51] [cursor=pointer]:
+                - /url: /boards/kanban
+                - img [ref=e52]
+                - text: Kanban Board
+        - generic [ref=e54]:
+          - paragraph [ref=e55]: Quality & Insights
+          - list [ref=e56]:
+            - listitem [ref=e57]:
+              - link "QA" [ref=e58] [cursor=pointer]:
+                - /url: /qa
+                - img [ref=e59]
+                - text: QA
+            - listitem [ref=e61]:
+              - link "Reports" [ref=e62] [cursor=pointer]:
+                - /url: /reports
+                - img [ref=e63]
+                - text: Reports
+        - generic [ref=e65]:
+          - paragraph [ref=e66]: Organization
+          - list [ref=e67]:
+            - listitem [ref=e68]:
+              - link "Teams" [ref=e69] [cursor=pointer]:
+                - /url: /teams
+                - img [ref=e70]
+                - text: Teams
+            - listitem [ref=e74]:
+              - link "Users" [ref=e75] [cursor=pointer]:
+                - /url: /users
+                - img [ref=e76]
+                - text: Users
+            - listitem [ref=e81]:
+              - link "Notifications" [ref=e82] [cursor=pointer]:
+                - /url: /notifications
+                - img [ref=e83]
+                - text: Notifications
+            - listitem [ref=e86]:
+              - link "Settings" [ref=e87] [cursor=pointer]:
+                - /url: /settings
+                - img [ref=e88]
+                - text: Settings
+            - listitem [ref=e91]:
+              - link "Admin" [ref=e92] [cursor=pointer]:
+                - /url: /admin
+                - img [ref=e93]
+                - text: Admin
+      - button "Collapse sidebar" [ref=e96]:
+        - img [ref=e97]
+        - text: Collapse
+    - generic [ref=e100]:
+      - banner [ref=e101]:
+        - search [ref=e102]:
+          - img
+          - searchbox "Global search" [ref=e103]
+        - link "Notifications" [ref=e104] [cursor=pointer]:
+          - /url: /notifications
+          - img [ref=e105]
+        - button "Alex Morgan Alex Morgan System Admin" [ref=e109]:
+          - generic "Alex Morgan" [ref=e110]: AM
+          - generic [ref=e111]:
+            - generic [ref=e112]: Alex Morgan
+            - generic [ref=e113]: System Admin
+      - main [ref=e114]:
+        - generic [ref=e115]:
+          - generic [ref=e117]:
+            - heading "New Work Item" [level=1] [ref=e118]
+            - generic [ref=e119]: Create an epic, story, task, bug or subtask.
+          - generic [ref=e120]:
+            - generic [ref=e121]:
+              - generic [ref=e122]: Title *
+              - textbox "Title *" [ref=e123]:
+                - /placeholder: Short, descriptive title
+            - generic [ref=e124]:
+              - generic [ref=e125]: Description
+              - textbox "Description" [ref=e126]:
+                - /placeholder: Context, scope and details
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - generic [ref=e129]: Type *
+                - combobox "Type *" [ref=e130]:
+                  - option "Epic"
+                  - option "Story" [selected]
+                  - option "Task"
+                  - option "Bug"
+                  - option "Subtask"
+              - generic [ref=e131]:
+                - generic [ref=e132]: Priority *
+                - combobox "Priority *" [ref=e133]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Critical"
+            - generic [ref=e134]:
+              - generic [ref=e135]:
+                - generic [ref=e136]: Project *
+                - combobox "Project *" [ref=e137]:
+                  - option "AISA · AI Support Assistant" [selected]
+                  - option "AID · Analytics Insights Dashboard"
+                  - option "BRP · Billing Reliability Program"
+                  - option "CPM · Customer Portal Modernization"
+                  - option "IDP · Internal Developer Platform"
+                  - option "MAR · Mobile App Redesign"
+              - generic [ref=e138]:
+                - generic [ref=e139]: Assignee
+                - combobox "Assignee" [ref=e140]:
+                  - option "Unassigned" [selected]
+                  - option "Ahmed Hassan"
+                  - option "Aisha Khan"
+                  - option "Alex Morgan"
+                  - option "Ben Carter"
+                  - option "Daniel Okoye"
+                  - option "Diego Santos"
+                  - option "Emma Dubois"
+                  - option "Fatima Zahra"
+                  - option "Grace Mwangi"
+                  - option "Hannah Bergström"
+                  - option "Jordan Patel"
+                  - option "Liam O'Connor"
+                  - option "Marcus Lee"
+                  - option "Nina Kowalski"
+                  - option "Noah Fischer"
+                  - option "Olivia Brooks"
+                  - option "Priya Sharma"
+                  - option "Robert Klein"
+                  - option "Sandra Nilsson"
+                  - option "Sofia Reyes"
+                  - option "Tomás Alvarez"
+                  - option "Victoria Hughes"
+                  - option "Wei Chen"
+                  - option "Yuki Tanaka"
+            - generic [ref=e141]:
+              - generic [ref=e142]:
+                - generic [ref=e143]: Epic
+                - combobox "Epic" [ref=e144]:
+                  - option "None" [selected]
+                  - option "AID-E1 · Revenue Dashboards"
+                  - option "AID-E2 · Product Usage Insights"
+                  - option "AISA-E1 · Ticket Triage Engine"
+                  - option "AISA-E2 · Knowledge Retrieval"
+                  - option "BRP-E1 · Invoice Accuracy"
+                  - option "BRP-E2 · Payment Resilience"
+                  - option "CPM-E1 · Account & Profile Experience"
+                  - option "CPM-E2 · Self-Service Billing"
+                  - option "IDP-E1 · Golden Path Templates"
+                  - option "IDP-E2 · Observability Foundations"
+                  - option "MAR-E1 · Offline-First Architecture"
+                  - option "MAR-E2 · New Navigation System"
+              - generic [ref=e145]:
+                - generic [ref=e146]: Sprint
+                - combobox "Sprint" [ref=e147]:
+                  - option "Backlog (no sprint)" [selected]
+                  - option "CPM Sprint 5"
+                  - option "IDP Sprint 2"
+                  - option "AISA Sprint 2"
+                  - option "MAR Sprint 2"
+                  - option "BRP Sprint 2"
+                  - option "AID Sprint 2"
+                  - option "CPM Sprint 6"
+                  - option "IDP Sprint 3"
+                  - option "AISA Sprint 3"
+                  - option "MAR Sprint 3"
+                  - option "BRP Sprint 3"
+                  - option "AID Sprint 3"
+                  - option "CPM Sprint 7"
+            - generic [ref=e149]:
+              - generic [ref=e150]: Story Points
+              - spinbutton "Story Points" [ref=e151]
+            - generic [ref=e152]:
+              - generic [ref=e153]: Acceptance Criteria
+              - textbox "Acceptance Criteria" [ref=e154]:
+                - /placeholder: Given / When / Then
+            - generic [ref=e155]:
+              - button "Create work item" [ref=e156]
+              - button "Cancel" [ref=e157]
+  - button "Open Next.js Dev Tools" [ref=e163] [cursor=pointer]:
+    - img [ref=e164]

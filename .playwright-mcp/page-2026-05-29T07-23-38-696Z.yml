@@ -1,0 +1,210 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - img [ref=e5]
+        - generic [ref=e7]: AgileForge
+      - navigation "Primary" [ref=e8]:
+        - generic [ref=e9]:
+          - paragraph [ref=e10]: Overview
+          - list [ref=e11]:
+            - listitem [ref=e12]:
+              - link "Dashboard" [ref=e13] [cursor=pointer]:
+                - /url: /dashboard
+                - img [ref=e14]
+                - text: Dashboard
+            - listitem [ref=e19]:
+              - link "My Work" [ref=e20] [cursor=pointer]:
+                - /url: /my-work
+                - img [ref=e21]
+                - text: My Work
+        - generic [ref=e25]:
+          - paragraph [ref=e26]: Delivery
+          - list [ref=e27]:
+            - listitem [ref=e28]:
+              - link "Projects" [ref=e29] [cursor=pointer]:
+                - /url: /projects
+                - img [ref=e30]
+                - text: Projects
+            - listitem [ref=e32]:
+              - link "Work Items" [ref=e33] [cursor=pointer]:
+                - /url: /work-items
+                - img [ref=e34]
+                - text: Work Items
+            - listitem [ref=e37]:
+              - link "Backlog" [ref=e38] [cursor=pointer]:
+                - /url: /backlog
+                - img [ref=e39]
+                - text: Backlog
+            - listitem [ref=e42]:
+              - link "Sprints" [ref=e43] [cursor=pointer]:
+                - /url: /sprints
+                - img [ref=e44]
+                - text: Sprints
+            - listitem [ref=e46]:
+              - link "Scrum Board" [ref=e47] [cursor=pointer]:
+                - /url: /boards/scrum
+                - img [ref=e48]
+                - text: Scrum Board
+            - listitem [ref=e50]:
+              - link "Kanban Board" [ref=e51] [cursor=pointer]:
+                - /url: /boards/kanban
+                - img [ref=e52]
+                - text: Kanban Board
+        - generic [ref=e54]:
+          - paragraph [ref=e55]: Quality & Insights
+          - list [ref=e56]:
+            - listitem [ref=e57]:
+              - link "QA" [ref=e58] [cursor=pointer]:
+                - /url: /qa
+                - img [ref=e59]
+                - text: QA
+            - listitem [ref=e61]:
+              - link "Reports" [ref=e62] [cursor=pointer]:
+                - /url: /reports
+                - img [ref=e63]
+                - text: Reports
+        - generic [ref=e65]:
+          - paragraph [ref=e66]: Organization
+          - list [ref=e67]:
+            - listitem [ref=e68]:
+              - link "Teams" [ref=e69] [cursor=pointer]:
+                - /url: /teams
+                - img [ref=e70]
+                - text: Teams
+            - listitem [ref=e74]:
+              - link "Users" [ref=e75] [cursor=pointer]:
+                - /url: /users
+                - img [ref=e76]
+                - text: Users
+            - listitem [ref=e81]:
+              - link "Notifications" [ref=e82] [cursor=pointer]:
+                - /url: /notifications
+                - img [ref=e83]
+                - text: Notifications
+            - listitem [ref=e86]:
+              - link "Settings" [ref=e87] [cursor=pointer]:
+                - /url: /settings
+                - img [ref=e88]
+                - text: Settings
+            - listitem [ref=e91]:
+              - link "Admin" [ref=e92] [cursor=pointer]:
+                - /url: /admin
+                - img [ref=e93]
+                - text: Admin
+      - button "Collapse sidebar" [ref=e96]:
+        - img [ref=e97]
+        - text: Collapse
+    - generic [ref=e100]:
+      - banner [ref=e101]:
+        - search [ref=e102]:
+          - img
+          - searchbox "Global search" [ref=e103]
+        - link "Notifications" [ref=e104] [cursor=pointer]:
+          - /url: /notifications
+          - img [ref=e105]
+        - button "Alex Morgan Alex Morgan System Admin" [ref=e109]:
+          - generic "Alex Morgan" [ref=e110]: AM
+          - generic [ref=e111]:
+            - generic [ref=e112]: Alex Morgan
+            - generic [ref=e113]: System Admin
+      - main [ref=e114]:
+        - generic [ref=e115]:
+          - generic [ref=e116]:
+            - generic [ref=e117]:
+              - heading "Backlog" [level=1] [ref=e118]
+              - generic [ref=e119]: Unscheduled, prioritized work waiting to be pulled into a sprint.
+            - generic [ref=e121]:
+              - combobox [ref=e122]:
+                - option "AID · Analytics Insights Dashboard" [selected]
+                - option "AISA · AI Support Assistant"
+                - option "BRP · Billing Reliability Program"
+                - option "CPM · Customer Portal Modernization"
+                - option "IDP · Internal Developer Platform"
+                - option "MAR · Mobile App Redesign"
+              - button "View" [ref=e123]
+          - generic [ref=e124]:
+            - heading "8 items · 27 points" [level=3] [ref=e126]
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - generic [ref=e129]: "1"
+                - img "Story" [ref=e130]
+                - link "Paginate large work item lists for performance Product Usage Insights" [ref=e132] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02pz007ssw8tdtzc9ks1
+                  - paragraph [ref=e133]: Paginate large work item lists for performance
+                  - text: Product Usage Insights
+                - generic [ref=e134]: Critical
+                - generic [ref=e135]: 8 pt
+                - generic "Aisha Khan" [ref=e136]: AK
+              - generic [ref=e137]:
+                - generic [ref=e138]: "2"
+                - img "Story" [ref=e139]
+                - link "Paginate large work item lists for performance Revenue Dashboards" [ref=e141] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02pv007rsw8t2eviiqpk
+                  - paragraph [ref=e142]: Paginate large work item lists for performance
+                  - text: Revenue Dashboards
+                - generic [ref=e143]: High
+                - generic [ref=e144]: 3 pt
+                - generic "Olivia Brooks" [ref=e145]: OB
+              - generic [ref=e146]:
+                - generic [ref=e147]: "3"
+                - img "Story" [ref=e148]
+                - link "Add keyboard shortcuts for board navigation Product Usage Insights" [ref=e150] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02q3007tsw8tngenwpjc
+                  - paragraph [ref=e151]: Add keyboard shortcuts for board navigation
+                  - text: Product Usage Insights
+                - generic [ref=e152]: Medium
+                - generic [ref=e153]: 5 pt
+                - generic "Liam O'Connor" [ref=e154]: LO
+              - generic [ref=e155]:
+                - generic [ref=e156]: "4"
+                - img "Task" [ref=e157]
+                - link "Instrument metrics for product usage insights Revenue Dashboards" [ref=e160] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02rm0087sw8tbattiwyf
+                  - paragraph [ref=e161]: Instrument metrics for product usage insights
+                  - text: Revenue Dashboards
+                - generic [ref=e162]: Medium
+                - generic [ref=e163]: 5 pt
+                - generic "Diego Santos" [ref=e164]: DS
+              - generic [ref=e165]:
+                - generic [ref=e166]: "5"
+                - img "Task" [ref=e167]
+                - link "Instrument metrics for revenue dashboards Revenue Dashboards" [ref=e170] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02rb0084sw8tqtulwl72
+                  - paragraph [ref=e171]: Instrument metrics for revenue dashboards
+                  - text: Revenue Dashboards
+                - generic [ref=e172]: Medium
+                - generic [ref=e173]: 1 pt
+                - generic "Wei Chen" [ref=e174]: WC
+              - generic [ref=e175]:
+                - generic [ref=e176]: "6"
+                - img "Task" [ref=e177]
+                - link "Improve query performance for revenue dashboards Product Usage Insights" [ref=e180] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02rf0085sw8tww1aa8gt
+                  - paragraph [ref=e181]: Improve query performance for revenue dashboards
+                  - text: Product Usage Insights
+                - generic [ref=e182]: Medium
+                - generic [ref=e183]: 1 pt
+                - generic "Grace Mwangi" [ref=e184]: GM
+              - generic [ref=e185]:
+                - generic [ref=e186]: "7"
+                - img "Task" [ref=e187]
+                - link "Add audit logging for product usage insights Revenue Dashboards" [ref=e190] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02ri0086sw8t391nscck
+                  - paragraph [ref=e191]: Add audit logging for product usage insights
+                  - text: Revenue Dashboards
+                - generic [ref=e192]: Low
+                - generic [ref=e193]: 3 pt
+                - generic "Olivia Brooks" [ref=e194]: OB
+              - generic [ref=e195]:
+                - generic [ref=e196]: "8"
+                - img "Task" [ref=e197]
+                - link "Handle edge-case validation for product usage insights Product Usage Insights" [ref=e200] [cursor=pointer]:
+                  - /url: /work-items/cmpqj02r30082sw8t4xoagi70
+                  - paragraph [ref=e201]: Handle edge-case validation for product usage insights
+                  - text: Product Usage Insights
+                - generic [ref=e202]: Low
+                - generic [ref=e203]: 1 pt
+                - generic "Diego Santos" [ref=e204]: DS
+  - button "Open Next.js Dev Tools" [ref=e210] [cursor=pointer]:
+    - img [ref=e211]

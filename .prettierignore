@@ -1,0 +1,12 @@
+node_modules
+.next
+dist
+build
+coverage
+playwright-report
+test-results
+src/generated
+prisma/migrations
+*.log
+pnpm-lock.yaml
+package-lock.json
