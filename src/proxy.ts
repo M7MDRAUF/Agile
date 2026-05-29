@@ -1,17 +1,18 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth/session";
 
-// Edge middleware: gate every application route behind a valid session and
-// keep authenticated users away from the login page. Uses jose (edge-safe);
-// never touches Prisma here.
+// OPS-005: Next 16 renamed the `middleware` file convention to `proxy`. Same
+// runtime semantics, new name. Gate every application route behind a valid
+// session and keep authenticated users away from the login page. Uses jose
+// (edge-safe); never touches Prisma here.
 
 const PUBLIC_PATHS = ["/login"];
 // SEC-008: /api/* routes that may be reached unauthenticated (e.g. health probes).
-// Everything else under /api/* is gated by this middleware in addition to its own
+// Everything else under /api/* is gated by this proxy in addition to its own
 // `requireUser` guard, so a broken/missing in-route check still cannot leak data.
 const PUBLIC_API_PATHS = ["/api/health", "/api/ready"];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get(SESSION_COOKIE)?.value;
   const session = await verifySessionToken(token);
@@ -38,7 +39,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // SEC-008: include /api/* under middleware so unauthenticated callers cannot
+  // SEC-008: include /api/* under the proxy so unauthenticated callers cannot
   // reach mutation/export endpoints. Static assets and Next internals excluded.
   matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };
