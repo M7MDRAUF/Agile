@@ -8,7 +8,7 @@ Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATI
 |---|---|---|
 | `npm run lint` | PASS — 0 errors, 0 warnings | clean |
 | `npm run typecheck` | PASS — no diagnostics | `tsc --noEmit` |
-| `npm run test -- --run` | PASS — 179/179 tests across 23/23 files | vitest 4 (sprints+teams+qa+danger+settings server-action tests added in `dbb73e7`/this session) |
+| `npm run test -- --run` | PASS — 188/188 tests across 24/24 files | vitest 4 (sprints+teams+qa+danger+settings server-action tests added in `dbb73e7`/this session; export route tests added this session) |
 | `npm run build` | PASS — Next 16 production build | all routes compiled, proxy middleware bundled |
 | `npm run test:e2e` | **Not Verified** — requires dev server + DB seed; not executed in this session |
 | `npm run test -- --run --coverage` | **Not Executable** — `@vitest/coverage-v8` not installed; threshold config landed (QA-007 partial) but cannot enforce until the devDependency is added |
@@ -80,7 +80,7 @@ Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATI
 - **QA-005** RBAC action-layer assertions
 - **QA-006** seed determinism contract test
 - **QA-007** **partial** — thresholds in config (commit `5bb1920`); `@vitest/coverage-v8` install deferred
-- **QA-008** `/api/export/*` route tests
+- **QA-008** ✅ landed — `/api/export/{workspace,profile}` route tests (9 tests) cover SEC-007 cross-origin reject (403), RBAC engineer-reject (403), CSV default with `Cache-Control: private, no-store` + `Content-Disposition`, JSON `?format=json` with `truncated=false`, PERF-002 `?limit=N` clamp + `X-Export-Truncated: true; cap=N` header, invalid-limit fallback to 50_000 cap, own-data profile JSON with user-scoped query assertions (no cross-user leak), same-origin allowed
 
 ### Batch 8 — Accessibility
 - **A11Y-001..006** axe integration, keyboard board-move fallback, contrast token audit, modal/dropdown focus-trap verification, table semantics, icon-button aria-labels
