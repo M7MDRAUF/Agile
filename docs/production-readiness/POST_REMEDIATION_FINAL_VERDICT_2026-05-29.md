@@ -14,7 +14,7 @@
 | Typecheck clean | **PASS** | `npm run typecheck` — no diagnostics |
 | Unit/integration tests green | **PASS** | `npm run test -- --run` — 440/440 across 26/26 files |
 | Production build clean | **PASS** | `npm run build` — Next 16 compiled all routes, proxy bundled |
-| E2E (Playwright) executed in CI | **FAIL** | QA-003 open — 6 specs exist, not wired into `.github/workflows/ci.yml` |
+| E2E (Playwright) executed in CI | **PASS** | `.github/workflows/ci.yml` `e2e` job runs after `quality` — install browsers, prisma push, seed, build, `npm run test:e2e`, uploads `playwright-report/` artifact |
 | Coverage thresholds enforced | **PARTIAL** | Thresholds in `vitest.config.ts` (35/35/40/60). `@vitest/coverage-v8` install deferred (no-package.json-change constraint) |
 | Auth real (no demo MFA) | **PASS** | SEC-001/002/003 closed — otplib + bcrypt recovery hashes |
 | RBAC server-enforced | **PASS** | QA-005 — 243-cell matrix test pins 8×26 grants + dangerous-action lock-ins |
@@ -28,7 +28,7 @@
 | WCAG 2.1 AA pass | **FAIL** | A11Y-001..006 all open (axe, keyboard fallback, contrast, focus-trap, table semantics, aria-labels) |
 | Documentation reconciled with shipped reality | **FAIL** | MNT-004 open — FINAL_IMPLEMENTATION_REPORT/RTM/SECURITY/README still reflect pre-remediation claims |
 
-**Aggregate:** 11 PASS / 1 PARTIAL / 5 FAIL.
+**Aggregate:** 12 PASS / 1 PARTIAL / 4 FAIL.
 
 ## Verdict
 
@@ -36,7 +36,7 @@
 
 The system is production-deployable for an internal/beta audience with the residuals tracked below, but the §13 gate criteria as written are not all green. APPROVED status requires the five FAIL gates closed and re-verified.
 
-## Top 5 Blockers to Unconditional Approval
+## Top 4 Blockers to Unconditional Approval
 
 1. **Browser validation matrix unexecuted.** 19 routes × 7 roles = 133 cells, none walked.
    *Next action:* run Playwright MCP or a human against the seeded dev server; populate `13_BROWSER_VALIDATION_PLAN_OR_RESULTS.md` with Passed/Failed per cell.
@@ -44,13 +44,10 @@ The system is production-deployable for an internal/beta audience with the resid
 2. **Accessibility batch entirely open (A11Y-001..006).** No axe sweep, no keyboard-fallback for board moves, no contrast audit, no focus-trap verification, no table-semantics fix, no icon-button aria-label sweep.
    *Next action:* batch 8 — install `@axe-core/playwright`, add an axe spec per route, fix violations in priority order (contrast → focus → labels).
 
-3. **Playwright not in CI (QA-003).** Specs exist but no workflow job runs them.
-   *Next action:* extend `.github/workflows/ci.yml` with a `playwright` job — `npx playwright install --with-deps && npm run test:e2e`, gated on `npm run build` artifact.
-
-4. **Coverage tool not installed (QA-007).** Thresholds will never enforce until `@vitest/coverage-v8` is a devDependency.
+3. **Coverage tool not installed (QA-007).** Thresholds will never enforce until `@vitest/coverage-v8` is a devDependency.
    *Next action:* lift the no-package.json constraint for one commit, `npm i -D @vitest/coverage-v8`, add `coverage` job to CI.
 
-5. **Documentation drift (MNT-004).** Three docs (`FINAL_IMPLEMENTATION_REPORT.md`, `REQUIREMENTS_TRACEABILITY_MATRIX.md`, `SECURITY.md`) pre-date the remediation and overstate prior completeness.
+4. **Documentation drift (MNT-004).** Three docs (`FINAL_IMPLEMENTATION_REPORT.md`, `REQUIREMENTS_TRACEABILITY_MATRIX.md`, `SECURITY.md`) pre-date the remediation and overstate prior completeness.
    *Next action:* reconcile against `REMEDIATION_PROGRESS_2026-05-29.md`; either rewrite or append a clearly-dated correction section per doc.
 
 ## What Changed Since the Original Audit
