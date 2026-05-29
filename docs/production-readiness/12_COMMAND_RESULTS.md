@@ -192,3 +192,58 @@ Tests       79 passed (79)
 | `npm run test -- --run` | FAIL 2/68 | PASS 74/74 | **PASS 79/79** |
 | `npm run build` | PASS | PASS | **PASS** |
 | `npm run test:e2e` | Not Verified | CI | CI |
+
+---
+
+## Post–Batch 7 QA-007 close (2026-05-29, commit `c858a40`)
+
+Implementation changes:
+- `package.json` — added `"@vitest/coverage-v8": "^4.1.7"` devDependency + `"test:coverage": "vitest run --coverage"` script.
+- `eslint.config.mjs` — added `coverage/**` to `globalIgnores` so generated reports don't pollute lint.
+
+### `npm run lint`
+**Exit:** 0 — **PASS**. 0 errors / 0 warnings.
+
+### `npm run typecheck`
+**Exit:** 0 — **PASS**. No diagnostics.
+
+### `npm run test -- --run`
+```
+Test Files  26 passed (26)
+Tests       440 passed (440)
+```
+**Exit:** 0 — **PASS**. 440/440 across 26 files. No regression from coverage tooling install.
+
+### `npm run test:coverage` (NEW — QA-007 fully closed)
+```
+% Coverage report from v8
+-------------------|---------|----------|---------|---------
+File               | % Stmts | % Branch | % Funcs | % Lines
+-------------------|---------|----------|---------|---------
+All files          |   65.94 |    60.81 |   69.93 |   66.34
+ lib               |   95.34 |     93.10 |   93.33 |   94.44
+ lib/actions       |   72.63 |    68.89 |   72.00 |   74.54
+ lib/domain        |   97.54 |    84.07 |   97.43 |   97.18
+-------------------|---------|----------|---------|---------
+```
+Coverage summary: **Statements 65.94 %** (643/975), **Branches 60.81 %** (447/735), **Functions 69.93 %** (107/153), **Lines 66.34 %** (556/838).
+
+Thresholds in `vitest.config.ts` are 35 / 35 / 40 / 60. **Actuals exceed all four.** Exit 0 — **PASS**.
+
+Notable below-line gaps:
+- `lib/auth/{actions,current-user,guards,session}.ts` near-zero coverage — auth flow is e2e-covered (login + MFA Playwright specs) rather than unit-covered.
+- `lib/actions/work-items.ts` 30.89 % statements — large file with many branches; remaining gap tracked under MNT-001 (split god file).
+
+### `npm run build`
+**Exit:** 0 — **PASS**. All routes compile. `ƒ Proxy (Middleware)` confirms OPS-005 rename in effect.
+
+### Updated summary table (Post–Batch 7 QA-007)
+
+| Command | Baseline | Post–Batch 1 | Post–Batch 2a | Post–Batch 7 QA-007 |
+|---|---|---|---|---|
+| `npm run lint` | PASS | PASS | PASS | **PASS** |
+| `npm run typecheck` | PASS | PASS | PASS | **PASS** |
+| `npm run test -- --run` | FAIL 2/68 | PASS 74/74 | PASS 79/79 | **PASS 440/440** |
+| `npm run test:coverage` | n/a | n/a | n/a | **PASS — 65.94/60.81/69.93/66.34 ≥ 35/35/40/60** |
+| `npm run build` | PASS | PASS | PASS | **PASS** |
+| `npm run test:e2e` | Not Verified | CI | CI | **CI** (`.github/workflows/ci.yml > e2e` job) |
