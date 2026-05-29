@@ -96,7 +96,11 @@ export async function changeUserRole(userId: string, role: string) {
   const target = await prisma.user.findUnique({ where: { id: userId } });
   if (!target) return { error: "User not found" };
 
-  await prisma.user.update({ where: { id: userId }, data: { role: parsed.data } });
+  // SEC-013: bump sessionVersion so existing JWTs are invalidated on next use.
+  await prisma.user.update({
+    where: { id: userId },
+    data: { role: parsed.data, sessionVersion: { increment: 1 } },
+  });
   await prisma.auditLog.create({
     data: {
       actorId: actor.id,
@@ -121,7 +125,14 @@ export async function toggleUserStatus(userId: string) {
   if (target.id === actor.id) return { error: "You cannot deactivate yourself" };
 
   const next = target.status === "active" ? "inactive" : "active";
-  await prisma.user.update({ where: { id: userId }, data: { status: next } });
+  // SEC-013: bump sessionVersion on deactivation so existing sessions stop working.
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      status: next,
+      ...(next === "inactive" ? { sessionVersion: { increment: 1 } } : {}),
+    },
+  });
   await prisma.auditLog.create({
     data: {
       actorId: actor.id,

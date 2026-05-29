@@ -34,6 +34,9 @@ export const getCurrentUser = cache(async () => {
   }
   const user = await prisma.user.findUnique({ where: { id: session.userId } });
   if (!user || user.status !== "active") return null;
+  // SEC-013: reject sessions whose `sv` claim no longer matches the user's
+  // current sessionVersion (e.g. after role change or forced sign-out).
+  if (typeof session.sv === "number" && session.sv !== user.sessionVersion) return null;
   return user;
 });
 

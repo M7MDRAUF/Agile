@@ -25,6 +25,9 @@ model User {
   mfaEnabled   Boolean  @default(false)
   mfaSecret    String? // base32 secret used by otplib.authenticator (RFC 6238)
   mfaRecoveryCodes String? // newline-joined bcrypt hashes of one-time recovery codes
+  // SEC-013: incremented on role change / forced sign-out. JWT carries `sv`
+  // claim; session is rejected if the claim does not match this column.
+  sessionVersion Int    @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

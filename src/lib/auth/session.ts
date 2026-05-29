@@ -17,6 +17,8 @@ export interface SessionPayload {
   role: Role;
   /** Id of the UserSession row backing this token (device session). */
   sid?: string;
+  /** SEC-013 session version. Must match User.sessionVersion or session is rejected. */
+  sv?: number;
 }
 
 /** Short-lived token issued after password verification when MFA is required. */
@@ -59,6 +61,7 @@ export async function verifySessionToken(
         name: payload.name,
         role: payload.role as Role,
         sid: typeof payload.sid === "string" ? payload.sid : undefined,
+        sv: typeof payload.sv === "number" ? payload.sv : undefined,
       };
     }
     return null;

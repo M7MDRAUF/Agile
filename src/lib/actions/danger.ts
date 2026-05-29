@@ -71,6 +71,9 @@ export async function resetDemoData(confirmation: string): Promise<DangerState> 
   }
 
   try {
+    // SEC-011: command + args are hard-coded literals (no user input flows into
+    // execFile). `execFile` (not `exec`/`spawn` with shell) prevents shell
+    // interpretation. Reachable only by admin role with the typed confirmation.
     await run("npx", ["tsx", "prisma/seed.ts"], {
       cwd: process.cwd(),
       timeout: 120_000,

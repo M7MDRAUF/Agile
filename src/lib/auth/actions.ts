@@ -47,7 +47,7 @@ export interface LoginState {
 }
 
 async function completeSignIn(
-  user: { id: string; email: string; name: string; role: string },
+  user: { id: string; email: string; name: string; role: string; sessionVersion: number },
   next: string | null,
   userAgent: string | undefined,
 ): Promise<never> {
@@ -68,6 +68,7 @@ async function completeSignIn(
     name: user.name,
     role: user.role,
     sid: session.id,
+    sv: user.sessionVersion,
   });
   await clearPendingMfaCookie();
   redirect(next && next.startsWith("/") ? next : "/dashboard");
