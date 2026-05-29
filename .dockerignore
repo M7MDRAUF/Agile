@@ -1,0 +1,39 @@
+# OPS-006: keep build context small. Everything not COPYed by the Dockerfile
+# at build time should live here so Docker doesn't ship it to the daemon.
+.git
+.github
+.gitignore
+.dockerignore
+Dockerfile
+**/.next
+**/node_modules
+**/coverage
+**/playwright-report
+**/test-results
+**/.cache
+**/.turbo
+
+# Local SQLite data + envs (production must mount/inject these).
+prisma/dev.db
+prisma/dev.db-*
+data/
+.env
+.env.*
+!.env.example
+
+# Audit/planning docs ship via git, not the container image.
+docs/
+e2e/
+**/__tests__
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+
+# IDE/editor noise.
+.vscode
+.idea
+*.log
+npm-debug.log*
+yarn-debug.log*
+.DS_Store
+Thumbs.db
