@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireUser } from "@/lib/auth/guards";
 import { can } from "@/lib/domain/permissions";
+import { assertSameOrigin } from "@/lib/http/origin";
 
 function csvEscape(value: unknown): string {
   const s = value == null ? "" : String(value);
@@ -21,6 +22,10 @@ function toCsv(rows: Record<string, unknown>[]): string {
  * ?format=csv (default) or ?format=json.
  */
 export async function GET(request: Request) {
+  // SEC-007: reject browser-originated cross-origin downloads.
+  const blocked = assertSameOrigin(request);
+  if (blocked) return blocked;
+
   const user = await requireUser();
   if (!can(user.role, "report.view") || !can(user.role, "project.view")) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });

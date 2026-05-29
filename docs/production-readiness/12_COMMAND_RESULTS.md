@@ -153,3 +153,42 @@ Route (app)
 | `npm run test -- --run` | FAIL 2/68 | **PASS 74/74** |
 | `npm run build` | PASS | **PASS** |
 | `npm run test:e2e` | Not Verified | Will run in CI (added) |
+
+---
+
+## Post–Batch 2a (2026-05-29)
+
+Implementation changes:
+- `next.config.ts` — added Content-Security-Policy, Strict-Transport-Security, set X-XSS-Protection to `0`.
+- `src/lib/auth/password.ts` — bcrypt rounds raised from 10 to 12.
+- `src/lib/http/origin.ts` (new) + `src/lib/http/__tests__/origin.test.ts` (5 new tests) — same-origin defence for browser GET callers.
+- `src/app/api/export/profile/route.ts` + `src/app/api/export/workspace/route.ts` — gated by `assertSameOrigin`.
+
+### `npm run lint`
+**Exit:** 0 — **PASS**.
+
+### `npm run typecheck`
+**Exit:** 0 — **PASS**.
+
+### `npm run test -- --run`
+```
+Test Files  11 passed (11)
+Tests       79 passed (79)
+```
+**Exit:** 0 — **PASS**. 79/79 (was 74/74). +5 origin-helper tests.
+
+### `npm run build`
+**Exit:** 0 — **PASS**. All 34 routes still compile. Next 16 middleware→proxy deprecation notice remains (OPS-005, Batch 9).
+
+### `npm run test:e2e`
+**Deferred to CI run.** No new e2e specs added in 2a; previously added `e2e/mfa.spec.ts` still runs under `.github/workflows/ci.yml > e2e` job.
+
+### Updated summary table (Post–Batch 2a)
+
+| Command | Baseline | Post–Batch 1 | Post–Batch 2a |
+|---|---|---|---|
+| `npm run lint` | PASS | PASS | **PASS** |
+| `npm run typecheck` | PASS | PASS | **PASS** |
+| `npm run test -- --run` | FAIL 2/68 | PASS 74/74 | **PASS 79/79** |
+| `npm run build` | PASS | PASS | **PASS** |
+| `npm run test:e2e` | Not Verified | CI | CI |

@@ -2,9 +2,14 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireUser } from "@/lib/auth/guards";
 import { getUserPreferences } from "@/lib/actions/settings";
+import { assertSameOrigin } from "@/lib/http/origin";
 
 /** Download the signed-in user's own profile + activity data as JSON. */
-export async function GET() {
+export async function GET(request: Request) {
+  // SEC-007: reject browser-originated cross-origin downloads.
+  const blocked = assertSameOrigin(request);
+  if (blocked) return blocked;
+
   const user = await requireUser();
 
   const [record, assigned, reported, comments, preferences] = await Promise.all([

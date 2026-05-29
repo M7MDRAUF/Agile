@@ -4,6 +4,18 @@
 >
 > Every bug below is traced into `11_REMEDIATION_ROADMAP.md` by **Batch**.
 
+## Batch 2a close-out (2026-05-29) — RESOLVED
+
+| ID | Title | Resolution | Verification |
+|---|---|---|---|
+| **SEC-003** | Missing CSP header | `next.config.ts` — `Content-Security-Policy` set with `default-src 'self'`, `frame-ancestors 'none'`, `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`. `'unsafe-inline'` retained on script/style for Next 16 RSC hydration + Tailwind critical CSS; nonce-based variant scheduled with proxy.ts migration in Batch 9. | `npm run build` emits header on every route; manual curl shows header on 200 responses. |
+| **SEC-004** | Missing HSTS header | `next.config.ts` — `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`. | Same build/header proof as SEC-003. |
+| **SEC-007** | No explicit CSRF on `/api/*` GET exports | New `src/lib/http/origin.ts` `assertSameOrigin()`; applied to `/api/export/profile` and `/api/export/workspace` GET handlers. Rejects browser-originated cross-origin downloads with 403. | `src/lib/http/__tests__/origin.test.ts` — 5 unit tests cover no-Origin/same-origin/cross-origin/malformed/missing-host. |
+| **SEC-009** | Deprecated `X-XSS-Protection` set | `next.config.ts` — value changed from `1; mode=block` to `0` per OWASP 2024 guidance. | Build output. |
+| **SEC-012** | bcrypt rounds = 10 | `src/lib/auth/password.ts` — `ROUNDS` raised from 10 to 12 (OWASP 2024 baseline). Existing 10-round hashes still verify via `bcrypt.compare`. | 79/79 tests still pass including MFA/login suites. |
+
+Remaining Batch 2 follow-up (deferred to Batch 2b): SEC-006/PERF-005 (shared rate-limit store), SEC-008 (middleware `/api/*` coverage), SEC-011 (danger.ts hardening), SEC-013 (sessionVersion JWT claim + role-change rotation), SEC-014 (inline-style audit doc), SEC-015 (ApiToken scope enforcement).
+
 ## Batch 1 close-out (2026-05-29) — RESOLVED
 
 | ID | Title | Resolution | Verification |
