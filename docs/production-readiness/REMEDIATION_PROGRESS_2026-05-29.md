@@ -8,7 +8,7 @@ Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATI
 |---|---|---|
 | `npm run lint` | PASS — 0 errors, 0 warnings | clean |
 | `npm run typecheck` | PASS — no diagnostics | `tsc --noEmit` |
-| `npm run test -- --run` | PASS — 112/112 tests across 18/18 files | vitest 4 |
+| `npm run test -- --run` | PASS — 179/179 tests across 23/23 files | vitest 4 (sprints+teams+qa+danger+settings server-action tests added in `dbb73e7`/this session) |
 | `npm run build` | PASS — Next 16 production build | all routes compiled, proxy middleware bundled |
 | `npm run test:e2e` | **Not Verified** — requires dev server + DB seed; not executed in this session |
 | `npm run test -- --run --coverage` | **Not Executable** — `@vitest/coverage-v8` not installed; threshold config landed (QA-007 partial) but cannot enforce until the devDependency is added |
@@ -75,7 +75,7 @@ Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATI
 - (none — REL-007 + REL-010 closed in `cc48d47`)
 
 ### Batch 7 — QA
-- **QA-002** server-action tests for sprints/projects/comments/teams/users/auth/danger/qa/settings (admin + notifications + integrations + api-tokens landed in `f0179d3`)
+- **QA-002** ✅ landed — server-action test coverage now includes sprints (17), teams (12), qa (13), danger (11), settings (14) on top of the prior admin/notifications/integrations/api-tokens/projects/security/work-items suites. Full suite: **179 tests / 23 files** all green.
 - **QA-003** Playwright actually executed (currently 6 specs exist, not run in CI)
 - **QA-005** RBAC action-layer assertions
 - **QA-006** seed determinism contract test
