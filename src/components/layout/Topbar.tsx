@@ -59,6 +59,7 @@ export function Topbar({
           className="flex items-center gap-2 rounded-md px-1.5 py-1 hover:bg-muted"
           aria-haspopup="menu"
           aria-expanded={open}
+          aria-label={`Account menu for ${user.name}`}
         >
           <Avatar name={user.name} color={user.avatarColor} size={32} />
           <span className="hidden text-left sm:block">

@@ -21,9 +21,17 @@ export function TR({ className, ...props }: React.HTMLAttributes<HTMLTableRowEle
   return <tr className={cn("transition-colors hover:bg-muted/40", className)} {...props} />;
 }
 
-export function TH({ className, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) {
+export function TH({
+  className,
+  scope = "col",
+  ...props
+}: React.ThHTMLAttributes<HTMLTableCellElement>) {
+  // A11Y-005: every column header gets `scope="col"` by default so screen
+  // readers can announce headers per cell. Callers can override (e.g. row
+  // headers) by passing `scope="row"`.
   return (
     <th
+      scope={scope}
       className={cn(
         "px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground",
         className,

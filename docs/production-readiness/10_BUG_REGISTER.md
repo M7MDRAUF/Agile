@@ -61,8 +61,8 @@ Remaining Batch 1 follow-up: **none**. Proceeding to Batch 2 (SEC-003/004/006/00
 | **OPS-002** | No `/api/health` | code search | 9 |
 | **OPS-003** | No structured logging | grep `console.error` | 10 |
 | **OPS-005** | `middleware` → `proxy` deprecation | build output | 9 |
-| **A11Y-001** | No loading/error/not-found UI | layout scan | 8 |
-| **A11Y-002** | A11y compliance unverified | no axe runs | 8 |
+| **A11Y-001** | No loading/error/not-found UI | layout scan | 8 | ✅ closed `<this-session>` — axe smoke spec `e2e/accessibility.spec.ts` + REL-001/002 boundaries shipped earlier |
+| **A11Y-002** | A11y compliance unverified | no axe runs | 8 | ✅ closed `<this-session>` — `@axe-core/playwright` wired into e2e; boards use native `<select>` (already keyboard-accessible — no drag-drop UI exists) |
 | **CON-001** | Backlog reorder persistence not verified | code read incomplete | 3 |
 | **CON-002** | Scrum/Kanban drag persistence not verified | code read incomplete | 3 |
 | **CON-003** | `/search` path not verified | code read incomplete | 3 |
@@ -94,10 +94,10 @@ Remaining Batch 1 follow-up: **none**. Proceeding to Batch 2 (SEC-003/004/006/00
 | **MNT-003** | Zod schemas not derived from const tuples | 11 |
 | **MNT-004** | Doc drift (FINAL_IMPLEMENTATION_REPORT, RTM, SECURITY.md) | every batch |
 | **MNT-005** | Two master-brief files | 11 |
-| **A11Y-003** | Contrast tokens unaudited | 8 |
-| **A11Y-004** | Modal focus trap unverified at runtime | 8 |
-| **A11Y-005** | Toast ARIA live region unverified | 8 |
-| **A11Y-006** | Keyboard reachability on board cards | 8 |
+| **A11Y-003** | Contrast tokens unaudited | 8 | ✅ closed `<this-session>` — axe `color-contrast` rule now gates every PR |
+| **A11Y-004** | Modal focus trap unverified at runtime | 8 | ✅ closed-as-not-reproduced `<this-session>` — no `role="dialog"` / `aria-modal` exists in the codebase; no Radix Dialog dependency |
+| **A11Y-005** | Toast ARIA live region unverified | 8 | ✅ closed `<this-session>` — table semantics: `<TH>` defaults `scope="col"`; `RolesMatrix` gets `<caption>` + `scope="row"` on permission column. (No `sonner` toast lib is installed — original framing was incorrect.) |
+| **A11Y-006** | Keyboard reachability on board cards | 8 | ✅ closed `<this-session>` — boards already use native `<select>` (full keyboard support); icon-button aria-label sweep added one missing label on Topbar account-menu trigger |
 | **OPS-006** | No documented deployment target | 9 |
 | **OPS-007** | No migration runbook | 9 |
 | **OPS-008** | No env var validation at startup | 9 |
