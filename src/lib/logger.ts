@@ -20,10 +20,8 @@ function emit(level: Level, msg: string, fields?: LogFields): void {
     v instanceof Error ? { name: v.name, message: v.message, stack: v.stack } : v,
   );
   if (level === "error" || level === "warn") {
-    // eslint-disable-next-line no-console
     console.error(line);
   } else {
-    // eslint-disable-next-line no-console
     console.log(line);
   }
 }
