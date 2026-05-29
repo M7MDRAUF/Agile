@@ -44,6 +44,8 @@ export async function GET(request: Request) {
     headers: {
       "Content-Type": "application/json",
       "Content-Disposition": `attachment; filename="agileforge-profile-${user.id}.json"`,
+      // PERF-006 / SEC: personal export must not be cached by intermediaries.
+      "Cache-Control": "private, no-store",
     },
   });
 }

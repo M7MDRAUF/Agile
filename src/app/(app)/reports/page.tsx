@@ -27,7 +27,10 @@ const PRIORITY_COLORS: Record<string, string> = {
 export default async function ReportsPage() {
   await requirePermission("report.view");
 
-  const [completedSprints, allItems, openBlockers, users] = await Promise.all([
+  // PERF-007: fold the activity-log scan into the same Promise.all — it is
+  // independent of the other queries, so serialising it cost one extra RTT
+  // per reports load with no benefit.
+  const [completedSprints, allItems, openBlockers, users, startEvents] = await Promise.all([
     prisma.sprint.findMany({
       where: { status: "completed" },
       orderBy: { startDate: "asc" },
@@ -47,16 +50,16 @@ export default async function ReportsPage() {
     }),
     prisma.blocker.findMany({ where: { status: "open" }, select: { createdAt: true } }),
     prisma.user.findMany({ where: { status: "active" }, select: { id: true, name: true } }),
+    // Derive a "started" marker from the first "in progress" status change so
+    // cycle time can be measured from when work actually began (vs. lead time,
+    // which is measured from creation).
+    prisma.activityLog.findMany({
+      where: { type: "status_change", newValue: "in_progress" },
+      select: { workItemId: true, createdAt: true },
+      orderBy: { createdAt: "asc" },
+    }),
   ]);
 
-  // Derive a "started" marker from the first "in progress" status change so
-  // cycle time can be measured from when work actually began (vs. lead time,
-  // which is measured from creation).
-  const startEvents = await prisma.activityLog.findMany({
-    where: { type: "status_change", newValue: "in_progress" },
-    select: { workItemId: true, createdAt: true },
-    orderBy: { createdAt: "asc" },
-  });
   const startedAtMap = new Map<string, Date>();
   for (const e of startEvents) {
     if (!startedAtMap.has(e.workItemId)) startedAtMap.set(e.workItemId, e.createdAt);

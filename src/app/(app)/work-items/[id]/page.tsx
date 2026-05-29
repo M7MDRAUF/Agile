@@ -25,29 +25,33 @@ export default async function WorkItemDetailPage({ params }: { params: Promise<{
   const user = await requireUser();
   const { id } = await params;
 
-  const item = await prisma.workItem.findUnique({
-    where: { id },
-    include: {
-      project: true,
-      epic: true,
-      sprint: true,
-      assignee: true,
-      reporter: true,
-      parent: true,
-      subtasks: { include: { assignee: true } },
-      comments: { include: { author: true }, orderBy: { createdAt: "asc" } },
-      activities: { include: { actor: true }, orderBy: { createdAt: "desc" }, take: 30 },
-      blockers: { include: { owner: true }, orderBy: { createdAt: "desc" } },
-      labels: { include: { label: true } },
-    },
-  });
+  // PERF-007: fetch the item and the assignee list in parallel — the user
+  // list does not depend on the item, so serialising the round-trips wastes
+  // ~1 RTT on every detail-page load.
+  const [item, users] = await Promise.all([
+    prisma.workItem.findUnique({
+      where: { id },
+      include: {
+        project: true,
+        epic: true,
+        sprint: true,
+        assignee: true,
+        reporter: true,
+        parent: true,
+        subtasks: { include: { assignee: true } },
+        comments: { include: { author: true }, orderBy: { createdAt: "asc" } },
+        activities: { include: { actor: true }, orderBy: { createdAt: "desc" }, take: 30 },
+        blockers: { include: { owner: true }, orderBy: { createdAt: "desc" } },
+        labels: { include: { label: true } },
+      },
+    }),
+    prisma.user.findMany({
+      where: { status: "active" },
+      orderBy: { name: "asc" },
+      select: { id: true, name: true },
+    }),
+  ]);
   if (!item) notFound();
-
-  const users = await prisma.user.findMany({
-    where: { status: "active" },
-    orderBy: { name: "asc" },
-    select: { id: true, name: true },
-  });
 
   const editable =
     can(user.role, "workitem.edit_any") ||

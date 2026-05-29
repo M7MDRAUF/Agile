@@ -83,6 +83,9 @@ export async function GET(request: Request) {
   const truncationHeader: Record<string, string> = truncated
     ? { "X-Export-Truncated": `true; cap=${take}` }
     : {};
+  // PERF-006 / SEC: workspace-scoped report contains internal data — must not
+  // be cached by browsers or intermediaries.
+  const cacheHeader = { "Cache-Control": "private, no-store" };
   if (format === "json") {
     return new NextResponse(
       JSON.stringify(
@@ -94,6 +97,7 @@ export async function GET(request: Request) {
         headers: {
           "Content-Type": "application/json",
           "Content-Disposition": `attachment; filename="agileforge-workspace-report.json"`,
+          ...cacheHeader,
           ...truncationHeader,
         },
       },
@@ -104,6 +108,7 @@ export async function GET(request: Request) {
     headers: {
       "Content-Type": "text/csv",
       "Content-Disposition": `attachment; filename="agileforge-workspace-report.csv"`,
+      ...cacheHeader,
       ...truncationHeader,
     },
   });

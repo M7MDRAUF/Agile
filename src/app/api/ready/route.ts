@@ -7,16 +7,18 @@ import { prisma } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  // PERF-006: readiness must reflect live DB state — never cache.
+  const headers = { "Cache-Control": "no-store" };
   try {
     await prisma.$queryRaw`SELECT 1`;
-    return NextResponse.json({ status: "ready" });
+    return NextResponse.json({ status: "ready" }, { headers });
   } catch (err) {
     return NextResponse.json(
       {
         status: "not_ready",
         error: err instanceof Error ? err.message : "unknown",
       },
-      { status: 503 },
+      { status: 503, headers },
     );
   }
 }

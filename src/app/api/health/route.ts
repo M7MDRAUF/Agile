@@ -5,5 +5,9 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 export function GET() {
-  return NextResponse.json({ status: "ok", uptimeSeconds: process.uptime() });
+  // PERF-006: probes must never be cached — a stale "ok" defeats the purpose.
+  return NextResponse.json(
+    { status: "ok", uptimeSeconds: process.uptime() },
+    { headers: { "Cache-Control": "no-store" } },
+  );
 }
