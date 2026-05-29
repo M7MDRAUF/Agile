@@ -35,6 +35,19 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  // PERF-002: bound the export to prevent OOM on large workspaces.
+  // 50k rows ≈ ~20 MB CSV — generous for legitimate exports, but caps
+  // pathological "download everything" requests. Clients can request
+  // ?limit=N (1..50000) for smaller chunks.
+  const EXPORT_HARD_CAP = 50_000;
+  const url = new URL(request.url);
+  const limitParam = url.searchParams.get("limit");
+  const parsedLimit = limitParam ? Math.floor(Number(limitParam)) : EXPORT_HARD_CAP;
+  const take =
+    Number.isFinite(parsedLimit) && parsedLimit > 0
+      ? Math.min(parsedLimit, EXPORT_HARD_CAP)
+      : EXPORT_HARD_CAP;
+
   const items = await prisma.workItem.findMany({
     select: {
       key: true,
@@ -49,6 +62,7 @@ export async function GET(request: Request) {
       completedAt: true,
     },
     orderBy: { createdAt: "asc" },
+    take,
   });
 
   const rows = items.map((i) => ({
@@ -64,14 +78,23 @@ export async function GET(request: Request) {
     completedAt: i.completedAt?.toISOString() ?? "",
   }));
 
-  const format = new URL(request.url).searchParams.get("format");
+  const format = url.searchParams.get("format");
+  const truncated = items.length >= take;
+  const truncationHeader: Record<string, string> = truncated
+    ? { "X-Export-Truncated": `true; cap=${take}` }
+    : {};
   if (format === "json") {
     return new NextResponse(
-      JSON.stringify({ exportedAt: new Date().toISOString(), rows }, null, 2),
+      JSON.stringify(
+        { exportedAt: new Date().toISOString(), truncated, count: rows.length, rows },
+        null,
+        2,
+      ),
       {
         headers: {
           "Content-Type": "application/json",
           "Content-Disposition": `attachment; filename="agileforge-workspace-report.json"`,
+          ...truncationHeader,
         },
       },
     );
@@ -81,6 +104,7 @@ export async function GET(request: Request) {
     headers: {
       "Content-Type": "text/csv",
       "Content-Disposition": `attachment; filename="agileforge-workspace-report.csv"`,
+      ...truncationHeader,
     },
   });
 }
