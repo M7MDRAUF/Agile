@@ -2,15 +2,16 @@
 
 Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATION_ROADMAP.md` (11 batches). This document does **not** retroactively edit the original audit; it records what has actually shipped on branch `implement-production-readiness-fixes` and what is still open.
 
-## Command Gates (re-run after every batch commit, this snapshot from `c22f61b`)
+## Command Gates (re-run after every batch commit, this snapshot from `5bb1920`)
 
 | Command | Status | Notes |
 |---|---|---|
 | `npm run lint` | PASS — 0 errors, 0 warnings | clean |
 | `npm run typecheck` | PASS — no diagnostics | `tsc --noEmit` |
-| `npm run test -- --run` | PASS — 84/84 tests across 13/13 files | vitest 4 |
+| `npm run test -- --run` | PASS — 112/112 tests across 18/18 files | vitest 4 |
 | `npm run build` | PASS — Next 16 production build | all routes compiled, proxy middleware bundled |
 | `npm run test:e2e` | **Not Verified** — requires dev server + DB seed; not executed in this session |
+| `npm run test -- --run --coverage` | **Not Executable** — `@vitest/coverage-v8` not installed; threshold config landed (QA-007 partial) but cannot enforce until the devDependency is added |
 
 ## Bugs Closed (evidence in commits)
 
@@ -31,8 +32,15 @@ Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATI
 | OPS-008 env startup validation | `6b3fb72` | `src/lib/env.ts` |
 | PERF-001 / DB-001 hot-path indexes | `6b3fb72` | 11 `@@index` entries across WorkItem/Comment/ActivityLog/Notification/AuditLog |
 | QA-001 atomic key generation | `de9ae7d` | `WorkItemCounter` model + transaction |
+| REL-003 multi-write transactions | `36ee7c8` | `prisma.$transaction(async tx => …)` in `work-items.ts` (status/update/assign/comment/blocker × create+resolve) and `sprints.ts` (start/complete/setSprint); helpers now accept tx client |
+| REL-009 notification fan-out | `36ee7c8` | `startSprint` collapses N inserts → `tx.notification.createMany` |
+| PERF-010 / REL-008 sprint completion | `36ee7c8` | `completeSprint` collapses N updates → `tx.workItem.updateMany({ where: { id: { in: incompleteIds } } })` |
+| REL-007 graceful shutdown | `cc48d47` | `src/lib/db.ts` SIGTERM/SIGINT handlers, idempotent via global flag, re-raise after `$disconnect` |
+| REL-010 transient-error retry helper | `cc48d47` | `src/lib/db-retry.ts` + 8 tests (SQLite busy/locked + Prisma P1001/P1002/P1008/P1017/P2034); exponential backoff 50·3^n + ≤25 ms jitter |
+| PERF-002 export hard cap | `cc48d47` | `/api/export/workspace` 50 000-row cap, `?limit=N` override (1..50 000), `X-Export-Truncated` header, JSON payload exposes `truncated`+`count` |
+| QA-007 coverage thresholds (config) | `5bb1920` | `vitest.config.ts` thresholds 35/35/40/60 lines/statements/functions/branches; **partial** — `@vitest/coverage-v8` install deferred (no-package.json-changes constraint) |
 
-**Closed: ~17 of 60 documented bugs.**
+**Closed: ~23 of 60 documented bugs (QA-007 counted as partial).**
 
 ## Bugs Open / Deferred (intentionally honest list)
 
@@ -48,28 +56,24 @@ Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATI
 - **CON-004** integrations "simulated" disclosure banner
 
 ### Batch 4 — Data integrity
-- **PERF-002** pagination on unbounded `findMany` in export + work-items + integrations list
 - **PERF-003 / REL-004** WorkItemCounter contention alternative (advisory lock or sequence) for Postgres
-- **REL-003** wrap multi-write actions in `prisma.$transaction` (sprint completion, role change cascade, etc.)
 - **PERF-004 / OPS-004** SQLite → Postgres migration readiness (provider swap, ID strategy, FK behaviour)
+- **PERF-002 residual** pagination audit on remaining `findMany` calls (~50 callsites in actions); workspace export now bounded (closed)
 
 ### Batch 5 — Performance
 - **PERF-006** explicit `Cache-Control` strategy on read routes
 - **PERF-007** parallel `await` in `getWorkItem` and related
 - **PERF-008** bundle analyzer + dynamic-import heavy chart bundles
-- **PERF-010 / REL-008** sprint-completion N+1 → `updateMany`
-- **REL-009** notification fan-out loop → `createMany`
 
 ### Batch 6 residual
-- **REL-007** Prisma graceful shutdown on SIGTERM
-- **REL-010** retry helper for transient DB errors
+- (none — REL-007 + REL-010 closed in `cc48d47`)
 
 ### Batch 7 — QA
-- **QA-002** server-action tests for sprints/projects/comments/notifications/teams/users/admin/auth/danger
+- **QA-002** server-action tests for sprints/projects/comments/teams/users/auth/danger/qa/settings (admin + notifications + integrations + api-tokens landed in `f0179d3`)
 - **QA-003** Playwright actually executed (currently 6 specs exist, not run in CI)
 - **QA-005** RBAC action-layer assertions
 - **QA-006** seed determinism contract test
-- **QA-007** vitest coverage thresholds in config
+- **QA-007** **partial** — thresholds in config (commit `5bb1920`); `@vitest/coverage-v8` install deferred
 - **QA-008** `/api/export/*` route tests
 
 ### Batch 8 — Accessibility
@@ -108,7 +112,8 @@ The four-workstream parallel agent review described in §0 of the audit plan (`p
 **Status: NOT production-ready. Conditional progress only.**
 
 - Critical blockers from Batch 1 + most of Batch 2 are closed with tests and gates green.
-- Roughly 43 of 60 documented bugs remain open across Batches 3, 4, 5, 7, 8, 9 (residual), 10 (callsites), 11.
+- Reliability batch (REL-003/007/008/009/010) and the highest-blast-radius unbounded query (PERF-002 workspace export) are now closed.
+- Roughly 37 of 60 documented bugs remain open across Batches 3, 4 (residual), 5 (residual), 7 (residual), 8, 9 (residual), 10 (callsites), 11.
 - Browser-level validation and post-remediation agent review have **not** been performed.
 - Per §13 of the master brief and the audit's own gate criteria, the project does not yet meet the production-readiness bar. The default verdict from `14_FINAL_PLAN_MODE_SUMMARY.md` (**NOT complete**) stands.
 
