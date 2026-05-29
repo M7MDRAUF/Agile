@@ -35,3 +35,21 @@ describe a credible direction for the product.
 - **CI/CD** — GitHub Actions pipeline running lint, typecheck, unit, and E2E on every PR.
 - **Observability** — structured logging, error tracking, and basic performance metrics.
 - **Internationalization** — extract UI strings and add locale support.
+
+## 2026-05-29 Reconciliation Note (post-remediation)
+
+Several roadmap items above have been delivered on branch `implement-production-readiness-fixes`:
+
+- **CI/CD** — GitHub Actions now runs lint, typecheck, unit (Vitest, 440/440), build, and Playwright
+  e2e on every PR with enforced coverage thresholds (35/35/40/60).
+- **Observability** — `/api/health` and `/api/ready` probes plus graceful shutdown (REL-007),
+  retry/backoff helper (REL-010), and `X-Export-Truncated` header on capped exports (PERF-002).
+- **Database portability** — Prisma schema hardened with 11 hot-path indexes, transactional
+  multi-writes, and an atomic `WorkItemCounter` for key generation; the PostgreSQL adapter swap
+  remains the only outstanding step.
+
+Authoritative current state:
+[`production-readiness/REMEDIATION_PROGRESS_2026-05-29.md`](production-readiness/REMEDIATION_PROGRESS_2026-05-29.md)
+and [`production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md`](production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md).
+**Verdict: CONDITIONAL APPROVAL.** Remaining roadmap-blocking gaps: full 19×7 browser matrix walk
+and WCAG 2.1 AA pass (A11Y batch 8, items A11Y-001..006).

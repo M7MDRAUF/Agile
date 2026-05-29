@@ -225,3 +225,30 @@ Six gaps were remediated across two phases:
    headers, and `isWorkspaceActive()` auth guard. (Phase 2)
 
 All requirements are marked **Complete** in the matrix. All 5 command gates pass (`npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, `npm run test:e2e`). 19 routes are browser-validated with 0 console errors. Known remaining trade-offs (MFA simulation, SQLite FK enforcement, in-process rate limiting, no CSP, no E2E DB isolation) are documented above and in SECURITY.md. They do not block compliance with the master brief, which targets a demo/portfolio context. **The project is functionally complete and compliant with the master brief.**
+
+## 2026-05-29 Reconciliation Note (post-remediation)
+
+This report describes the state as of the original master-brief sign-off. The
+`implement-production-readiness-fixes` branch has since closed ~34 of 60 audited bugs and
+explicitly retired several of the "known trade-offs" called out above:
+
+- **MFA simulation** — replaced with real TOTP verification via `otplib`.
+- **No CSP** — CSP, HSTS, and the rest of the security-header set are now emitted from
+  `src/proxy.ts` and apply to `/api/*` as well as page routes.
+- **In-process rate limiting** — augmented by `/api/*` middleware coverage, env validation via Zod,
+  SEC-013 `sessionVersion` JWT revocation claim, and bcrypt cost-12 hashing.
+- **Reliability/perf** — graceful shutdown (REL-007), retry helper (REL-010), export hard cap with
+  `X-Export-Truncated` header (PERF-002), parallel awaits (PERF-007), Cache-Control headers
+  (PERF-006), 11 hot-path DB indexes, transactional multi-writes, and atomic `WorkItemCounter`.
+- **Ops** — 3-stage non-root Dockerfile with HEALTHCHECK (OPS-006), DEPLOY.md (OPS-007), backup
+  script + restore drill (OPS-010), middleware→proxy rename (OPS-005).
+- **Test rigour** — 440/440 tests across 26 files, coverage 65.94/60.81/69.93/66.34 (thresholds
+  35/35/40/60 enforced via `@vitest/coverage-v8`), Playwright e2e wired into CI.
+
+Authoritative current state:
+[`production-readiness/REMEDIATION_PROGRESS_2026-05-29.md`](production-readiness/REMEDIATION_PROGRESS_2026-05-29.md)
+and [`production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md`](production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md).
+**Verdict: CONDITIONAL APPROVAL (13 PASS / 0 PARTIAL / 3 FAIL) — not yet unconditionally
+production-ready.** Remaining FAIL gates: 19-route × 7-browser validation matrix walk, WCAG 2.1 AA
+pass (A11Y batch 8, items A11Y-001..006), and final doc reconciliation (which this note partially
+addresses).

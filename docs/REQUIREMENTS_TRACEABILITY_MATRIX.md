@@ -236,3 +236,28 @@ Phase 2 added further implementation and hardening work that was not reflected i
 - No `globalSetup` / `globalTeardown` for E2E database isolation — tests run against the seeded demo dataset and may leave behind rows created during test runs.
 
 **The project is functionally complete. All 5 command gates pass, all 34 routes compile, and 19 routes are browser-validated with 0 console errors. The remaining gaps above are known engineering trade-offs in a demo/portfolio context, explicitly documented, and do not block compliance with the master brief.**
+
+## 2026-05-29 Reconciliation Note (post-remediation)
+
+The "Known remaining gaps" section above is now stale. On branch
+`implement-production-readiness-fixes`:
+
+- **MFA** — `confirmMfa` now performs real TOTP verification via `otplib` (no longer accepts any
+  6-digit code).
+- **Auth hardening** — bcrypt cost-12, SEC-013 `sessionVersion` JWT revocation claim, CSP/HSTS/etc.
+  centralized in `src/proxy.ts`, env validation via Zod, `/api/*` middleware coverage.
+- **Reliability** — `/api/health` + `/api/ready` probes, REL-007 graceful shutdown, REL-010 retry
+  helper, transactional multi-writes, atomic `WorkItemCounter` key generation, 11 hot-path indexes.
+- **Perf/ops** — PERF-002 export hard cap with `X-Export-Truncated` header, PERF-006 Cache-Control,
+  PERF-007 parallel awaits, OPS-005 middleware→proxy rename, OPS-006 3-stage non-root Dockerfile
+  with HEALTHCHECK, OPS-007 DEPLOY.md, OPS-010 backup script + restore drill.
+- **Test surface** — 440/440 tests across 26 files including the QA-005 243-cell RBAC matrix and
+  the QA-006 seed determinism contract; coverage 65.94/60.81/69.93/66.34 above the enforced
+  35/35/40/60 thresholds (QA-007); Playwright e2e wired into CI.
+
+~34 of 60 audited bugs are closed on this branch. Authoritative current state:
+[`production-readiness/REMEDIATION_PROGRESS_2026-05-29.md`](production-readiness/REMEDIATION_PROGRESS_2026-05-29.md)
+and [`production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md`](production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md).
+**Verdict: CONDITIONAL APPROVAL (13 PASS / 0 PARTIAL / 3 FAIL).** Open gaps blocking unconditional
+production sign-off: full 19×7 browser validation matrix walk and WCAG 2.1 AA pass
+(A11Y batch 8, items A11Y-001..006).

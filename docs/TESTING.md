@@ -71,3 +71,22 @@ the dev server hides.
 For exploratory checks, run `npm run dev`, sign in with any
 [demo account](./SETUP.md#4-sign-in), and walk the core flows (dashboard, boards, backlog,
 sprints, QA, reports, admin). Watch the browser console for errors.
+
+## 2026-05-29 Reconciliation Note (post-remediation)
+
+On branch `implement-production-readiness-fixes`, the test surface has grown materially:
+
+- **Unit/integration:** 440/440 tests passing across 26 files (was significantly smaller when this
+  doc was written). New suites include the QA-005 243-cell RBAC role x permission matrix and the
+  QA-006 seed determinism contract.
+- **Coverage:** `@vitest/coverage-v8` is installed and thresholds are enforced at
+  35/35/40/60 (statements/branches/functions/lines); current results are 65.94/60.81/69.93/66.34 —
+  comfortably above the floor.
+- **CI gates:** lint, typecheck, build, and the Playwright e2e job are wired into `ci.yml` and pass.
+
+Authoritative current state:
+[`production-readiness/REMEDIATION_PROGRESS_2026-05-29.md`](production-readiness/REMEDIATION_PROGRESS_2026-05-29.md)
+and [`production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md`](production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md).
+**Verdict: CONDITIONAL APPROVAL.** Open testing-adjacent gaps: the full 19-route × 7-browser
+manual validation matrix has not yet been walked, and the A11Y batch 8 WCAG 2.1 AA pass
+(A11Y-001..006) is still outstanding.

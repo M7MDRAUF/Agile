@@ -117,3 +117,25 @@ centralized in `src/lib/domain/constants.ts`.
 Design tokens live in `globals.css` via Tailwind v4 `@theme inline`, with a
 `.dark` variant. A small client `ThemeToggle` persists the choice in
 `localStorage` and toggles the `dark` class on `<html>`.
+
+## 2026-05-29 Reconciliation Note (post-remediation)
+
+Architecture changes since this doc was written (branch `implement-production-readiness-fixes`):
+
+- Edge middleware relocated from `src/middleware.ts` to `src/proxy.ts` (OPS-005) and now applies to
+  `/api/*` as well as page routes, with CSP/HSTS/X-Frame-Options/Referrer-Policy/Permissions-Policy
+  set centrally.
+- New health surface: `/api/health` (liveness) and `/api/ready` (DB-reachable readiness) probes.
+- Env vars now validated through a Zod schema at boot.
+- 11 new hot-path indexes added to the Prisma schema; multi-row writes wrapped in
+  `prisma.$transaction`; work-item key generation moved to an atomic `WorkItemCounter` row.
+- New `src/lib/reliability/` helpers: graceful shutdown (REL-007) and retry-with-backoff (REL-010).
+- Auth now uses real TOTP (`otplib`), bcrypt cost-12, and a `sessionVersion` JWT claim for
+  revocation (SEC-013).
+- Container surface: 3-stage Dockerfile, non-root runtime user, HEALTHCHECK directive (OPS-006).
+
+Authoritative current state: see
+[`production-readiness/REMEDIATION_PROGRESS_2026-05-29.md`](production-readiness/REMEDIATION_PROGRESS_2026-05-29.md)
+and [`production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md`](production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md).
+**Verdict: CONDITIONAL APPROVAL.** Open gaps: 19×7 browser matrix walk and WCAG 2.1 AA pass
+(A11Y batch 8) are still outstanding.

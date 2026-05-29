@@ -101,3 +101,22 @@ distributed store (e.g. Redis).
 
 This is a sample/portfolio project. If you adopt it, route security reports through your own
 private disclosure channel and patch before any public discussion.
+
+## 2026-05-29 Reconciliation Note (post-remediation)
+
+Several security claims above are now superseded. On branch `implement-production-readiness-fixes`:
+
+- MFA is no longer simulated — `confirmMfa` now performs real TOTP verification via `otplib`.
+- Password hashing upgraded to bcrypt cost-12.
+- SEC-013: JWTs now carry a `sessionVersion` claim allowing server-side session revocation.
+- CSP, HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, and Permissions-Policy are
+  now emitted from `src/proxy.ts` (replacing the partial `next.config.ts` set) and apply to `/api/*`
+  in addition to page routes.
+- Env-var validation via Zod is enforced at boot.
+
+Authoritative current state:
+[`production-readiness/REMEDIATION_PROGRESS_2026-05-29.md`](production-readiness/REMEDIATION_PROGRESS_2026-05-29.md)
+and [`production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md`](production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md).
+**Verdict: CONDITIONAL APPROVAL (13 PASS / 0 PARTIAL / 3 FAIL).** Open security-adjacent gaps:
+WCAG 2.1 AA pass (A11Y batch 8, items A11Y-001..006) and the 19×7 browser validation matrix walk
+remain outstanding.
