@@ -61,6 +61,11 @@ describe("updateWorkItem", () => {
     });
     mockPrisma.workItem.update.mockResolvedValue({});
     mockPrisma.activityLog.create.mockResolvedValue({});
+    // updateWorkItem now wraps update+activityLog in a transaction; invoke the
+    // callback with the same mock client so existing assertions still see calls.
+    mockPrisma.$transaction.mockImplementation(
+      (fn: (tx: typeof mockPrisma) => Promise<unknown>) => fn(mockPrisma),
+    );
 
     const fd = new FormData();
     fd.append("title", "Updated Work Item Title");

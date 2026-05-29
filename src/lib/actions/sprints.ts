@@ -66,31 +66,31 @@ export async function startSprint(sprintId: string) {
   if (!sprint) return { error: "Sprint not found" };
   if (sprint.status === "completed") return { error: "Sprint is already completed" };
 
-  await prisma.sprint.update({
-    where: { id: sprintId },
-    data: { status: "active", startDate: sprint.startDate ?? new Date() },
+  await prisma.$transaction(async (tx) => {
+    await tx.sprint.update({
+      where: { id: sprintId },
+      data: { status: "active", startDate: sprint.startDate ?? new Date() },
+    });
+    // Notify everyone with work assigned in this sprint.
+    const assignees = await tx.workItem.findMany({
+      where: { sprintId, assigneeId: { not: null } },
+      select: { assigneeId: true },
+      distinct: ["assigneeId"],
+    });
+    const recipients = assignees
+      .map((a) => a.assigneeId)
+      .filter((id): id is string => Boolean(id) && id !== user.id);
+    if (recipients.length > 0) {
+      await tx.notification.createMany({
+        data: recipients.map((userId) => ({
+          userId,
+          type: "sprint",
+          message: `${sprint.name} has started`,
+          link: `/sprints/${sprintId}`,
+        })),
+      });
+    }
   });
-
-  // Notify everyone with work assigned in this sprint.
-  const assignees = await prisma.workItem.findMany({
-    where: { sprintId, assigneeId: { not: null } },
-    select: { assigneeId: true },
-    distinct: ["assigneeId"],
-  });
-  await Promise.all(
-    assignees
-      .filter((a) => a.assigneeId && a.assigneeId !== user.id)
-      .map((a) =>
-        prisma.notification.create({
-          data: {
-            userId: a.assigneeId as string,
-            type: "sprint",
-            message: `${sprint.name} has started`,
-            link: `/sprints/${sprintId}`,
-          },
-        }),
-      ),
-  );
 
   revalidatePath("/sprints");
   revalidatePath(`/sprints/${sprintId}`);
@@ -106,32 +106,41 @@ export async function startSprint(sprintId: string) {
 export async function completeSprint(sprintId: string) {
   const user = await requireUser();
   if (!can(user.role, "sprint.manage")) return { error: "Not permitted" };
-  const sprint = await prisma.sprint.findUnique({
+  const sprintWithItems = await prisma.sprint.findUnique({
     where: { id: sprintId },
-    include: { workItems: true },
+    include: { workItems: { select: { id: true, status: true } } },
   });
-  if (!sprint) return { error: "Sprint not found" };
-  if (sprint.status === "completed") return { error: "Sprint is already completed" };
+  if (!sprintWithItems) return { error: "Sprint not found" };
+  if (sprintWithItems.status === "completed") return { error: "Sprint is already completed" };
 
-  const incomplete = sprint.workItems.filter((w) => w.status !== "done");
+  const incompleteIds = sprintWithItems.workItems
+    .filter((w) => w.status !== "done")
+    .map((w) => w.id);
 
-  await prisma.$transaction([
-    prisma.sprint.update({
+  await prisma.$transaction(async (tx) => {
+    await tx.sprint.update({
       where: { id: sprintId },
-      data: { status: "completed", completedAt: new Date(), endDate: sprint.endDate ?? new Date() },
-    }),
-    // Roll incomplete items back to the backlog.
-    ...incomplete.map((w) =>
-      prisma.workItem.update({ where: { id: w.id }, data: { sprintId: null } }),
-    ),
-  ]);
+      data: {
+        status: "completed",
+        completedAt: new Date(),
+        endDate: sprintWithItems.endDate ?? new Date(),
+      },
+    });
+    if (incompleteIds.length > 0) {
+      // PERF-010 / REL-008: single updateMany instead of N updates.
+      await tx.workItem.updateMany({
+        where: { id: { in: incompleteIds } },
+        data: { sprintId: null },
+      });
+    }
+  });
 
   revalidatePath("/sprints");
   revalidatePath(`/sprints/${sprintId}`);
   revalidatePath("/boards/scrum");
   revalidatePath("/backlog");
   revalidatePath("/dashboard");
-  return { ok: true, rolledOver: incomplete.length };
+  return { ok: true, rolledOver: incompleteIds.length };
 }
 
 /** Add or remove a work item from a sprint. Pass null to move to backlog. */
@@ -143,14 +152,16 @@ export async function setWorkItemSprint(itemId: string, sprintId: string | null)
   const item = await prisma.workItem.findUnique({ where: { id: itemId } });
   if (!item) return { error: "Work item not found" };
 
-  await prisma.workItem.update({ where: { id: itemId }, data: { sprintId } });
-  await prisma.activityLog.create({
-    data: {
-      workItemId: itemId,
-      actorId: user.id,
-      type: "sprint_change",
-      message: sprintId ? "added to a sprint" : "moved to the backlog",
-    },
+  await prisma.$transaction(async (tx) => {
+    await tx.workItem.update({ where: { id: itemId }, data: { sprintId } });
+    await tx.activityLog.create({
+      data: {
+        workItemId: itemId,
+        actorId: user.id,
+        type: "sprint_change",
+        message: sprintId ? "added to a sprint" : "moved to the backlog",
+      },
+    });
   });
 
   revalidatePath(`/work-items/${itemId}`);

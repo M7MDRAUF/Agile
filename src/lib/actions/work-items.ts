@@ -7,7 +7,11 @@ import { requireUser } from "@/lib/auth/guards";
 import { canEditWorkItem, can } from "@/lib/domain/permissions";
 import { WORK_ITEM_STATUSES, WORK_ITEM_TYPES, PRIORITIES } from "@/lib/domain/constants";
 
-async function logActivity(
+type TxClient = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
+type Client = typeof prisma | TxClient;
+
+function logActivity(
+  client: Client,
   workItemId: string,
   actorId: string,
   type: string,
@@ -15,13 +19,13 @@ async function logActivity(
   oldValue?: string,
   newValue?: string,
 ) {
-  await prisma.activityLog.create({
+  return client.activityLog.create({
     data: { workItemId, actorId, type, message, oldValue, newValue },
   });
 }
 
-async function notify(userId: string, type: string, message: string, link: string) {
-  await prisma.notification.create({ data: { userId, type, message, link } });
+function notify(client: Client, userId: string, type: string, message: string, link: string) {
+  return client.notification.create({ data: { userId, type, message, link } });
 }
 
 /** Move a work item to a new status (board / detail / My Work). */
@@ -44,24 +48,27 @@ export async function updateWorkItemStatus(itemId: string, status: string) {
     return { error: "You do not have permission to update this item" };
   }
 
-  await prisma.workItem.update({
-    where: { id: itemId },
-    data: {
-      status,
-      completedAt:
-        status === "done" ? new Date() : item.status === "done" ? null : item.completedAt,
-    },
-  });
-  await logActivity(itemId, user.id, "status_change", "changed status", item.status, status);
+  await prisma.$transaction(async (tx) => {
+    await tx.workItem.update({
+      where: { id: itemId },
+      data: {
+        status,
+        completedAt:
+          status === "done" ? new Date() : item.status === "done" ? null : item.completedAt,
+      },
+    });
+    await logActivity(tx, itemId, user.id, "status_change", "changed status", item.status, status);
 
-  if (item.assigneeId && item.assigneeId !== user.id) {
-    await notify(
-      item.assigneeId,
-      "system",
-      `${item.key} moved to ${status.replace(/_/g, " ")}`,
-      `/work-items/${itemId}`,
-    );
-  }
+    if (item.assigneeId && item.assigneeId !== user.id) {
+      await notify(
+        tx,
+        item.assigneeId,
+        "system",
+        `${item.key} moved to ${status.replace(/_/g, " ")}`,
+        `/work-items/${itemId}`,
+      );
+    }
+  });
 
   revalidatePath("/boards/scrum");
   revalidatePath("/boards/kanban");
@@ -142,9 +149,10 @@ export async function createWorkItem(
       },
     });
   });
-  await logActivity(item.id, user.id, "created", "created this work item");
+  await logActivity(prisma, item.id, user.id, "created", "created this work item");
   if (parsed.data.assigneeId && parsed.data.assigneeId !== user.id) {
     await notify(
+      prisma,
       parsed.data.assigneeId,
       "assignment",
       `You were assigned ${item.key}`,
@@ -207,21 +215,23 @@ export async function updateWorkItem(
   });
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
 
-  await prisma.workItem.update({
-    where: { id: itemId },
-    data: {
-      title: parsed.data.title,
-      type: parsed.data.type,
-      priority: parsed.data.priority,
-      description: parsed.data.description || null,
-      acceptanceCriteria: parsed.data.acceptanceCriteria || null,
-      epicId: parsed.data.epicId || null,
-      sprintId: parsed.data.sprintId || null,
-      storyPoints: parsed.data.storyPoints ?? null,
-      dueDate: parsed.data.dueDate ? new Date(parsed.data.dueDate) : null,
-    },
+  await prisma.$transaction(async (tx) => {
+    await tx.workItem.update({
+      where: { id: itemId },
+      data: {
+        title: parsed.data.title,
+        type: parsed.data.type,
+        priority: parsed.data.priority,
+        description: parsed.data.description || null,
+        acceptanceCriteria: parsed.data.acceptanceCriteria || null,
+        epicId: parsed.data.epicId || null,
+        sprintId: parsed.data.sprintId || null,
+        storyPoints: parsed.data.storyPoints ?? null,
+        dueDate: parsed.data.dueDate ? new Date(parsed.data.dueDate) : null,
+      },
+    });
+    await logActivity(tx, itemId, user.id, "edited", "edited the work item details");
   });
-  await logActivity(itemId, user.id, "edited", "edited the work item details");
 
   revalidatePath(`/work-items/${itemId}`);
   revalidatePath("/work-items");
@@ -247,16 +257,19 @@ export async function assignWorkItem(itemId: string, assigneeId: string | null) 
   ) {
     return { error: "Not permitted" };
   }
-  await prisma.workItem.update({ where: { id: itemId }, data: { assigneeId } });
-  await logActivity(itemId, user.id, "assignment", "changed the assignee");
-  if (assigneeId && assigneeId !== user.id) {
-    await notify(
-      assigneeId,
-      "assignment",
-      `You were assigned ${item.key}`,
-      `/work-items/${itemId}`,
-    );
-  }
+  await prisma.$transaction(async (tx) => {
+    await tx.workItem.update({ where: { id: itemId }, data: { assigneeId } });
+    await logActivity(tx, itemId, user.id, "assignment", "changed the assignee");
+    if (assigneeId && assigneeId !== user.id) {
+      await notify(
+        tx,
+        assigneeId,
+        "assignment",
+        `You were assigned ${item.key}`,
+        `/work-items/${itemId}`,
+      );
+    }
+  });
   revalidatePath(`/work-items/${itemId}`);
   return { ok: true };
 }
@@ -269,11 +282,19 @@ export async function addComment(itemId: string, body: string) {
   if (!text) return { error: "Comment cannot be empty" };
   const item = await prisma.workItem.findUnique({ where: { id: itemId } });
   if (!item) return { error: "Not found" };
-  await prisma.comment.create({ data: { workItemId: itemId, authorId: user.id, body: text } });
-  await logActivity(itemId, user.id, "comment", "added a comment");
-  if (item.assigneeId && item.assigneeId !== user.id) {
-    await notify(item.assigneeId, "comment", `New comment on ${item.key}`, `/work-items/${itemId}`);
-  }
+  await prisma.$transaction(async (tx) => {
+    await tx.comment.create({ data: { workItemId: itemId, authorId: user.id, body: text } });
+    await logActivity(tx, itemId, user.id, "comment", "added a comment");
+    if (item.assigneeId && item.assigneeId !== user.id) {
+      await notify(
+        tx,
+        item.assigneeId,
+        "comment",
+        `New comment on ${item.key}`,
+        `/work-items/${itemId}`,
+      );
+    }
+  });
   revalidatePath(`/work-items/${itemId}`);
   return { ok: true };
 }
@@ -286,11 +307,13 @@ export async function createBlocker(itemId: string, reason: string) {
   if (!text) return { error: "Reason is required" };
   const item = await prisma.workItem.findUnique({ where: { id: itemId } });
   if (!item) return { error: "Not found" };
-  await prisma.blocker.create({
-    data: { workItemId: itemId, reason: text, ownerId: user.id, status: "open" },
+  await prisma.$transaction(async (tx) => {
+    await tx.blocker.create({
+      data: { workItemId: itemId, reason: text, ownerId: user.id, status: "open" },
+    });
+    await tx.workItem.update({ where: { id: itemId }, data: { status: "blocked" } });
+    await logActivity(tx, itemId, user.id, "blocker", "flagged this item as blocked", undefined, text);
   });
-  await prisma.workItem.update({ where: { id: itemId }, data: { status: "blocked" } });
-  await logActivity(itemId, user.id, "blocker", "flagged this item as blocked", undefined, text);
   revalidatePath(`/work-items/${itemId}`);
   revalidatePath("/dashboard");
   return { ok: true };
@@ -302,20 +325,22 @@ export async function resolveBlocker(blockerId: string) {
   if (!can(user.role, "blocker.resolve")) return { error: "Not permitted" };
   const blocker = await prisma.blocker.findUnique({ where: { id: blockerId } });
   if (!blocker) return { error: "Not found" };
-  await prisma.blocker.update({
-    where: { id: blockerId },
-    data: { status: "resolved", resolvedAt: new Date() },
-  });
-  const remaining = await prisma.blocker.count({
-    where: { workItemId: blocker.workItemId, status: "open" },
-  });
-  if (remaining === 0) {
-    await prisma.workItem.update({
-      where: { id: blocker.workItemId },
-      data: { status: "in_progress" },
+  await prisma.$transaction(async (tx) => {
+    await tx.blocker.update({
+      where: { id: blockerId },
+      data: { status: "resolved", resolvedAt: new Date() },
     });
-  }
-  await logActivity(blocker.workItemId, user.id, "blocker", "resolved a blocker");
+    const remaining = await tx.blocker.count({
+      where: { workItemId: blocker.workItemId, status: "open" },
+    });
+    if (remaining === 0) {
+      await tx.workItem.update({
+        where: { id: blocker.workItemId },
+        data: { status: "in_progress" },
+      });
+    }
+    await logActivity(tx, blocker.workItemId, user.id, "blocker", "resolved a blocker");
+  });
   revalidatePath(`/work-items/${blocker.workItemId}`);
   revalidatePath("/dashboard");
   return { ok: true };
