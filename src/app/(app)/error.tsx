@@ -12,7 +12,9 @@ export default function AppError({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Replace with structured logger in OPS-003 (Batch 10).
+    // Client-side error boundary: console.error is the correct primitive —
+    // browser devtools + any error-tracker SDK (Sentry et al.) hook into it.
+    // The structured server logger (src/lib/logger.ts) is server-only.
     console.error("[app] segment error", error);
   }, [error]);
 

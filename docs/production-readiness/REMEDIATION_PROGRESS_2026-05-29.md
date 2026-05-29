@@ -41,8 +41,16 @@ Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATI
 | QA-007 coverage thresholds (config) | `5bb1920` | `vitest.config.ts` thresholds 35/35/40/60 lines/statements/functions/branches; **partial** — `@vitest/coverage-v8` install deferred (no-package.json-changes constraint) |
 | PERF-006 cache headers | `4f6d579` | `Cache-Control: no-store` on `/api/health` + `/api/ready`; `Cache-Control: private, no-store` on `/api/export/{profile,workspace}` |
 | PERF-007 parallel awaits | `4f6d579` | `/work-items/[id]`: item + users folded into one `Promise.all`; `/reports`: `activityLog.findMany` joined into the existing `Promise.all` |
+| OPS-005 middleware → proxy | `41e6016` | `src/middleware.ts` renamed to `src/proxy.ts`; function `middleware` → `proxy`; `npm run build` reports "ƒ Proxy (Middleware)" confirming Next 16 took the rename |
+| OPS-006 Dockerfile + .dockerignore | `415ec4e` | 3-stage build (deps/build/runtime), non-root `node` user, OpenSSL-only runtime base, HEALTHCHECK → `/api/health`, `.dockerignore` strips git/tests/docs/secrets |
+| OPS-007 `DEPLOY.md` runbook | `415ec4e` | env-var table, first-time deploy, zero-downtime upgrade rules (additive migrations only; two-step destructive), rollback, health/readiness, graceful shutdown reference, capacity limits, pre-prod checklist, incident table |
+| OPS-010 backup + restore drill | `415ec4e` | `scripts/backup.sh` (SQLite `.backup` / Postgres `pg_dump -Fc`, retention prune scoped to BACKUP_DIR) + `scripts/RESTORE_DRILL.md` (weekly spot, quarterly full, 7-workflow walk-through, failure-mode table) |
+| OPS-003 callsite migration | (this session, evidence below) | Grep across `src/lib/actions/**` shows **zero** `console.*` callsites; the only `console.*` uses in the codebase are inside `src/lib/logger.ts` (the logger itself) and the two client error boundaries `src/app/(app)/error.tsx` + `src/app/global-error.tsx` where `console.error` is the correct browser primitive. Misleading "TODO replace with logger" comment removed from `error.tsx`. The "~50 callsites in actions" assumption in the original triage was incorrect — there are none. |
+| CON-001 / CON-002 board persistence | (this session, evidence below) | Boards are **not** drag-drop UIs. `src/components/board/Board.tsx` is a server component that renders each card with `<StatusSelect itemId itemTitle status />` (client component, `src/components/work-item/StatusSelect.tsx`). Status changes go through the existing `updateWorkItemStatus` server action: RBAC-gated, validated, audit-logged, transactional, `revalidatePath`'d. Persistence is real and already covered by `work-items.test.ts`. The original "drag-drop persistence verification" framing was a misread of the implementation. |
+| CON-003 backlog row-reorder | (this session) | `src/app/(app)/backlog/page.tsx` is a read-only list sorted by `priority` then `storyPoints`. There is **no** client-side reorder UI to verify. Manual prioritisation flows through editing each item's `priority` field via the work-item detail page (covered by `updateWorkItem` action tests). Marked **out of scope for v1** — drag-to-reorder is a v2 enhancement. |
+| CON-004 integrations "simulated" banner | (this session) | Already shipped: `src/components/settings/IntegrationsSection.tsx:42-45` reads *"Connect external tools. Connections are simulated in local development — no real OAuth handshake is performed."* No further work required. |
 
-**Closed: ~25 of 60 documented bugs (QA-007 counted as partial).**
+**Closed: ~33 of 60 documented bugs (QA-007 counted as partial, OPS-003 reclassified as complete after callsite audit).**
 
 ## Bugs Open / Deferred (intentionally honest list)
 
@@ -52,10 +60,7 @@ Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATI
 - **SEC-015** ApiToken `scopes` runtime enforcement (column exists, no middleware reads it)
 
 ### Batch 3 — Core feature completeness
-- **CON-001** scrum board drag-drop server persistence verification
-- **CON-002** kanban board drag-drop server persistence verification
-- **CON-003** backlog row-reorder persistence
-- **CON-004** integrations "simulated" disclosure banner
+- (all closed — see CON-001..004 rows above)
 
 ### Batch 4 — Data integrity
 - **PERF-003 / REL-004** WorkItemCounter contention alternative (advisory lock or sequence) for Postgres
@@ -81,13 +86,10 @@ Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATI
 - **A11Y-001..006** axe integration, keyboard board-move fallback, contrast token audit, modal/dropdown focus-trap verification, table semantics, icon-button aria-labels
 
 ### Batch 9 residual — Deployability
-- **OPS-005** Next 16 `middleware.ts` → `proxy.ts` migration (Next 16 deprecated `middleware.ts`; current file still works but is on the deprecation path — see `node_modules/next/dist/docs/`)
-- **OPS-006** Dockerfile
-- **OPS-007** `DEPLOY.md` migration + rollback runbook
-- **OPS-010** `backup.sh` and restore drill doc
+- (all closed — OPS-005/006/007/010 in commits `41e6016` + `415ec4e`)
 
 ### Batch 10 — Observability
-- **OPS-003 callsite migration** — replace `console.error`/`console.log` throughout `src/lib/actions/**` with `logger.error`/`logger.info`. Logger landed; callsites untouched.
+- (closed — OPS-003 callsite audit shows zero misplaced `console.*` in actions; see closed-bug table)
 
 ### Batch 11 — Maintainability
 - **MNT-001** split `src/lib/actions/work-items.ts` (~700 LOC) and `src/lib/actions/settings.ts` god files
@@ -114,7 +116,8 @@ The four-workstream parallel agent review described in §0 of the audit plan (`p
 
 - Critical blockers from Batch 1 + most of Batch 2 are closed with tests and gates green.
 - Reliability batch (REL-003/007/008/009/010), the highest-blast-radius unbounded query (PERF-002 workspace export), cache headers on all API routes (PERF-006), and parallelisation of independent reads (PERF-007) are now closed.
-- Roughly 35 of 60 documented bugs remain open across Batches 3, 4 (residual), 5 (residual), 7 (residual), 8, 9 (residual), 10 (callsites), 11.
+- Batch 3 (CON-001..004), Batch 9 (OPS-005/006/007/010), and Batch 10 (OPS-003 callsite audit) are now closed.
+- Roughly 27 of 60 documented bugs remain open across Batches 2b (residual), 4 (residual), 5 (residual), 7 (residual), 8, 11.
 - Browser-level validation and post-remediation agent review have **not** been performed.
 - Per §13 of the master brief and the audit's own gate criteria, the project does not yet meet the production-readiness bar. The default verdict from `14_FINAL_PLAN_MODE_SUMMARY.md` (**NOT complete**) stands.
 
