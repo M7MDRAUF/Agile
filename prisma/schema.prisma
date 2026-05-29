@@ -151,6 +151,16 @@ model WorkItem {
   blockers   Blocker[]
   labels     WorkItemLabel[]
   testCases  TestCase[]
+
+  // PERF-001 / DB-001: hot-path indexes for board, backlog, sprint, and
+  // assignee queries. Single-column indexes cover the most common WHERE clauses;
+  // compound (projectId, status) accelerates board/backlog filters.
+  @@index([projectId, status])
+  @@index([projectId, createdAt])
+  @@index([sprintId])
+  @@index([assigneeId])
+  @@index([epicId])
+  @@index([parentId])
 }
 
 model Sprint {
@@ -178,6 +188,8 @@ model Comment {
 
   workItem WorkItem @relation(fields: [workItemId], references: [id], onDelete: Cascade)
   author   User     @relation(fields: [authorId], references: [id])
+
+  @@index([workItemId, createdAt])
 }
 
 model ActivityLog {
@@ -192,6 +204,8 @@ model ActivityLog {
 
   workItem WorkItem @relation(fields: [workItemId], references: [id], onDelete: Cascade)
   actor    User?    @relation(fields: [actorId], references: [id])
+
+  @@index([workItemId, createdAt])
 }
 
 model Blocker {
@@ -251,6 +265,8 @@ model Notification {
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read, createdAt])
 }
 
 model Label {
@@ -280,6 +296,9 @@ model AuditLog {
   createdAt  DateTime @default(now())
 
   actor User? @relation(fields: [actorId], references: [id])
+
+  @@index([entityType, createdAt])
+  @@index([actorId, createdAt])
 }
 
 model AppSetting {
