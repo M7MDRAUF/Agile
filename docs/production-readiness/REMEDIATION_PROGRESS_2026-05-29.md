@@ -2,7 +2,7 @@
 
 Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATION_ROADMAP.md` (11 batches). This document does **not** retroactively edit the original audit; it records what has actually shipped on branch `implement-production-readiness-fixes` and what is still open.
 
-## Command Gates (re-run after every batch commit, this snapshot from `5bb1920`)
+## Command Gates (re-run after every batch commit, this snapshot from `4f6d579`)
 
 | Command | Status | Notes |
 |---|---|---|
@@ -39,8 +39,10 @@ Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATI
 | REL-010 transient-error retry helper | `cc48d47` | `src/lib/db-retry.ts` + 8 tests (SQLite busy/locked + Prisma P1001/P1002/P1008/P1017/P2034); exponential backoff 50·3^n + ≤25 ms jitter |
 | PERF-002 export hard cap | `cc48d47` | `/api/export/workspace` 50 000-row cap, `?limit=N` override (1..50 000), `X-Export-Truncated` header, JSON payload exposes `truncated`+`count` |
 | QA-007 coverage thresholds (config) | `5bb1920` | `vitest.config.ts` thresholds 35/35/40/60 lines/statements/functions/branches; **partial** — `@vitest/coverage-v8` install deferred (no-package.json-changes constraint) |
+| PERF-006 cache headers | `4f6d579` | `Cache-Control: no-store` on `/api/health` + `/api/ready`; `Cache-Control: private, no-store` on `/api/export/{profile,workspace}` |
+| PERF-007 parallel awaits | `4f6d579` | `/work-items/[id]`: item + users folded into one `Promise.all`; `/reports`: `activityLog.findMany` joined into the existing `Promise.all` |
 
-**Closed: ~23 of 60 documented bugs (QA-007 counted as partial).**
+**Closed: ~25 of 60 documented bugs (QA-007 counted as partial).**
 
 ## Bugs Open / Deferred (intentionally honest list)
 
@@ -61,9 +63,8 @@ Honest cumulative delta against `10_BUG_REGISTER.md` (60 bugs) and `11_REMEDIATI
 - **PERF-002 residual** pagination audit on remaining `findMany` calls (~50 callsites in actions); workspace export now bounded (closed)
 
 ### Batch 5 — Performance
-- **PERF-006** explicit `Cache-Control` strategy on read routes
-- **PERF-007** parallel `await` in `getWorkItem` and related
 - **PERF-008** bundle analyzer + dynamic-import heavy chart bundles
+- (PERF-006 + PERF-007 closed in `4f6d579`)
 
 ### Batch 6 residual
 - (none — REL-007 + REL-010 closed in `cc48d47`)
@@ -112,8 +113,8 @@ The four-workstream parallel agent review described in §0 of the audit plan (`p
 **Status: NOT production-ready. Conditional progress only.**
 
 - Critical blockers from Batch 1 + most of Batch 2 are closed with tests and gates green.
-- Reliability batch (REL-003/007/008/009/010) and the highest-blast-radius unbounded query (PERF-002 workspace export) are now closed.
-- Roughly 37 of 60 documented bugs remain open across Batches 3, 4 (residual), 5 (residual), 7 (residual), 8, 9 (residual), 10 (callsites), 11.
+- Reliability batch (REL-003/007/008/009/010), the highest-blast-radius unbounded query (PERF-002 workspace export), cache headers on all API routes (PERF-006), and parallelisation of independent reads (PERF-007) are now closed.
+- Roughly 35 of 60 documented bugs remain open across Batches 3, 4 (residual), 5 (residual), 7 (residual), 8, 9 (residual), 10 (callsites), 11.
 - Browser-level validation and post-remediation agent review have **not** been performed.
 - Per §13 of the master brief and the audit's own gate criteria, the project does not yet meet the production-readiness bar. The default verdict from `14_FINAL_PLAN_MODE_SUMMARY.md` (**NOT complete**) stands.
 
