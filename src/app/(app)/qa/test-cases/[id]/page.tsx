@@ -114,14 +114,29 @@ export default async function TestCaseDetailPage({ params }: { params: Promise<{
         </div>
 
         {can(user.role, "qa.manage") ? (
-          <Card className="h-fit">
-            <CardHeader>
-              <CardTitle>Record a Run</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <TestRunForm testCaseId={testCase.id} />
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            <Card className="h-fit">
+              <CardHeader>
+                <CardTitle>Actions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Link
+                  href={`/qa/test-cases/${testCase.id}/edit`}
+                  className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                >
+                  Edit test case
+                </Link>
+              </CardContent>
+            </Card>
+            <Card className="h-fit">
+              <CardHeader>
+                <CardTitle>Record a Run</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <TestRunForm testCaseId={testCase.id} />
+              </CardContent>
+            </Card>
+          </div>
         ) : null}
       </div>
     </div>

@@ -10,7 +10,7 @@
  * bg-card, text-muted-foreground and border-border work everywhere.
  */
 :root {
-  --background: #FDFAF6;
+  --background: #fdfaf6;
   --foreground: #1c0f0f;
   --card: #ffffff;
   --card-foreground: #1c0f0f;
@@ -86,7 +86,8 @@
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 2px);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 

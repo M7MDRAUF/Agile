@@ -66,7 +66,11 @@ export function LoginForm({ next }: { next?: string }) {
               aria-describedby={fieldErrors.email ? "email-error" : undefined}
             />
             {fieldErrors.email ? (
-              <p id="email-error" role="alert" className="flex items-center gap-1.5 text-sm text-red-600">
+              <p
+                id="email-error"
+                role="alert"
+                className="flex items-center gap-1.5 text-sm text-red-600"
+              >
                 <AlertCircle className="size-3.5 shrink-0" />
                 {fieldErrors.email}
               </p>
@@ -83,7 +87,11 @@ export function LoginForm({ next }: { next?: string }) {
               aria-describedby={fieldErrors.password ? "password-error" : undefined}
             />
             {fieldErrors.password ? (
-              <p id="password-error" role="alert" className="flex items-center gap-1.5 text-sm text-red-600">
+              <p
+                id="password-error"
+                role="alert"
+                className="flex items-center gap-1.5 text-sm text-red-600"
+              >
                 <AlertCircle className="size-3.5 shrink-0" />
                 {fieldErrors.password}
               </p>

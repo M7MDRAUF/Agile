@@ -65,6 +65,7 @@ export async function startSprint(sprintId: string) {
   const sprint = await prisma.sprint.findUnique({ where: { id: sprintId } });
   if (!sprint) return { error: "Sprint not found" };
   if (sprint.status === "completed") return { error: "Sprint is already completed" };
+  if (sprint.status === "active") return { error: "Sprint is already active" };
 
   await prisma.$transaction(async (tx) => {
     await tx.sprint.update({

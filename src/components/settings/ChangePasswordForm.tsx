@@ -35,7 +35,13 @@ export function ChangePasswordForm({ email }: { email?: string }) {
       autoComplete="off"
     >
       {/* Satisfies browser requirement: password forms must include a username context. */}
-      <input type="hidden" autoComplete="username" value={email ?? ""} aria-hidden="true" readOnly />
+      <input
+        type="hidden"
+        autoComplete="username"
+        value={email ?? ""}
+        aria-hidden="true"
+        readOnly
+      />
       <div className="grid gap-2">
         <Label htmlFor="currentPassword">Current password</Label>
         <Input

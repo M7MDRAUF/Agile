@@ -42,7 +42,11 @@ const SPRINT_VARIANT: Record<string, Variant> = {
 };
 
 export function StatusBadge({ status }: { status: string }) {
-  return <Badge variant={STATUS_VARIANT[status] ?? "secondary"}>{WORK_ITEM_STATUS_LABELS[status as keyof typeof WORK_ITEM_STATUS_LABELS] ?? humanize(status)}</Badge>;
+  return (
+    <Badge variant={STATUS_VARIANT[status] ?? "secondary"}>
+      {WORK_ITEM_STATUS_LABELS[status as keyof typeof WORK_ITEM_STATUS_LABELS] ?? humanize(status)}
+    </Badge>
+  );
 }
 
 export function PriorityBadge({ priority }: { priority: string }) {

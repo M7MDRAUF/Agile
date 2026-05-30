@@ -1,5 +1,6 @@
 import { SignJWT, jwtVerify } from "jose";
 import type { Role } from "@/lib/domain/constants";
+import { ROLES } from "@/lib/domain/constants";
 
 // Stateless session: a signed JWT stored in an httpOnly cookie. Suitable for
 // local development and a single-instance deployment; swap for a database
@@ -86,7 +87,8 @@ export async function verifySessionToken(
       typeof payload.userId === "string" &&
       typeof payload.email === "string" &&
       typeof payload.name === "string" &&
-      typeof payload.role === "string"
+      typeof payload.role === "string" &&
+      (ROLES as readonly string[]).includes(payload.role)
     ) {
       return {
         userId: payload.userId,

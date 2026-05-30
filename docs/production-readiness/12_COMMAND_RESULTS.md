@@ -2,13 +2,13 @@
 
 ## Summary
 
-| Command | Status | Exit Code | Duration | Issues |
-|---------|--------|-----------|----------|--------|
-| `npm run lint` | ✅ PASS | 0 | <1s | None |
-| `npm run typecheck` | ✅ PASS | 0 | ~6s | None |
-| `npm run test` | ✅ PASS | 0 | 7.32s | 440/440 tests pass |
-| `npm run build` | ✅ PASS | 0 | ~12s | 27 routes generated |
-| `npm run test:e2e` | ❌ FAIL | 1 | <5s | Port 3100 EADDRINUSE |
+| Command             | Status  | Exit Code | Duration | Issues               |
+| ------------------- | ------- | --------- | -------- | -------------------- |
+| `npm run lint`      | ✅ PASS | 0         | <1s      | None                 |
+| `npm run typecheck` | ✅ PASS | 0         | ~6s      | None                 |
+| `npm run test`      | ✅ PASS | 0         | 7.32s    | 440/440 tests pass   |
+| `npm run build`     | ✅ PASS | 0         | ~12s     | 27 routes generated  |
+| `npm run test:e2e`  | ❌ FAIL | 1         | <5s      | Port 3100 EADDRINUSE |
 
 ---
 
@@ -183,12 +183,12 @@ Error: Process from config.webServer was not able to start. Exit code: 1
 
 ## Production Readiness Assessment
 
-| Command | Blocks Production? | Notes |
-|---------|-------------------|-------|
-| lint | No | Clean |
-| typecheck | No | Clean |
-| test | No | All 440 pass |
-| build | No | All routes compile |
-| test:e2e | **Requires CI verification** | Local port conflict; CI pipeline exists and should be green |
+| Command   | Blocks Production?           | Notes                                                       |
+| --------- | ---------------------------- | ----------------------------------------------------------- |
+| lint      | No                           | Clean                                                       |
+| typecheck | No                           | Clean                                                       |
+| test      | No                           | All 440 pass                                                |
+| build     | No                           | All routes compile                                          |
+| test:e2e  | **Requires CI verification** | Local port conflict; CI pipeline exists and should be green |
 
 **Overall**: The application builds, compiles, type-checks, and passes all unit tests. E2E tests require verification in CI environment.

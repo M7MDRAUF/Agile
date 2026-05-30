@@ -42,6 +42,10 @@ export function StatusSelect({
             if (result && "error" in result && result.error) {
               setValue(previous);
               setMessage({ tone: "error", text: result.error });
+            } else if (!result) {
+              // Unexpected null/undefined result — treat as failure.
+              setValue(previous);
+              setMessage({ tone: "error", text: "Failed to update status. Please try again." });
             } else {
               setMessage({ tone: "success", text: `Status updated to ${humanize(next)}.` });
             }
