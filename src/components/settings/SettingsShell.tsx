@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Children, isValidElement } from "react";
+import { useRef, useState, Children, isValidElement } from "react";
 import {
   User,
   ShieldCheck,
@@ -58,6 +58,32 @@ export function SettingsShell({
 }) {
   const [active, setActive] = useState(tabs[0]?.id);
   const panels = Children.toArray(children).filter(isValidElement);
+  const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+
+  // BUG-M25 — WAI-ARIA tabs keyboard pattern: roving tabindex + arrow/Home/End
+  // navigation that moves focus and activates the focused tab.
+  const tabOrder = tabs.map((t) => t.id);
+  function focusTab(id: string) {
+    setActive(id);
+    tabRefs.current[id]?.focus();
+  }
+  function onTabKeyDown(e: React.KeyboardEvent, currentId: string) {
+    const idx = tabOrder.indexOf(currentId);
+    let nextId: string | undefined;
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+      nextId = tabOrder[(idx + 1) % tabOrder.length];
+    } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+      nextId = tabOrder[(idx - 1 + tabOrder.length) % tabOrder.length];
+    } else if (e.key === "Home") {
+      nextId = tabOrder[0];
+    } else if (e.key === "End") {
+      nextId = tabOrder[tabOrder.length - 1];
+    }
+    if (nextId) {
+      e.preventDefault();
+      focusTab(nextId);
+    }
+  }
 
   // Group tabs for section headers in the nav.
   const groups: { group: string; items: SettingsTab[] }[] = [];
@@ -88,12 +114,17 @@ export function SettingsShell({
                 return (
                   <button
                     key={tab.id}
+                    ref={(el) => {
+                      tabRefs.current[tab.id] = el;
+                    }}
                     role="tab"
                     type="button"
                     id={`tab-${tab.id}`}
                     aria-selected={selected}
                     aria-controls={`panel-${tab.id}`}
+                    tabIndex={selected ? 0 : -1}
                     onClick={() => setActive(tab.id)}
+                    onKeyDown={(e) => onTabKeyDown(e, tab.id)}
                     className={cn(
                       "flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors",
                       selected

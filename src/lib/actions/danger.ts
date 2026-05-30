@@ -6,6 +6,8 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { requireUser } from "@/lib/auth/guards";
 import { can } from "@/lib/domain/permissions";
+import { getEnv } from "@/lib/env";
+import { logErrorWithId } from "@/lib/logger";
 
 const run = promisify(execFile);
 
@@ -62,10 +64,19 @@ export async function setWorkspaceActive(
 /**
  * Reset the demo dataset by re-running the seed script. This deletes and
  * recreates demo rows (it does NOT drop the schema). Local-development only.
+ *
+ * BUG-M27 — this is destructive and must NEVER run against a production
+ * database. It is hard-blocked when NODE_ENV=production unless an operator
+ * explicitly opts in with ALLOW_DEMO_RESET=true (e.g. an ephemeral demo box).
  */
 export async function resetDemoData(confirmation: string): Promise<DangerState> {
   const user = await requireUser();
   if (!can(user.role, "admin.access")) return { error: "You cannot reset demo data" };
+  if (getEnv().NODE_ENV === "production" && process.env["ALLOW_DEMO_RESET"] !== "true") {
+    return {
+      error: "Demo data reset is disabled in production. Set ALLOW_DEMO_RESET=true to override.",
+    };
+  }
   if (confirmation.trim() !== "RESET DEMO DATA") {
     return { error: 'Type "RESET DEMO DATA" to confirm' };
   }
@@ -80,8 +91,12 @@ export async function resetDemoData(confirmation: string): Promise<DangerState> 
       windowsHide: true,
     });
   } catch (err) {
+    // BUG-L02: never surface the raw error (it can contain internal paths /
+    // stack frames). Log the full error server-side with a correlation ID and
+    // hand the user only that opaque reference.
+    const ref = logErrorWithId("Demo data reset failed", err, { actorId: user.id });
     return {
-      error: `Reset failed: ${err instanceof Error ? err.message : "unknown error"}`,
+      error: `Reset failed. Quote reference ${ref} to support.`,
     };
   }
 

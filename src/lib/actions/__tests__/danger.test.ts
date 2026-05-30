@@ -2,6 +2,7 @@ import { vi, describe, it, expect, beforeEach } from "vitest";
 
 const mockRequireUser = vi.hoisted(() => vi.fn());
 const mockRevalidatePath = vi.hoisted(() => vi.fn());
+const mockGetEnv = vi.hoisted(() => vi.fn(() => ({ NODE_ENV: "test" })));
 const mockPrisma = vi.hoisted(() => ({
   appSetting: { findUnique: vi.fn(), upsert: vi.fn() },
   auditLog: { create: vi.fn() },
@@ -10,12 +11,9 @@ const mockPrisma = vi.hoisted(() => ({
 vi.mock("next/cache", () => ({ revalidatePath: mockRevalidatePath }));
 vi.mock("@/lib/auth/guards", () => ({ requireUser: mockRequireUser }));
 vi.mock("@/lib/db", () => ({ prisma: mockPrisma }));
+vi.mock("@/lib/env", () => ({ getEnv: mockGetEnv }));
 
-import {
-  isWorkspaceActive,
-  setWorkspaceActive,
-  resetDemoData,
-} from "@/lib/actions/danger";
+import { isWorkspaceActive, setWorkspaceActive, resetDemoData } from "@/lib/actions/danger";
 
 const adminUser = {
   id: "user-admin",
@@ -112,6 +110,27 @@ describe("resetDemoData", () => {
     });
   });
 
+  it("is blocked in production without the explicit opt-in (BUG-M27)", async () => {
+    mockRequireUser.mockResolvedValue(adminUser);
+    mockGetEnv.mockReturnValueOnce({ NODE_ENV: "production" });
+    delete process.env["ALLOW_DEMO_RESET"];
+    const res = await resetDemoData("RESET DEMO DATA");
+    expect(res).toEqual({
+      error: "Demo data reset is disabled in production. Set ALLOW_DEMO_RESET=true to override.",
+    });
+    expect(mockPrisma.auditLog.create).not.toHaveBeenCalled();
+  });
+
+  it("allows the production override when ALLOW_DEMO_RESET=true still requires the phrase", async () => {
+    mockRequireUser.mockResolvedValue(adminUser);
+    mockGetEnv.mockReturnValueOnce({ NODE_ENV: "production" });
+    process.env["ALLOW_DEMO_RESET"] = "true";
+    // With the override, the guard is bypassed so the next check (confirmation) runs.
+    const res = await resetDemoData("nope");
+    expect(res).toEqual({ error: 'Type "RESET DEMO DATA" to confirm' });
+    delete process.env["ALLOW_DEMO_RESET"];
+  });
+
   it("runs seed via execFile (no shell); failure returns descriptive error and skips audit", async () => {
     // execFile is intentionally NOT mocked — vi.mock on built-in `node:util`
     // is unreliable across Vitest versions. In the test environment `npx` may
@@ -126,7 +145,8 @@ describe("resetDemoData", () => {
       });
       expect(mockRevalidatePath).toHaveBeenCalledWith("/", "layout");
     } else {
-      expect(res.error).toMatch(/^Reset failed:/);
+      expect(res.error).toMatch(/^Reset failed\. Quote reference/);
+      expect(res.error).not.toMatch(/Error:|stack|node_modules/);
       expect(mockPrisma.auditLog.create).not.toHaveBeenCalled();
     }
   }, 130_000);

@@ -45,6 +45,7 @@ model User {
   settings        UserSetting[]
   sessions        UserSession[]
   apiTokens       ApiToken[]
+  workItemLinks   WorkItemLink[] @relation("WorkItemLinkCreatedBy")
 }
 
 model Team {
@@ -101,6 +102,8 @@ model ProjectRisk {
   status      String   @default("open") // open | mitigated | closed
   createdAt   DateTime @default(now())
   project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, status])
 }
 
 model Epic {
@@ -151,6 +154,8 @@ model WorkItem {
   blockers   Blocker[]
   labels     WorkItemLabel[]
   testCases  TestCase[]
+  links      WorkItemLink[]
+  linkedTestRuns TestRun[]   @relation("TestRunBug")
 
   // PERF-001 / DB-001: hot-path indexes for board, backlog, sprint, and
   // assignee queries. Single-column indexes cover the most common WHERE clauses;
@@ -161,6 +166,23 @@ model WorkItem {
   @@index([assigneeId])
   @@index([epicId])
   @@index([parentId])
+  @@index([dueDate])
+  @@index([projectId, type])
+}
+
+model WorkItemLink {
+  id          String   @id @default(cuid())
+  workItemId  String
+  type        String // pr | figma | design | doc | other
+  url         String
+  label       String?
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  workItem  WorkItem @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  createdBy User?    @relation("WorkItemLinkCreatedBy", fields: [createdById], references: [id])
+
+  @@index([workItemId])
 }
 
 model Sprint {
@@ -177,6 +199,8 @@ model Sprint {
 
   project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
   workItems WorkItem[]
+
+  @@index([projectId, status])
 }
 
 model Comment {
@@ -219,6 +243,8 @@ model Blocker {
 
   workItem WorkItem @relation(fields: [workItemId], references: [id], onDelete: Cascade)
   owner    User?    @relation("BlockerOwner", fields: [ownerId], references: [id])
+
+  @@index([workItemId, status])
 }
 
 model TestCase {
@@ -240,6 +266,9 @@ model TestCase {
   workItem  WorkItem? @relation(fields: [workItemId], references: [id])
   createdBy User?     @relation("TestCreatedBy", fields: [createdById], references: [id])
   runs      TestRun[]
+
+  @@index([projectId, status])
+  @@index([workItemId])
 }
 
 model TestRun {
@@ -253,6 +282,10 @@ model TestRun {
 
   testCase TestCase @relation(fields: [testCaseId], references: [id], onDelete: Cascade)
   runBy    User?    @relation(fields: [runById], references: [id])
+  bug      WorkItem? @relation("TestRunBug", fields: [bugId], references: [id], onDelete: SetNull)
+
+  @@index([bugId])
+  @@index([testCaseId, createdAt])
 }
 
 model Notification {

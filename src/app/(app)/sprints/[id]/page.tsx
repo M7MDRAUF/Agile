@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { sprintProgress, burndown, countBy } from "@/lib/domain/metrics";
 import { PageHeader } from "@/components/page-header";
@@ -11,13 +11,14 @@ import { SprintStatusBadge } from "@/components/status-badge";
 import { BurndownChart } from "@/components/charts";
 import { Board, type BoardItem } from "@/components/board/Board";
 import { SprintControls } from "@/components/sprint/SprintControls";
+import { AddSprintItems, type SprintCandidate } from "@/components/sprint/add-sprint-items";
 import { can } from "@/lib/domain/permissions";
 import { Target, ListChecks, Zap, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = { title: "Sprint" };
 
 export default async function SprintDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const user = await requireUser();
+  const user = await requirePermission("sprint.view");
   const { id } = await params;
 
   const sprint = await prisma.sprint.findUnique({
@@ -37,6 +38,29 @@ export default async function SprintDetailPage({ params }: { params: Promise<{ i
     .map((w) => ({ date: w.completedAt as Date, points: w.storyPoints ?? 0 }));
   const burndownData = burndown(progress.totalPoints, start, end, completions);
   const byStatus = countBy(sprint.workItems, (w) => w.status);
+
+  const canManage = can(user.role, "sprint.manage");
+  // Candidate items: same project, not assigned to any sprint, still in the
+  // backlog/ready columns. Only loaded when the viewer can manage the sprint.
+  const candidates: SprintCandidate[] = canManage
+    ? await prisma.workItem.findMany({
+        where: {
+          projectId: sprint.projectId,
+          sprintId: null,
+          status: { in: ["backlog", "ready"] },
+        },
+        orderBy: [{ rank: "asc" }, { priority: "asc" }],
+        take: 100,
+        select: {
+          id: true,
+          key: true,
+          title: true,
+          type: true,
+          priority: true,
+          storyPoints: true,
+        },
+      })
+    : [];
 
   const items: BoardItem[] = sprint.workItems.map((w) => ({
     id: w.id,
@@ -124,7 +148,10 @@ export default async function SprintDetailPage({ params }: { params: Promise<{ i
         </Card>
       </div>
 
-      <h2 className="mb-3 text-lg font-semibold">Sprint Board</h2>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold">Sprint Board</h2>
+        {canManage ? <AddSprintItems sprintId={sprint.id} candidates={candidates} /> : null}
+      </div>
       <Board items={items} />
     </div>
   );

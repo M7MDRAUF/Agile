@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format, formatDistanceToNow } from "date-fns";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { can, canEditWorkItem } from "@/lib/domain/permissions";
 import { humanize } from "@/lib/utils";
@@ -16,13 +16,14 @@ import { StatusSelect } from "@/components/work-item/StatusSelect";
 import { AssigneeSelect } from "@/components/work-item/AssigneeSelect";
 import { CommentForm } from "@/components/work-item/CommentForm";
 import { CreateBlocker, ResolveBlocker } from "@/components/work-item/BlockerControls";
+import { WorkItemLinks } from "@/components/work-item/work-item-links";
 import { buttonVariants } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 
 export const metadata: Metadata = { title: "Work Item" };
 
 export default async function WorkItemDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const user = await requireUser();
+  const user = await requirePermission("workitem.view");
   const { id } = await params;
 
   // PERF-007: fetch the item and the assignee list in parallel — the user
@@ -43,6 +44,7 @@ export default async function WorkItemDetailPage({ params }: { params: Promise<{
         activities: { include: { actor: true }, orderBy: { createdAt: "desc" }, take: 30 },
         blockers: { include: { owner: true }, orderBy: { createdAt: "desc" } },
         labels: { include: { label: true } },
+        links: { orderBy: { createdAt: "desc" } },
       },
     }),
     prisma.user.findMany({
@@ -157,6 +159,24 @@ export default async function WorkItemDetailPage({ params }: { params: Promise<{
                   </div>
                 ))
               )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Links</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <WorkItemLinks
+                workItemId={item.id}
+                canManage={editable}
+                links={item.links.map((l) => ({
+                  id: l.id,
+                  type: l.type,
+                  url: l.url,
+                  label: l.label,
+                }))}
+              />
             </CardContent>
           </Card>
 

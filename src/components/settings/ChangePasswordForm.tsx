@@ -17,7 +17,7 @@ const STRENGTH_COLORS: Record<string, string> = {
   strong: "bg-green-500",
 };
 
-export function ChangePasswordForm() {
+export function ChangePasswordForm({ email }: { email?: string }) {
   const [state, action, pending] = useActionState<PasswordFormState, FormData>(changePassword, {});
   const [newPassword, setNewPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -34,6 +34,8 @@ export function ChangePasswordForm() {
       key={state.ok ? "reset" : "form"}
       autoComplete="off"
     >
+      {/* Satisfies browser requirement: password forms must include a username context. */}
+      <input type="hidden" autoComplete="username" value={email ?? ""} aria-hidden="true" readOnly />
       <div className="grid gap-2">
         <Label htmlFor="currentPassword">Current password</Label>
         <Input

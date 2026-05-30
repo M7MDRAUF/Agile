@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { can } from "@/lib/domain/permissions";
 import { humanize } from "@/lib/utils";
@@ -13,7 +13,7 @@ import { RoleSelect } from "@/components/admin/RoleSelect";
 export const metadata: Metadata = { title: "Users" };
 
 export default async function UsersPage() {
-  const me = await requireUser();
+  const me = await requirePermission("user.view");
   const isAdmin = can(me.role, "admin.access");
 
   const users = await prisma.user.findMany({

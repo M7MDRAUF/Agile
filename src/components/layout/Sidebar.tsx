@@ -3,46 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Hexagon,
-  LayoutDashboard,
-  CircleUser,
-  FolderKanban,
-  ListTodo,
-  CalendarRange,
-  Columns3,
-  SquareKanban,
-  Users,
-  UsersRound,
-  FlaskConical,
-  BarChart3,
-  Bell,
-  Settings,
-  Shield,
-  PanelLeftClose,
-  PanelLeftOpen,
-  type LucideIcon,
-} from "lucide-react";
-import { type NavSection, type NavIconName } from "./nav-config";
+import { Hexagon, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { type NavSection } from "./nav-config";
+import { NAV_ICONS } from "./nav-icons";
 import { cn } from "@/lib/utils";
-
-const ICONS: Record<NavIconName, LucideIcon> = {
-  dashboard: LayoutDashboard,
-  "my-work": CircleUser,
-  projects: FolderKanban,
-  "work-items": ListTodo,
-  backlog: ListTodo,
-  sprints: CalendarRange,
-  scrum: Columns3,
-  kanban: SquareKanban,
-  qa: FlaskConical,
-  reports: BarChart3,
-  teams: UsersRound,
-  users: Users,
-  notifications: Bell,
-  settings: Settings,
-  admin: Shield,
-};
 
 export function Sidebar({
   sections,
@@ -76,7 +40,7 @@ export function Sidebar({
             <ul className="space-y-0.5">
               {section.items.map((item) => {
                 const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
-                const Icon = ICONS[item.icon];
+                const Icon = NAV_ICONS[item.icon];
                 return (
                   <li key={item.href}>
                     <Link

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
+import { LIST_PAGE_LIMIT } from "@/lib/domain/constants";
 import { prisma } from "@/lib/db";
 import { PageHeader } from "@/components/page-header";
 import { Board, type BoardItem } from "@/components/board/Board";
@@ -14,7 +15,7 @@ export default async function KanbanBoardPage({
 }: {
   searchParams: Promise<{ project?: string }>;
 }) {
-  await requireUser();
+  await requirePermission("workitem.view");
   const sp = await searchParams;
 
   const projects = await prisma.project.findMany({
@@ -36,6 +37,7 @@ export default async function KanbanBoardPage({
     where: { projectId, status: { not: "canceled" } },
     include: { assignee: { select: { name: true, avatarColor: true } } },
     orderBy: { rank: "asc" },
+    take: LIST_PAGE_LIMIT,
   });
 
   const items: BoardItem[] = workItems.map((w) => ({
@@ -56,7 +58,12 @@ export default async function KanbanBoardPage({
         description="Continuous flow across all work in a project."
         actions={
           <form method="GET" className="flex items-center gap-2">
-            <Select name="project" defaultValue={projectId} className="w-48">
+            <Select
+              name="project"
+              aria-label="Filter board by project"
+              defaultValue={projectId}
+              className="w-48"
+            >
               {projects.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.key} · {p.name}

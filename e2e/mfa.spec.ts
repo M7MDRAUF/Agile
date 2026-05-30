@@ -1,7 +1,7 @@
 import { authenticator } from "otplib";
 import { hash as bcryptHash } from "bcryptjs";
-import { PrismaClient } from "@/generated/prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import Database from "better-sqlite3";
+import path from "node:path";
 import { test, expect, DEMO_PASSWORD } from "./helpers";
 
 // MFA login regression test for SEC-001/SEC-002. Enables MFA on a fixture
@@ -13,33 +13,41 @@ import { test, expect, DEMO_PASSWORD } from "./helpers";
 
 const TEST_EMAIL = "qa@novacore.dev";
 
-function makePrisma() {
-  const url = process.env.DATABASE_URL ?? "file:./prisma/dev.db";
-  const adapter = new PrismaBetterSqlite3({ url });
-  return new PrismaClient({ adapter });
+// Use the raw better-sqlite3 driver instead of the generated Prisma client so
+// this spec does not load Prisma's runtime (which is incompatible with
+// Playwright's ESM loader) into the test process. Prisma 7's config resolves
+// the `file:` URL relative to the working directory (project root), matching
+// where the running app reads/writes its sqlite db.
+function openDb() {
+  const url = process.env.DATABASE_URL ?? "file:./dev.db";
+  const rel = url.replace(/^file:/, "");
+  return new Database(path.resolve(process.cwd(), rel));
+}
+
+function setMfa(
+  db: ReturnType<typeof openDb>,
+  data: { mfaEnabled: boolean; mfaSecret: string | null; mfaRecoveryCodes: string | null },
+) {
+  db.prepare(
+    `UPDATE "User" SET "mfaEnabled" = ?, "mfaSecret" = ?, "mfaRecoveryCodes" = ? WHERE "email" = ?`,
+  ).run(data.mfaEnabled ? 1 : 0, data.mfaSecret, data.mfaRecoveryCodes, TEST_EMAIL);
 }
 
 test.describe("MFA login challenge (SEC-001 / SEC-002 regression)", () => {
   let secret: string;
-  const prisma = makePrisma();
+  const db = openDb();
 
   test.beforeAll(async () => {
     secret = authenticator.generateSecret(20);
     // Use bcrypt-hashed dummy recovery codes so the column shape matches prod.
     const codes = ["AAAA-AAAA", "BBBB-BBBB"];
     const hashed = (await Promise.all(codes.map((c) => bcryptHash(c, 10)))).join("\n");
-    await prisma.user.update({
-      where: { email: TEST_EMAIL },
-      data: { mfaEnabled: true, mfaSecret: secret, mfaRecoveryCodes: hashed },
-    });
+    setMfa(db, { mfaEnabled: true, mfaSecret: secret, mfaRecoveryCodes: hashed });
   });
 
   test.afterAll(async () => {
-    await prisma.user.update({
-      where: { email: TEST_EMAIL },
-      data: { mfaEnabled: false, mfaSecret: null, mfaRecoveryCodes: null },
-    });
-    await prisma.$disconnect();
+    setMfa(db, { mfaEnabled: false, mfaSecret: null, mfaRecoveryCodes: null });
+    db.close();
   });
 
   test("MFA-enabled user is challenged for a TOTP and a wrong code is rejected", async ({

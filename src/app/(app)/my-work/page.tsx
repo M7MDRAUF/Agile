@@ -29,7 +29,12 @@ function ItemRow({ item }: { item: Item }) {
       <PriorityBadge priority={item.priority} />
       {overdue ? <Badge variant="danger">Overdue</Badge> : null}
       <div className="w-36">
-        <StatusSelect itemId={item.id} itemTitle={item.title} status={item.status} className="h-8 text-xs" />
+        <StatusSelect
+          itemId={item.id}
+          itemTitle={item.title}
+          status={item.status}
+          className="h-8 text-xs"
+        />
       </div>
     </div>
   );

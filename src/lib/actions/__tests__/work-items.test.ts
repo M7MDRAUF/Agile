@@ -1,5 +1,5 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
-import { createWorkItem, updateWorkItem } from "@/lib/actions/work-items";
+import { createWorkItem, updateWorkItem, reorderBacklog } from "@/lib/actions/work-items";
 
 // ---------------------------------------------------------------------------
 // Hoisted mocks — created before any module is resolved so they can be
@@ -14,6 +14,7 @@ const mockPrisma = vi.hoisted(() => ({
   },
   workItem: {
     findUnique: vi.fn(),
+    findMany: vi.fn(),
     update: vi.fn(),
   },
   activityLog: {
@@ -63,8 +64,8 @@ describe("updateWorkItem", () => {
     mockPrisma.activityLog.create.mockResolvedValue({});
     // updateWorkItem now wraps update+activityLog in a transaction; invoke the
     // callback with the same mock client so existing assertions still see calls.
-    mockPrisma.$transaction.mockImplementation(
-      (fn: (tx: typeof mockPrisma) => Promise<unknown>) => fn(mockPrisma),
+    mockPrisma.$transaction.mockImplementation((fn: (tx: typeof mockPrisma) => Promise<unknown>) =>
+      fn(mockPrisma),
     );
 
     const fd = new FormData();
@@ -118,17 +119,23 @@ describe("createWorkItem", () => {
     // Arrange
     mockRequireUser.mockResolvedValue(adminUser);
     mockPrisma.project.findUnique.mockResolvedValue({ id: "proj-1", key: "CPM" });
+    // Delete-safe key derivation reads existing keys via findMany (max suffix).
+    mockPrisma.workItem.findMany.mockResolvedValue([
+      { key: "CPM-1" },
+      { key: "CPM-5" },
+      { key: "CPM-3" },
+    ]);
 
     const mockTx = {
       workItem: {
-        findFirst: vi.fn().mockResolvedValue({ key: "CPM-5" }),
         create: vi.fn().mockResolvedValue({ id: "new-item-id", key: "CPM-6" }),
       },
+      activityLog: { create: vi.fn().mockResolvedValue({}) },
+      notification: { create: vi.fn().mockResolvedValue({}) },
     };
     mockPrisma.$transaction.mockImplementation(
       (fn: (tx: typeof mockTx) => Promise<{ id: string; key: string }>) => fn(mockTx),
     );
-    mockPrisma.activityLog.create.mockResolvedValue({});
 
     const fd = new FormData();
     fd.append("title", "New Work Item");
@@ -141,14 +148,14 @@ describe("createWorkItem", () => {
 
     // Assert
     expect(result).toEqual({ ok: true });
-    // The transaction callback must have derived key "CPM-6" from the last item "CPM-5"
+    // Key derived from max suffix (CPM-5) + 1 → CPM-6, not count-based.
     expect(mockTx.workItem.create).toHaveBeenCalledWith(
       expect.objectContaining({
         data: expect.objectContaining({ key: "CPM-6" }),
       }),
     );
-    // Activity should be logged after the transaction completes
-    expect(mockPrisma.activityLog.create).toHaveBeenCalledWith(
+    // Activity is logged inside the same transaction (atomic create).
+    expect(mockTx.activityLog.create).toHaveBeenCalledWith(
       expect.objectContaining({
         data: expect.objectContaining({
           workItemId: "new-item-id",
@@ -162,17 +169,18 @@ describe("createWorkItem", () => {
     // Arrange
     mockRequireUser.mockResolvedValue(adminUser);
     mockPrisma.project.findUnique.mockResolvedValue({ id: "proj-2", key: "IDP" });
+    mockPrisma.workItem.findMany.mockResolvedValue([]); // no previous items
 
     const mockTx = {
       workItem: {
-        findFirst: vi.fn().mockResolvedValue(null), // no previous items
         create: vi.fn().mockResolvedValue({ id: "first-item-id", key: "IDP-1" }),
       },
+      activityLog: { create: vi.fn().mockResolvedValue({}) },
+      notification: { create: vi.fn().mockResolvedValue({}) },
     };
     mockPrisma.$transaction.mockImplementation(
       (fn: (tx: typeof mockTx) => Promise<{ id: string; key: string }>) => fn(mockTx),
     );
-    mockPrisma.activityLog.create.mockResolvedValue({});
 
     const fd = new FormData();
     fd.append("title", "First Work Item Ever");
@@ -183,7 +191,7 @@ describe("createWorkItem", () => {
     // Act
     await createWorkItem({}, fd);
 
-    // Assert — null lastItem → nextNum = 1 → key = "IDP-1"
+    // Assert — empty keys → nextNum = 1 → key = "IDP-1"
     expect(mockTx.workItem.create).toHaveBeenCalledWith(
       expect.objectContaining({
         data: expect.objectContaining({ key: "IDP-1" }),
@@ -203,5 +211,91 @@ describe("createWorkItem", () => {
     const result = await createWorkItem({}, fd);
 
     expect(result).toEqual({ error: "Project not found" });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// reorderBacklog (BUG-H08)
+// ---------------------------------------------------------------------------
+
+describe("reorderBacklog", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const stakeholderUser = {
+    id: "user-stakeholder",
+    name: "Stakeholder User",
+    email: "stakeholder@test.com",
+    role: "stakeholder" as const,
+    avatarColor: null,
+    title: null,
+  };
+
+  it("rejects callers lacking backlog.prioritize permission", async () => {
+    mockRequireUser.mockResolvedValue(stakeholderUser);
+
+    const result = await reorderBacklog("proj-1", ["item-1", "item-2"]);
+
+    expect(result).toEqual({
+      error: "You do not have permission to reorder the backlog",
+    });
+    expect(mockPrisma.workItem.findMany).not.toHaveBeenCalled();
+    expect(mockPrisma.$transaction).not.toHaveBeenCalled();
+  });
+
+  it("returns an error when the ordered list is empty", async () => {
+    mockRequireUser.mockResolvedValue(adminUser);
+
+    const result = await reorderBacklog("proj-1", []);
+
+    expect(result).toEqual({ error: "Nothing to reorder" });
+    expect(mockPrisma.$transaction).not.toHaveBeenCalled();
+  });
+
+  it("persists rank by index for items genuinely in the project backlog", async () => {
+    mockRequireUser.mockResolvedValue(adminUser);
+    // Only item-1 and item-2 are owned; item-foreign is filtered out.
+    mockPrisma.workItem.findMany.mockResolvedValue([{ id: "item-1" }, { id: "item-2" }]);
+    mockPrisma.workItem.update.mockReturnValue({ __op: "update" });
+    mockPrisma.$transaction.mockResolvedValue([]);
+
+    const result = await reorderBacklog("proj-1", ["item-2", "item-1", "item-foreign"]);
+
+    expect(result).toEqual({ ok: true });
+    // Scoped to this project's backlog only.
+    expect(mockPrisma.workItem.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          projectId: "proj-1",
+          sprintId: null,
+          status: { in: ["backlog", "ready"] },
+          id: { in: ["item-2", "item-1", "item-foreign"] },
+        }),
+      }),
+    );
+    // item-2 → rank 0, item-1 → rank 1; foreign item never written.
+    expect(mockPrisma.workItem.update).toHaveBeenCalledWith({
+      where: { id: "item-2" },
+      data: { rank: 0 },
+    });
+    expect(mockPrisma.workItem.update).toHaveBeenCalledWith({
+      where: { id: "item-1" },
+      data: { rank: 1 },
+    });
+    expect(mockPrisma.workItem.update).not.toHaveBeenCalledWith(
+      expect.objectContaining({ where: { id: "item-foreign" } }),
+    );
+    expect(mockPrisma.workItem.update).toHaveBeenCalledTimes(2);
+  });
+
+  it("returns an error when no submitted ids match the project backlog", async () => {
+    mockRequireUser.mockResolvedValue(adminUser);
+    mockPrisma.workItem.findMany.mockResolvedValue([]);
+
+    const result = await reorderBacklog("proj-1", ["item-x", "item-y"]);
+
+    expect(result).toEqual({ error: "No matching backlog items to reorder" });
+    expect(mockPrisma.$transaction).not.toHaveBeenCalled();
   });
 });

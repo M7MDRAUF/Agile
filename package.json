@@ -14,18 +14,19 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
+    "check:docs": "node scripts/check-doc-consistency.mjs",
+    "check:audit": "npm audit --audit-level=high",
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
-    "db:reset": "prisma migrate reset --force --skip-seed",
+    "db:reset": "prisma migrate reset --force",
     "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.4.0",
     "@prisma/adapter-better-sqlite3": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "bcryptjs": "^3.0.3",
@@ -39,7 +40,6 @@
     "otplib": "^12.0.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "react-hook-form": "^7.76.1",
     "recharts": "^3.8.1",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
@@ -52,6 +52,7 @@
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/bcryptjs": "^2.4.6",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

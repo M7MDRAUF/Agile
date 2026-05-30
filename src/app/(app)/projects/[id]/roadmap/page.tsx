@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { sprintProgress } from "@/lib/domain/metrics";
 import { PageHeader } from "@/components/page-header";
@@ -12,7 +12,7 @@ import { SprintStatusBadge, StatusBadge } from "@/components/status-badge";
 export const metadata: Metadata = { title: "Roadmap" };
 
 export default async function RoadmapPage({ params }: { params: Promise<{ id: string }> }) {
-  await requireUser();
+  await requirePermission("project.view");
   const { id } = await params;
 
   const project = await prisma.project.findUnique({

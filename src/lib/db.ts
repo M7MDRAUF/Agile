@@ -8,9 +8,37 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
+/**
+ * DEPLOY-002 / BUG-M28: select the Prisma driver adapter from the DATABASE_URL
+ * scheme instead of hardcoding better-sqlite3. SQLite is the default (local dev
+ * and the bundled demo DB). For a Postgres deployment, set a `postgres://` /
+ * `postgresql://` URL and install the optional `@prisma/adapter-pg` package, and
+ * switch the schema datasource `provider` to "postgresql". The pg adapter is
+ * loaded lazily via a runtime require so SQLite-only installs don't need it and
+ * the bundler doesn't try to resolve an absent dependency.
+ */
+function createAdapter(url: string) {
+  if (url.startsWith("postgres://") || url.startsWith("postgresql://")) {
+    let PrismaPgCtor: new (config: { connectionString: string }) => unknown;
+    try {
+      // Avoid static bundler resolution of an optional dependency.
+      const runtimeRequire = eval("require") as NodeRequire;
+      PrismaPgCtor = runtimeRequire("@prisma/adapter-pg").PrismaPg;
+    } catch {
+      throw new Error(
+        "DATABASE_URL points at Postgres but '@prisma/adapter-pg' is not installed. " +
+          "Run `npm install @prisma/adapter-pg pg` and set the schema provider to 'postgresql'.",
+      );
+    }
+    return new PrismaPgCtor({ connectionString: url });
+  }
+  return new PrismaBetterSqlite3({ url });
+}
+
 function createClient(): PrismaClient {
   const url = process.env.DATABASE_URL ?? "file:./dev.db";
-  const adapter = new PrismaBetterSqlite3({ url });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const adapter = createAdapter(url) as any;
   return new PrismaClient({
     adapter,
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],

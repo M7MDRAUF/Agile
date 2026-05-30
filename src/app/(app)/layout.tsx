@@ -31,7 +31,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const appearance = parsePreferences("appearance", appearanceRow?.value);
 
   const shellClass = cn(
-    "flex h-screen overflow-hidden",
+    "flex h-screen overflow-hidden bg-background text-foreground",
     appearance.theme === "dark" && "dark",
     appearance.density === "compact" && "density-compact",
     appearance.reduceMotion && "reduce-motion",
@@ -52,8 +52,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         <Topbar
           user={{ name: user.name, email: user.email, role, avatarColor: user.avatarColor }}
           unreadCount={unreadCount}
+          sections={sections}
         />
-        <main id="main-content" className="flex-1 overflow-y-auto bg-background p-4 md:p-6">
+        <main
+          id="main-content"
+          tabIndex={0}
+          className="flex-1 overflow-y-auto bg-background p-4 md:p-6"
+        >
           {children}
         </main>
       </div>

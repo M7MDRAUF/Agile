@@ -20,7 +20,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { HealthBadge } from "@/components/status-badge";
 import { VelocityChart } from "@/components/charts";
-import { ROLE_LABELS } from "@/lib/domain/constants";
+import { ROLE_LABELS, METRICS_SCAN_LIMIT } from "@/lib/domain/constants";
 
 export const metadata: Metadata = { title: "Dashboard" };
 
@@ -77,6 +77,7 @@ export default async function DashboardPage() {
     prisma.workItem.findMany({
       where: { assigneeId: { not: null }, status: { notIn: ["done", "canceled"] } },
       select: { assigneeId: true },
+      take: METRICS_SCAN_LIMIT,
     }),
     prisma.user.findMany({
       where: { status: "active" },

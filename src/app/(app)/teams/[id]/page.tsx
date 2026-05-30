@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { humanize } from "@/lib/utils";
 import { PageHeader } from "@/components/page-header";
@@ -15,7 +15,7 @@ import { can } from "@/lib/domain/permissions";
 export const metadata: Metadata = { title: "Team" };
 
 export default async function TeamDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const user = await requireUser();
+  const user = await requirePermission("team.view");
   const { id } = await params;
 
   const team = await prisma.team.findUnique({

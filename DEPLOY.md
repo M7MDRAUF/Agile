@@ -2,32 +2,33 @@
 
 This document is the operator-facing guide for deploying, upgrading, and rolling back AgileForge in production. It is intentionally short and prescriptive — every step is a copy-pasteable command. For architectural detail see `docs/ARCHITECTURE.md`; for security see `docs/SECURITY.md`.
 
-> **Status:** AgileForge is **not yet production-ready** (see `docs/production-readiness/REMEDIATION_PROGRESS_2026-05-29.md`). This runbook is the target operations contract once the remaining bugs are closed.
+> **Status:** AgileForge is **not yet production-ready** (see `docs/production-readiness/11_REMEDIATION_ROADMAP.md`). This runbook is the target operations contract once the remaining bugs are closed.
 
 ---
 
 ## 1. Prerequisites
 
-| Item | Requirement |
-|---|---|
-| Node | 22 LTS (matches `Dockerfile` base) |
-| Database | PostgreSQL 16+ in production (SQLite for local/dev only) |
-| TLS | Terminate at the load balancer; container speaks plaintext on `:3000` |
-| Reverse proxy | Must forward `X-Forwarded-Proto`, `X-Forwarded-For`, `Origin`, `Host` |
-| Secrets manager | `AUTH_SECRET` ≥ 32 bytes (any decent secrets store works) |
+| Item            | Requirement                                                           |
+| --------------- | --------------------------------------------------------------------- |
+| Node            | 22 LTS (matches `Dockerfile` base)                                    |
+| Database        | PostgreSQL 16+ in production (SQLite for local/dev only)              |
+| TLS             | Terminate at the load balancer; container speaks plaintext on `:3000` |
+| Reverse proxy   | Must forward `X-Forwarded-Proto`, `X-Forwarded-For`, `Origin`, `Host` |
+| Secrets manager | `AUTH_SECRET` ≥ 32 bytes (any decent secrets store works)             |
 
 ---
 
 ## 2. Required Environment Variables
 
-| Variable | Required | Purpose | Validated at startup |
-|---|---|---|---|
-| `AUTH_SECRET` | yes | HS256 JWT signing key. Must be ≥ 32 chars. | yes — `src/lib/env.ts` |
-| `DATABASE_URL` | yes | Prisma connection string. SQLite: `file:./prisma/dev.db`. Postgres: `postgresql://user:pass@host:5432/db?schema=public` | yes |
-| `NODE_ENV` | yes | `production` | implicit |
-| `PORT` | no | Defaults to `3000` | — |
-| `HOSTNAME` | no | Defaults to `0.0.0.0` | — |
-| `SESSION_TTL_SECONDS` | no | Defaults to 8 h | — |
+| Variable              | Required | Purpose                                                                                                                                                                       | Validated at startup              |
+| --------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| `AUTH_SECRET`         | yes      | HS256 JWT signing key. Must be ≥ 32 chars.                                                                                                                                    | yes — `src/lib/env.ts`            |
+| `DATABASE_URL`        | yes      | Prisma connection string. SQLite: `file:./prisma/dev.db`. Postgres: `postgresql://user:pass@host:5432/db?schema=public`                                                       | yes                               |
+| `NODE_ENV`            | yes      | `production`                                                                                                                                                                  | implicit                          |
+| `PORT`                | no       | Defaults to `3000`                                                                                                                                                            | —                                 |
+| `HOSTNAME`            | no       | Defaults to `0.0.0.0`                                                                                                                                                         | —                                 |
+| `SESSION_TTL_SECONDS` | no       | Defaults to 8 h                                                                                                                                                               | —                                 |
+| `ALLOW_DEMO_RESET`    | no       | Opt-in escape hatch for the destructive "Reset demo data" admin action. **Blocked in production unless set to `true`** (BUG-M27). Leave unset on any database you care about. | yes — `src/lib/actions/danger.ts` |
 
 Startup will **fail fast** with a descriptive error if any required variable is missing or malformed.
 
@@ -45,6 +46,11 @@ The image is multi-stage (deps → build → runtime), runs as non-root `node`, 
 ---
 
 ## 4. First-time Deploy
+
+> The container **entrypoint runs `npx prisma migrate deploy` automatically** before
+> `next start` (see `docker-entrypoint.sh`), so migrations are applied on every boot.
+> The explicit `migrate deploy` step below is still recommended for first-time setup
+> and zero-downtime upgrades so the schema lands **before** new pods receive traffic.
 
 ```bash
 # 1. Provision the database
@@ -118,10 +124,10 @@ A rollback **without** a schema rollback is only safe if Step 5's migration rule
 
 ## 7. Health & Readiness
 
-| Endpoint | Auth | Purpose | Notes |
-|---|---|---|---|
-| `GET /api/health` | no | Liveness — process is up | `Cache-Control: no-store`. Never hits the DB. |
-| `GET /api/ready` | no | Readiness — DB is reachable (`SELECT 1`) | Returns 503 when the DB is down so the LB drains. |
+| Endpoint          | Auth | Purpose                                  | Notes                                             |
+| ----------------- | ---- | ---------------------------------------- | ------------------------------------------------- |
+| `GET /api/health` | no   | Liveness — process is up                 | `Cache-Control: no-store`. Never hits the DB.     |
+| `GET /api/ready`  | no   | Readiness — DB is reachable (`SELECT 1`) | Returns 503 when the DB is down so the LB drains. |
 
 Wire `/api/health` to the orchestrator's liveness probe (kill on failure) and `/api/ready` to readiness (stop sending traffic on failure).
 
@@ -135,16 +141,21 @@ The Node process traps `SIGTERM` and `SIGINT`, calls `prisma.$disconnect()` once
 
 ## 9. Observability
 
-| Concern | Where |
-|---|---|
+| Concern         | Where                                                                                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Structured logs | `src/lib/logger.ts` emits one JSON line per event with `level`, `msg`, `ts`, and arbitrary structured fields. Pipe stdout to your log aggregator. |
-| Error pages | `src/app/(app)/error.tsx`, `loading.tsx`, `not-found.tsx`, plus `src/app/global-error.tsx`. |
-| Audit log | `AuditLog` Prisma model — written by every privileged mutation. Surface in your SIEM. |
-| Sessions | `UserSession` model. Force-invalidation works via the `sv` JWT claim (SEC-013). |
+| Error pages     | `src/app/(app)/error.tsx`, `loading.tsx`, `not-found.tsx`, plus `src/app/global-error.tsx`.                                                       |
+| Audit log       | `AuditLog` Prisma model — written by every privileged mutation. Surface in your SIEM.                                                             |
+| Sessions        | `UserSession` model. Force-invalidation works via the `sv` JWT claim (SEC-013).                                                                   |
 
-> **Open Batch 10 work (OPS-003):** ~50 `console.error`/`console.log` callsites in `src/lib/actions/**` still need to be migrated to `logger.*`. The logger library has shipped; adoption is incomplete.
-
----
+> **Server error correlation (BUG-L02):** server-side failures are logged via
+> `logErrorWithId()` (`src/lib/logger.ts`), which emits the full error under a
+> generated `correlationId` and returns only that opaque reference to the
+> client — raw error messages/stacks never reach the browser. React error
+> boundaries surface Next.js's `error.digest` as the user-facing reference.
+> `src/lib/actions/**` no longer uses `console.*`; the only `console.error`
+> callsites left are the two client error boundaries (the correct primitive
+> there) and the logger's own sink.---
 
 ## 10. Backups & Restore Drill
 
@@ -160,12 +171,12 @@ A backup that has never been restored is not a backup.
 
 ## 11. Capacity & Limits
 
-| Limit | Where | Default |
-|---|---|---|
-| Workspace export rows | `src/app/api/export/workspace/route.ts` | 50 000 (override `?limit=N`) |
-| Login rate limit | `src/lib/auth/rate-limit.ts` | 5 attempts / 15 min / identity |
-| JWT TTL | `src/lib/auth/session.ts` | 8 h |
-| Session invalidation | `User.sessionVersion` increment | immediate on role change/deactivation |
+| Limit                 | Where                                   | Default                               |
+| --------------------- | --------------------------------------- | ------------------------------------- |
+| Workspace export rows | `src/app/api/export/workspace/route.ts` | 50 000 (override `?limit=N`)          |
+| Login rate limit      | `src/lib/auth/rate-limit.ts`            | 5 attempts / 15 min / identity        |
+| JWT TTL               | `src/lib/auth/session.ts`               | 8 h                                   |
+| Session invalidation  | `User.sessionVersion` increment         | immediate on role change/deactivation |
 
 ---
 
@@ -188,10 +199,10 @@ Do **not** declare a deploy production-ready until every box is checked:
 
 ## 13. Incident Response Quick Reference
 
-| Symptom | First action |
-|---|---|
-| `/api/ready` returns 503 | Check DB connectivity from the pod. `prisma.$queryRaw\`SELECT 1\`` is the probe. |
-| 5xx spike with no recent deploy | Look for slow queries / missing indexes; check `PERF-001` index list in `02_PERFORMANCE_AND_SCALABILITY_AUDIT.md`. |
-| Auth users report "logged out unexpectedly" | Check `User.sessionVersion` audit log entries — was a role change pushed? |
-| Export request OOMs | Confirm `?limit=` is honoured; cap is 50 000 rows. If the cap was overridden, revert. |
-| Suspected secret leak | Rotate `AUTH_SECRET`. Every active session becomes invalid immediately. |
+| Symptom                                     | First action                                                                                                       |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `/api/ready` returns 503                    | Check DB connectivity from the pod. `prisma.$queryRaw\`SELECT 1\`` is the probe.                                   |
+| 5xx spike with no recent deploy             | Look for slow queries / missing indexes; check `PERF-001` index list in `02_PERFORMANCE_AND_SCALABILITY_AUDIT.md`. |
+| Auth users report "logged out unexpectedly" | Check `User.sessionVersion` audit log entries — was a role change pushed?                                          |
+| Export request OOMs                         | Confirm `?limit=` is honoured; cap is 50 000 rows. If the cap was overridden, revert.                              |
+| Suspected secret leak                       | Rotate `AUTH_SECRET`. Every active session becomes invalid immediately.                                            |

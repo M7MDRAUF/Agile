@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BOARD_COLUMNS } from "@/lib/domain/constants";
+import { BOARD_COLUMNS, WORK_ITEM_STATUS_LABELS, type WorkItemStatus } from "@/lib/domain/constants";
 import { cn, humanize } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
 import { PriorityBadge } from "@/components/status-badge";
@@ -25,7 +25,8 @@ export function Board({
   columns?: readonly string[];
 }) {
   return (
-    <div className="flex gap-4 overflow-x-auto pb-4">
+    <>
+    <div className="flex gap-4 overflow-x-auto scroll-smooth pb-4">
       {columns.map((col) => {
         const isCanceled = col === "canceled";
         const colItems = items.filter((i) => i.status === col);
@@ -38,14 +39,9 @@ export function Board({
             )}
           >
             <div className="mb-2 flex items-center justify-between px-1">
-              <h3
-                className={cn(
-                  "text-sm font-semibold",
-                  isCanceled && "text-muted-foreground",
-                )}
-              >
-                {humanize(col)}
-              </h3>
+              <h2 className={cn("text-sm font-semibold", isCanceled && "text-muted-foreground")}>
+                {WORK_ITEM_STATUS_LABELS[col as WorkItemStatus] ?? humanize(col)}
+              </h2>
               <span className="rounded-full bg-muted px-2 text-xs text-muted-foreground">
                 {colItems.length}
               </span>
@@ -71,7 +67,12 @@ export function Board({
                     <PriorityBadge priority={i.priority} />
                   </div>
                   <div className="mt-2 flex items-center justify-between gap-2">
-                    <StatusSelect itemId={i.id} itemTitle={i.title} status={i.status} className="h-7 text-xs" />
+                    <StatusSelect
+                      itemId={i.id}
+                      itemTitle={i.title}
+                      status={i.status}
+                      className="h-7 text-xs"
+                    />
                     {i.assignee ? (
                       <Avatar name={i.assignee.name} color={i.assignee.avatarColor} size={22} />
                     ) : null}
@@ -79,12 +80,16 @@ export function Board({
                 </li>
               ))}
               {colItems.length === 0 ? (
-                <p className="px-1 py-4 text-center text-xs text-muted-foreground">No items</p>
+                <li className="px-1 py-4 text-center text-xs text-muted-foreground">No items</li>
               ) : null}
             </ul>
           </div>
         );
       })}
     </div>
+    <p className="mt-2 text-center text-xs text-muted-foreground md:hidden" aria-hidden="true">
+      ← Scroll to see all columns →
+    </p>
+    </>
   );
 }

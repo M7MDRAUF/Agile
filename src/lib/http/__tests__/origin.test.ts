@@ -11,15 +11,11 @@ describe("assertSameOrigin (SEC-007)", () => {
   });
 
   it("allows same-origin browser requests", () => {
-    expect(
-      assertSameOrigin(req({ host: "localhost", origin: "http://localhost" })),
-    ).toBeNull();
+    expect(assertSameOrigin(req({ host: "localhost", origin: "http://localhost" }))).toBeNull();
   });
 
   it("rejects cross-origin browser requests with 403", async () => {
-    const res = assertSameOrigin(
-      req({ host: "localhost", origin: "https://evil.example.com" }),
-    );
+    const res = assertSameOrigin(req({ host: "localhost", origin: "https://evil.example.com" }));
     expect(res).not.toBeNull();
     expect(res!.status).toBe(403);
     const body = await res!.json();

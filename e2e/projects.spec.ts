@@ -70,9 +70,7 @@ test.describe("Project creation — validation errors", () => {
     // Remove the HTML required attribute so the browser does not block the
     // submit and we can exercise the server-side Zod validation instead.
     await page.evaluate(() => {
-      document
-        .querySelector<HTMLInputElement>('input[name="name"]')
-        ?.removeAttribute("required");
+      document.querySelector<HTMLInputElement>('input[name="name"]')?.removeAttribute("required");
     });
 
     await page.getByLabel("Project Key *").fill("TMPK");

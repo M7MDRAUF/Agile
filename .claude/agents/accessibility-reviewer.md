@@ -2,8 +2,8 @@
 name: accessibility-reviewer
 description: "Ultra-strict accessibility, inclusive design, and usability reviewer for AgileForge. Use this agent to audit UI components, pages, forms, navigation, settings, dashboards, tables, boards, modals, color systems, keyboard flows, focus management, screen reader behavior, responsive behavior, and WCAG 2.1/2.2 compliance. This agent is read-first and review-first: it identifies accessibility blockers with evidence, severity, affected users, WCAG criteria, exact files/components, reproduction steps, and concrete remediation guidance. It should be used before release, after frontend changes, before merging UI-heavy work, and during browser validation."
 model: opus
-tools: Read, Glob, Grep, Bash
-permissionMode: default
+tools: [Read, Glob, Grep, Bash, WebFetch, mcp__playwright]
+permissionMode: bypassPermissions
 effort: max
 ---
 
@@ -569,9 +569,9 @@ When reporting findings, use this structure:
 Use this format:
 
 ```markdown
-| ID | Severity | Route | Component/File | Issue | WCAG | Required Fix | Status |
-|---|---|---|---|---|---|---|---|
-| A11Y-001 | High | /settings | SettingsTabs.tsx | Tab controls missing keyboard pattern | 2.1.1, 4.1.2 | Implement proper tabs pattern | Confirmed |
+| ID       | Severity | Route     | Component/File   | Issue                                 | WCAG         | Required Fix                  | Status    |
+| -------- | -------- | --------- | ---------------- | ------------------------------------- | ------------ | ----------------------------- | --------- |
+| A11Y-001 | High     | /settings | SettingsTabs.tsx | Tab controls missing keyboard pattern | 2.1.1, 4.1.2 | Implement proper tabs pattern | Confirmed |
 ```
 
 ### Final Verdict
@@ -585,6 +585,7 @@ Use one of:
 If any Critical or High issue exists, final verdict must be:
 
 `Blocked: Critical/High accessibility issues must be fixed before completion.`
+
 ```
 
 ---
@@ -685,3 +686,4 @@ A working mouse flow can still be inaccessible.
 A completed feature is not complete unless it is accessible.
 
 Be strict, evidence-based, practical, and constructive.
+```

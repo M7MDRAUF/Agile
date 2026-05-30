@@ -1,0 +1,39 @@
+
+> agileforge@0.1.0 test
+> vitest run
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.7 [39m[90mC:/Users/moham/OneDrive/Documents/Aprojects/Agile[39m
+
+ [32mΓ£ô[39m src/lib/domain/__tests__/permissions-matrix.test.ts [2m([22m[2m243 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/__tests__/env-and-origin.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 120[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/__tests__/db-retry.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 67[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/danger.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+ [32mΓ£ô[39m src/app/api/export/__tests__/export.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 241[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/__tests__/utils.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/qa.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/sprints.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/teams.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/status-badge.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 92[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/projects.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/api-tokens.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/settings.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/work-items.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/security.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/http/__tests__/origin.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/domain/__tests__/metrics.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/__tests__/seed-determinism.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/__tests__/logger.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/notifications.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/integrations.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/domain/__tests__/password-policy.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/domain/__tests__/user-agent.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/domain/__tests__/permissions.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/domain/__tests__/user-settings.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/actions/__tests__/admin.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m26 passed[39m[22m[90m (26)[39m
+[2m      Tests [22m [1m[32m440 passed[39m[22m[90m (440)[39m
+[2m   Start at [22m 04:58:03
+[2m   Duration [22m 7.32s[2m (transform 2.14s, setup 14.92s, import 4.13s, tests 880ms, environment 65.11s)[22m
+

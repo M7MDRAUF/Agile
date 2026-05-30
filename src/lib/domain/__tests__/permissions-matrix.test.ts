@@ -44,6 +44,7 @@ const EXPECTED_GRANTS: Matrix = {
     "team.manage",
     "project.create",
     "project.edit",
+    "project.archive",
     "workitem.create",
     "workitem.edit_any",
     "sprint.manage",
@@ -63,6 +64,7 @@ const EXPECTED_GRANTS: Matrix = {
     "notification.view",
     "settings.manage_profile",
     "project.edit",
+    "project.archive",
     "workitem.create",
     "workitem.edit_any",
     "backlog.prioritize",
@@ -135,12 +137,7 @@ const EXPECTED_GRANTS: Matrix = {
     "comment.create",
     "board.move",
   ],
-  stakeholder: [
-    "project.view",
-    "report.view",
-    "notification.view",
-    "settings.manage_profile",
-  ],
+  stakeholder: ["project.view", "report.view", "notification.view", "settings.manage_profile"],
 };
 
 describe("permissions.can — role × permission matrix (QA-005)", () => {
@@ -161,33 +158,53 @@ describe("permissions.can — dangerous-action lock-ins", () => {
   // These are the high-blast-radius gates. If anyone widens them
   // without updating EXPECTED_GRANTS, this block also catches it —
   // but the named tests make the intent explicit in CI output.
-  it.each(["engineering_manager", "product_owner", "scrum_master", "engineer", "qa", "designer", "stakeholder"] as Role[])(
-    "denies admin.access to non-admin role `%s`",
-    (role) => {
-      expect(can(role, "admin.access")).toBe(false);
-    },
-  );
+  it.each([
+    "engineering_manager",
+    "product_owner",
+    "scrum_master",
+    "engineer",
+    "qa",
+    "designer",
+    "stakeholder",
+  ] as Role[])("denies admin.access to non-admin role `%s`", (role) => {
+    expect(can(role, "admin.access")).toBe(false);
+  });
 
-  it.each(["engineering_manager", "product_owner", "scrum_master", "engineer", "qa", "designer", "stakeholder"] as Role[])(
-    "denies settings.manage_workspace to non-admin role `%s`",
-    (role) => {
-      expect(can(role, "settings.manage_workspace")).toBe(false);
-    },
-  );
+  it.each([
+    "engineering_manager",
+    "product_owner",
+    "scrum_master",
+    "engineer",
+    "qa",
+    "designer",
+    "stakeholder",
+  ] as Role[])("denies settings.manage_workspace to non-admin role `%s`", (role) => {
+    expect(can(role, "settings.manage_workspace")).toBe(false);
+  });
 
-  it.each(["engineering_manager", "product_owner", "scrum_master", "engineer", "qa", "designer", "stakeholder"] as Role[])(
-    "denies user.manage (create/disable users) to non-admin role `%s`",
-    (role) => {
-      expect(can(role, "user.manage")).toBe(false);
-    },
-  );
+  it.each([
+    "engineering_manager",
+    "product_owner",
+    "scrum_master",
+    "engineer",
+    "qa",
+    "designer",
+    "stakeholder",
+  ] as Role[])("denies user.manage (create/disable users) to non-admin role `%s`", (role) => {
+    expect(can(role, "user.manage")).toBe(false);
+  });
 
-  it.each(["engineering_manager", "product_owner", "scrum_master", "engineer", "qa", "designer", "stakeholder"] as Role[])(
-    "denies audit.view to non-admin role `%s`",
-    (role) => {
-      expect(can(role, "audit.view")).toBe(false);
-    },
-  );
+  it.each([
+    "engineering_manager",
+    "product_owner",
+    "scrum_master",
+    "engineer",
+    "qa",
+    "designer",
+    "stakeholder",
+  ] as Role[])("denies audit.view to non-admin role `%s`", (role) => {
+    expect(can(role, "audit.view")).toBe(false);
+  });
 
   it("only admin has every permission", () => {
     for (const role of ROLES) {
@@ -224,7 +241,9 @@ describe("canEditWorkItem — assignment-scoped edit rules", () => {
   it("engineer can edit only when they are assignee OR reporter", () => {
     expect(canEditWorkItem("engineer", { userId: ALICE, assigneeId: ALICE })).toBe(true);
     expect(canEditWorkItem("engineer", { userId: ALICE, reporterId: ALICE })).toBe(true);
-    expect(canEditWorkItem("engineer", { userId: ALICE, assigneeId: BOB, reporterId: BOB })).toBe(false);
+    expect(canEditWorkItem("engineer", { userId: ALICE, assigneeId: BOB, reporterId: BOB })).toBe(
+      false,
+    );
     expect(canEditWorkItem("engineer", { userId: ALICE })).toBe(false);
   });
 

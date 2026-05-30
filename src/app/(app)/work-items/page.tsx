@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import type { Prisma } from "@/generated/prisma/client";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { can } from "@/lib/domain/permissions";
 import { WORK_ITEM_TYPES, WORK_ITEM_STATUSES, PRIORITIES } from "@/lib/domain/constants";
@@ -38,7 +38,7 @@ export default async function WorkItemsPage({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const user = await requireUser();
+  const user = await requirePermission("workitem.view");
   const sp = await searchParams;
 
   // Parse and clamp pagination params.
@@ -106,8 +106,19 @@ export default async function WorkItemsPage({
         method="GET"
         className="mb-4 flex flex-wrap items-end gap-3 rounded-lg border border-border bg-card p-3"
       >
-        <Input name="q" defaultValue={sp.q} placeholder="Search title…" className="w-48" />
-        <Select name="type" defaultValue={sp.type ?? ""} className="w-36">
+        <Input
+          name="q"
+          defaultValue={sp.q}
+          placeholder="Search title…"
+          aria-label="Search work items by title"
+          className="w-48"
+        />
+        <Select
+          name="type"
+          defaultValue={sp.type ?? ""}
+          aria-label="Filter by type"
+          className="w-36"
+        >
           <option value="">All types</option>
           {WORK_ITEM_TYPES.map((t) => (
             <option key={t} value={t}>
@@ -115,7 +126,12 @@ export default async function WorkItemsPage({
             </option>
           ))}
         </Select>
-        <Select name="status" defaultValue={sp.status ?? ""} className="w-40">
+        <Select
+          name="status"
+          defaultValue={sp.status ?? ""}
+          aria-label="Filter by status"
+          className="w-40"
+        >
           <option value="">All statuses</option>
           {WORK_ITEM_STATUSES.map((s) => (
             <option key={s} value={s}>
@@ -123,7 +139,12 @@ export default async function WorkItemsPage({
             </option>
           ))}
         </Select>
-        <Select name="priority" defaultValue={sp.priority ?? ""} className="w-36">
+        <Select
+          name="priority"
+          defaultValue={sp.priority ?? ""}
+          aria-label="Filter by priority"
+          className="w-36"
+        >
           <option value="">All priorities</option>
           {PRIORITIES.map((p) => (
             <option key={p} value={p}>
@@ -131,7 +152,12 @@ export default async function WorkItemsPage({
             </option>
           ))}
         </Select>
-        <Select name="project" defaultValue={sp.project ?? ""} className="w-36">
+        <Select
+          name="project"
+          defaultValue={sp.project ?? ""}
+          aria-label="Filter by project"
+          className="w-36"
+        >
           <option value="">All projects</option>
           {projects.map((p) => (
             <option key={p.id} value={p.id}>

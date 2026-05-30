@@ -5,9 +5,10 @@ const mockRequireUser = vi.hoisted(() => vi.fn());
 const mockRevalidatePath = vi.hoisted(() => vi.fn());
 const mockPrisma = vi.hoisted(() => ({
   project: { findUnique: vi.fn() },
-  testCase: { findUnique: vi.fn(), create: vi.fn(), update: vi.fn(), count: vi.fn() },
+  testCase: { findUnique: vi.fn(), create: vi.fn(), update: vi.fn(), findMany: vi.fn() },
   testRun: { create: vi.fn() },
-  workItem: { create: vi.fn(), count: vi.fn() },
+  workItem: { create: vi.fn(), findMany: vi.fn() },
+  $transaction: vi.fn(),
 }));
 
 vi.mock("next/cache", () => ({ revalidatePath: mockRevalidatePath }));
@@ -31,7 +32,13 @@ function fd(entries: Record<string, string>) {
   return f;
 }
 
-beforeEach(() => vi.clearAllMocks());
+beforeEach(() => {
+  vi.clearAllMocks();
+  // Run the transaction callback against the same mock client.
+  mockPrisma.$transaction.mockImplementation((fn: (tx: typeof mockPrisma) => Promise<unknown>) =>
+    fn(mockPrisma),
+  );
+});
 
 describe("createTestCase", () => {
   it("rejects users without qa.manage", async () => {
@@ -45,10 +52,7 @@ describe("createTestCase", () => {
 
   it("rejects short titles (Zod min(3))", async () => {
     mockRequireUser.mockResolvedValue(qaUser);
-    const res = await createTestCase(
-      {},
-      fd({ title: "AB", projectId: "p1", priority: "high" }),
-    );
+    const res = await createTestCase({}, fd({ title: "AB", projectId: "p1", priority: "high" }));
     expect(res.error).toBe("Title must be at least 3 characters");
   });
 
@@ -62,10 +66,10 @@ describe("createTestCase", () => {
     expect(res).toEqual({ error: "Project not found" });
   });
 
-  it("creates test case with derived key {projectKey}-TC{count+1}", async () => {
+  it("creates test case with delete-safe key {projectKey}-TC{max+1}", async () => {
     mockRequireUser.mockResolvedValue(qaUser);
     mockPrisma.project.findUnique.mockResolvedValue({ id: "p1", key: "PLAT" });
-    mockPrisma.testCase.count.mockResolvedValue(4);
+    mockPrisma.testCase.findMany.mockResolvedValue([{ key: "PLAT-TC2" }, { key: "PLAT-TC4" }]);
     mockPrisma.testCase.create.mockResolvedValue({ id: "tc-1" });
     const res = await createTestCase(
       {},
@@ -183,7 +187,7 @@ describe("recordTestRun", () => {
       title: "Login",
       projectId: "p1",
     });
-    mockPrisma.workItem.count.mockResolvedValue(9);
+    mockPrisma.workItem.findMany.mockResolvedValue([{ key: "PLAT-9" }, { key: "PLAT-3" }]);
     mockPrisma.project.findUnique.mockResolvedValue({ id: "p1", key: "PLAT" });
     mockPrisma.workItem.create.mockResolvedValue({ id: "wi-bug-1" });
     const res = await recordTestRun("tc-1", "failed", "broken", true);

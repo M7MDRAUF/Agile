@@ -22,7 +22,10 @@ const AVATAR_COLORS = [
 ];
 
 const createUserSchema = z.object({
-  email: z.string().email("Enter a valid email"),
+  email: z
+    .string()
+    .email("Enter a valid email")
+    .transform((s) => s.trim().toLowerCase()),
   name: z.string().min(2, "Name must be at least 2 characters"),
   password: z.string().min(8, "Password must be at least 8 characters"),
   role: roleSchema,
@@ -53,7 +56,7 @@ export async function createUser(
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
 
   const existing = await prisma.user.findUnique({
-    where: { email: parsed.data.email.toLowerCase() },
+    where: { email: parsed.data.email },
   });
   if (existing) return { error: "A user with that email already exists" };
 
@@ -62,7 +65,7 @@ export async function createUser(
 
   const created = await prisma.user.create({
     data: {
-      email: parsed.data.email.toLowerCase(),
+      email: parsed.data.email,
       name: parsed.data.name,
       passwordHash,
       role: parsed.data.role,
@@ -96,6 +99,16 @@ export async function changeUserRole(userId: string, role: string) {
   const target = await prisma.user.findUnique({ where: { id: userId } });
   if (!target) return { error: "User not found" };
 
+  // BUG-M05: never allow the workspace to lose its last active administrator.
+  if (target.role === "admin" && parsed.data !== "admin" && target.status === "active") {
+    const activeAdmins = await prisma.user.count({
+      where: { role: "admin", status: "active" },
+    });
+    if (activeAdmins <= 1) {
+      return { error: "Cannot change the role of the last active administrator" };
+    }
+  }
+
   // SEC-013: bump sessionVersion so existing JWTs are invalidated on next use.
   await prisma.user.update({
     where: { id: userId },
@@ -125,6 +138,15 @@ export async function toggleUserStatus(userId: string) {
   if (target.id === actor.id) return { error: "You cannot deactivate yourself" };
 
   const next = target.status === "active" ? "inactive" : "active";
+  // BUG-M05: never allow the workspace to lose its last active administrator.
+  if (target.role === "admin" && next === "inactive") {
+    const activeAdmins = await prisma.user.count({
+      where: { role: "admin", status: "active" },
+    });
+    if (activeAdmins <= 1) {
+      return { error: "Cannot deactivate the last active administrator" };
+    }
+  }
   // SEC-013: bump sessionVersion on deactivation so existing sessions stop working.
   await prisma.user.update({
     where: { id: userId },

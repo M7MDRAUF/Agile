@@ -14,7 +14,7 @@ const mockPrisma = vi.hoisted(() => ({
   sprint: { findUnique: vi.fn(), create: vi.fn(), update: vi.fn() },
   workItem: { findUnique: vi.fn(), findMany: vi.fn(), update: vi.fn(), updateMany: vi.fn() },
   notification: { createMany: vi.fn() },
-  activityLog: { create: vi.fn() },
+  activityLog: { create: vi.fn(), createMany: vi.fn() },
   $transaction: vi.fn(),
 }));
 
@@ -35,8 +35,8 @@ const engineerUser = { ...adminUser, id: "user-eng", role: "engineer" as const }
 beforeEach(() => {
   vi.clearAllMocks();
   // default: run the transaction callback with the same mock client
-  mockPrisma.$transaction.mockImplementation(
-    (fn: (tx: typeof mockPrisma) => Promise<unknown>) => fn(mockPrisma),
+  mockPrisma.$transaction.mockImplementation((fn: (tx: typeof mockPrisma) => Promise<unknown>) =>
+    fn(mockPrisma),
   );
 });
 
@@ -166,6 +166,7 @@ describe("completeSprint", () => {
     mockRequireUser.mockResolvedValue(adminUser);
     mockPrisma.sprint.findUnique.mockResolvedValue({
       id: "s-1",
+      name: "Sprint 1",
       status: "active",
       endDate: null,
       workItems: [
@@ -210,7 +211,8 @@ describe("setWorkItemSprint", () => {
 
   it("moves item to a sprint and logs activity", async () => {
     mockRequireUser.mockResolvedValue(adminUser);
-    mockPrisma.workItem.findUnique.mockResolvedValue({ id: "w-1" });
+    mockPrisma.workItem.findUnique.mockResolvedValue({ id: "w-1", projectId: "p1" });
+    mockPrisma.sprint.findUnique.mockResolvedValue({ id: "s-1", projectId: "p1" });
     const res = await setWorkItemSprint("w-1", "s-1");
     expect(res).toEqual({ ok: true });
     expect(mockPrisma.workItem.update).toHaveBeenCalledWith({
@@ -225,9 +227,18 @@ describe("setWorkItemSprint", () => {
     });
   });
 
+  it("rejects a sprint from a different project", async () => {
+    mockRequireUser.mockResolvedValue(adminUser);
+    mockPrisma.workItem.findUnique.mockResolvedValue({ id: "w-1", projectId: "p1" });
+    mockPrisma.sprint.findUnique.mockResolvedValue({ id: "s-2", projectId: "p2" });
+    expect(await setWorkItemSprint("w-1", "s-2")).toEqual({
+      error: "Sprint belongs to a different project",
+    });
+  });
+
   it("moves item to backlog (sprintId=null) and logs activity", async () => {
     mockRequireUser.mockResolvedValue(adminUser);
-    mockPrisma.workItem.findUnique.mockResolvedValue({ id: "w-1" });
+    mockPrisma.workItem.findUnique.mockResolvedValue({ id: "w-1", projectId: "p1" });
     await setWorkItemSprint("w-1", null);
     expect(mockPrisma.activityLog.create).toHaveBeenCalledWith({
       data: expect.objectContaining({ message: "moved to the backlog" }),

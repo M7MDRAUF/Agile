@@ -81,20 +81,14 @@ describe("updatePreferences", () => {
 
   it("rejects malformed JSON payload", async () => {
     mockRequireUser.mockResolvedValue(adminUser);
-    const res = await updatePreferences(
-      {},
-      fd({ group: "notifications", payload: "not-json{" }),
-    );
+    const res = await updatePreferences({}, fd({ group: "notifications", payload: "not-json{" }));
     expect(res).toEqual({ error: "Malformed preferences" });
   });
 
   it("upserts a valid preference group and revalidates", async () => {
     mockRequireUser.mockResolvedValue(adminUser);
     // Pass an empty payload — schema merges with `defaults` so this passes.
-    const res = await updatePreferences(
-      {},
-      fd({ group: "notifications", payload: "{}" }),
-    );
+    const res = await updatePreferences({}, fd({ group: "notifications", payload: "{}" }));
     expect(res).toEqual({ ok: true });
     expect(mockPrisma.userSetting.upsert).toHaveBeenCalledWith(
       expect.objectContaining({

@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { countBy } from "@/lib/domain/metrics";
+import { LIST_PAGE_LIMIT } from "@/lib/domain/constants";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/stat-card";
 import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/table";
 import { TestStatusBadge } from "@/components/status-badge";
 import { buttonVariants } from "@/components/ui/button";
+import { EmptyState } from "@/components/empty-state";
 import { can } from "@/lib/domain/permissions";
-import { CheckCircle2, XCircle, Clock, ShieldQuestion, Plus } from "lucide-react";
+import { CheckCircle2, XCircle, Clock, ShieldQuestion, Plus, FlaskConical } from "lucide-react";
 
 export const metadata: Metadata = { title: "QA" };
 
@@ -19,7 +21,7 @@ export default async function QAPage({
 }: {
   searchParams: Promise<{ project?: string }>;
 }) {
-  const user = await requireUser();
+  const user = await requirePermission("qa.view");
   const sp = await searchParams;
   const canManage = can(user.role, "qa.manage");
   const where = sp.project ? { projectId: sp.project } : {};
@@ -27,6 +29,7 @@ export default async function QAPage({
     where,
     orderBy: { updatedAt: "desc" },
     include: { project: { select: { key: true } }, _count: { select: { runs: true } } },
+    take: LIST_PAGE_LIMIT,
   });
 
   const byStatus = countBy(testCases, (t) => t.status);
@@ -110,6 +113,25 @@ export default async function QAPage({
           ))}
         </TBody>
       </Table>
+      {/* BUG-M22 — explicit empty state instead of a bare table header. */}
+      {total === 0 ? (
+        <EmptyState
+          icon={FlaskConical}
+          title="No test cases yet"
+          description={
+            sp.project
+              ? "This project has no test cases. Create one to start tracking quality."
+              : "Create your first test case to begin documenting and running QA scenarios."
+          }
+          action={
+            canManage ? (
+              <Link href="/qa/test-cases/new" className={buttonVariants({ variant: "secondary" })}>
+                <Plus className="size-4" /> New test case
+              </Link>
+            ) : undefined
+          }
+        />
+      ) : null}
     </div>
   );
 }

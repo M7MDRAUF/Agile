@@ -12,10 +12,7 @@ import { Label } from "@/components/ui/select";
 
 export function CreateProjectForm() {
   const router = useRouter();
-  const [state, action, pending] = useActionState<CreateProjectState, FormData>(
-    createProject,
-    {},
-  );
+  const [state, action, pending] = useActionState<CreateProjectState, FormData>(createProject, {});
 
   useEffect(() => {
     if (state.ok && state.projectId) {
@@ -27,13 +24,7 @@ export function CreateProjectForm() {
     <form action={action} className="grid max-w-2xl gap-4">
       <div className="grid gap-2">
         <Label htmlFor="name">Project Name *</Label>
-        <Input
-          id="name"
-          name="name"
-          placeholder="e.g. Nova Platform"
-          maxLength={100}
-          required
-        />
+        <Input id="name" name="name" placeholder="e.g. Nova Platform" maxLength={100} required />
       </div>
 
       <div className="grid gap-2">

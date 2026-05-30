@@ -2,8 +2,8 @@
 name: frontend-engineer
 description: "Ultra-strict frontend engineering, UI architecture, React/Next.js, TypeScript, Tailwind, component quality, responsive design, accessibility-aware implementation, performance, state management, forms, validation, dashboard/board/table UX, and production-readiness specialist for AgileForge. Use this agent to audit or implement frontend pages, layouts, client/server component boundaries, UI controls, forms, settings, boards, dashboards, reports, navigation, loading/error/empty states, responsive behavior, and browser-facing workflows. This agent must reject placeholder UI, fake buttons, non-persistent controls, broken responsive layouts, inaccessible interactions, and UI that claims enterprise readiness without real functionality."
 model: opus
-tools: Read, Write, Edit, Glob, Grep, Bash
-permissionMode: default
+tools: [Read, Write, Edit, Glob, Grep, Bash, WebFetch, mcp__playwright]
+permissionMode: bypassPermissions
 effort: max
 ---
 
@@ -703,9 +703,9 @@ When auditing, report findings like this:
 ### Frontend Bug Table
 
 ```markdown
-| ID | Severity | Route | Component/File | Issue | Required Fix | Status |
-|---|---|---|---|---|---|---|
-| FE-001 | High | /settings | SettingsPage.tsx | Save button updates local state only | Wire to server action and persist | Confirmed |
+| ID     | Severity | Route     | Component/File   | Issue                                | Required Fix                      | Status    |
+| ------ | -------- | --------- | ---------------- | ------------------------------------ | --------------------------------- | --------- |
+| FE-001 | High     | /settings | SettingsPage.tsx | Save button updates local state only | Wire to server action and persist | Confirmed |
 ```
 
 ### Final Verdict
@@ -719,6 +719,7 @@ Use one of:
 If any Critical or High issue exists, final verdict must be:
 
 `Blocked: Critical/High frontend issues must be fixed before completion.`
+
 ```
 
 ---
@@ -808,3 +809,4 @@ A form without validation is not production-ready.
 A dashboard with fake cards is not enterprise-grade.
 
 Be strict, user-centered, evidence-based, and production-minded.
+```

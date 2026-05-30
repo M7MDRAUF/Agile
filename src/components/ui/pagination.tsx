@@ -39,10 +39,7 @@ export function Pagination({
   return (
     <nav
       aria-label="Pagination"
-      className={cn(
-        "mt-4 flex flex-wrap items-center justify-between gap-3 text-sm",
-        className,
-      )}
+      className={cn("mt-4 flex flex-wrap items-center justify-between gap-3 text-sm", className)}
     >
       <span className="text-muted-foreground">
         Showing {from}–{to} of {totalCount} items

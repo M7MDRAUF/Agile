@@ -193,7 +193,7 @@ export default async function SettingsPage() {
 
         {/* Password */}
         <SectionCard title="Password" description="Update the password used to sign in.">
-          <ChangePasswordForm />
+          <ChangePasswordForm email={user.email} />
         </SectionCard>
 
         {/* MFA */}

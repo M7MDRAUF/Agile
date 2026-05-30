@@ -2,22 +2,40 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Bell, LogOut, Search } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
+import { MobileNav } from "@/components/layout/MobileNav";
+import { type NavSection } from "@/components/layout/nav-config";
 import { ROLE_LABELS, type Role } from "@/lib/domain/constants";
 import { signOutAction } from "@/lib/auth/actions";
 
 export function Topbar({
   user,
   unreadCount,
+  sections,
 }: {
   user: { name: string; email: string; role: Role; avatarColor?: string | null };
   unreadCount: number;
+  sections: NavSection[];
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
+
+  // BUG-M24 — close the account menu on Escape and return focus to the trigger.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        menuTriggerRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
 
   function onSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -27,6 +45,7 @@ export function Topbar({
 
   return (
     <header className="flex h-14 shrink-0 items-center gap-4 border-b border-border bg-card px-4 md:px-6">
+      <MobileNav sections={sections} />
       <form onSubmit={onSearch} className="relative flex-1 max-w-md" role="search">
         <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <input
@@ -54,6 +73,7 @@ export function Topbar({
 
       <div className="relative">
         <button
+          ref={menuTriggerRef}
           type="button"
           onClick={() => setOpen((o) => !o)}
           className="flex items-center gap-2 rounded-md px-1.5 py-1 hover:bg-muted"
@@ -79,7 +99,7 @@ export function Topbar({
             />
             <div
               role="menu"
-              className="absolute right-0 z-20 mt-2 w-56 rounded-md border border-border bg-card p-1 shadow-lg"
+              className="absolute right-0 z-20 mt-2 w-56 rounded-md border border-border bg-card p-1 shadow-lg text-foreground"
             >
               <div className="px-3 py-2">
                 <p className="text-sm font-medium">{user.name}</p>

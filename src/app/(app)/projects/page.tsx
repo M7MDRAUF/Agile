@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { can } from "@/lib/domain/permissions";
 import { isDone } from "@/lib/domain/metrics";
@@ -17,7 +17,7 @@ import { EmptyState } from "@/components/empty-state";
 export const metadata: Metadata = { title: "Projects" };
 
 export default async function ProjectsPage() {
-  const user = await requireUser();
+  const user = await requirePermission("project.view");
 
   const projects = await prisma.project.findMany({
     orderBy: { name: "asc" },

@@ -77,13 +77,13 @@ distributed store (e.g. Redis).
 
 ## Known open items
 
-- **MFA simulation:** `confirmMfa` (in `src/lib/actions/security.ts`) accepts any valid 6-digit
-  numeric code — it does not verify the code against the stored TOTP secret. The code comment
-  documents this explicitly as a local-dev simulation. Production use would require a real TOTP
-  library (e.g. `otpauth`).
+- **MFA secret encryption:** `confirmMfa` (in `src/lib/actions/security.ts`) performs real
+  RFC-6238 TOTP verification via `otplib`, and the shared secret is encrypted at rest
+  (`src/lib/auth/mfa-crypto.ts`, AES-256-GCM keyed by `MFA_ENC_KEY`). Ensure `MFA_ENC_KEY` is set
+  to a stable, secret value in any deployment that enables MFA.
 - **SQLite foreign-key enforcement:** SQLite does not enforce foreign-key constraints by default.
-  The Prisma schema declares relations, but without `PRAGMA foreign_keys = ON` being issued on
-  connection, referential integrity is enforced only at the application layer.
+  The Prisma schema declares relations and referential integrity is enforced at the application
+  layer (Prisma FK errors are mapped to user-safe messages).
 
 ## Hardening checklist before deploying beyond localhost
 
@@ -115,8 +115,8 @@ Several security claims above are now superseded. On branch `implement-productio
 - Env-var validation via Zod is enforced at boot.
 
 Authoritative current state:
-[`production-readiness/REMEDIATION_PROGRESS_2026-05-29.md`](production-readiness/REMEDIATION_PROGRESS_2026-05-29.md)
-and [`production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md`](production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md).
+[`production-readiness/11_REMEDIATION_ROADMAP.md`](production-readiness/11_REMEDIATION_ROADMAP.md)
+and [`production-readiness/14_FINAL_PLAN_MODE_SUMMARY.md`](production-readiness/14_FINAL_PLAN_MODE_SUMMARY.md).
 **Verdict: CONDITIONAL APPROVAL (13 PASS / 0 PARTIAL / 3 FAIL).** Open security-adjacent gaps:
 WCAG 2.1 AA pass (A11Y batch 8, items A11Y-001..006) and the 19×7 browser validation matrix walk
 remain outstanding.

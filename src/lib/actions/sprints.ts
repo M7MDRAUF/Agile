@@ -113,9 +113,15 @@ export async function completeSprint(sprintId: string) {
   if (!sprintWithItems) return { error: "Sprint not found" };
   if (sprintWithItems.status === "completed") return { error: "Sprint is already completed" };
 
+  // Roll over every item that is neither done nor canceled; canceled work stays
+  // canceled but is detached from the sprint.
   const incompleteIds = sprintWithItems.workItems
-    .filter((w) => w.status !== "done")
+    .filter((w) => w.status !== "done" && w.status !== "canceled")
     .map((w) => w.id);
+  const canceledIds = sprintWithItems.workItems
+    .filter((w) => w.status === "canceled")
+    .map((w) => w.id);
+  const detachIds = [...incompleteIds, ...canceledIds];
 
   await prisma.$transaction(async (tx) => {
     await tx.sprint.update({
@@ -126,11 +132,27 @@ export async function completeSprint(sprintId: string) {
         endDate: sprintWithItems.endDate ?? new Date(),
       },
     });
+    if (detachIds.length > 0) {
+      // PERF-010 / REL-008: bulk-detach in one updateMany.
+      await tx.workItem.updateMany({
+        where: { id: { in: detachIds } },
+        data: { sprintId: null },
+      });
+    }
     if (incompleteIds.length > 0) {
-      // PERF-010 / REL-008: single updateMany instead of N updates.
+      // REL/BE-007: rolled-over items return to a clean backlog state (no stale
+      // in_progress/qa rows sitting in the backlog) and each move is audited.
       await tx.workItem.updateMany({
         where: { id: { in: incompleteIds } },
-        data: { sprintId: null },
+        data: { status: "backlog" },
+      });
+      await tx.activityLog.createMany({
+        data: incompleteIds.map((id) => ({
+          workItemId: id,
+          actorId: user.id,
+          type: "sprint_change",
+          message: `rolled over to backlog when sprint "${sprintWithItems.name}" was completed`,
+        })),
       });
     }
   });
@@ -151,6 +173,16 @@ export async function setWorkItemSprint(itemId: string, sprintId: string | null)
   }
   const item = await prisma.workItem.findUnique({ where: { id: itemId } });
   if (!item) return { error: "Work item not found" };
+
+  // BE-004 / M11: validate the target sprint exists and belongs to the same
+  // project before attempting the FK write, so we never surface a raw P2003.
+  if (sprintId) {
+    const sprint = await prisma.sprint.findUnique({ where: { id: sprintId } });
+    if (!sprint) return { error: "Sprint not found" };
+    if (sprint.projectId !== item.projectId) {
+      return { error: "Sprint belongs to a different project" };
+    }
+  }
 
   await prisma.$transaction(async (tx) => {
     await tx.workItem.update({ where: { id: itemId }, data: { sprintId } });

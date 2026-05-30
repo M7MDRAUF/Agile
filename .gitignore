@@ -47,7 +47,17 @@ prisma/dev.db-journal
 
 # local server logs / debug
 .server.log
+.claude-dev-server.log
 /scripts/probe*.cjs
+
+# playwright-mcp browser snapshots (agent session artifacts)
+/.playwright-mcp/
+
+# local screenshots / audit images
+*.png
+
+# nested project copies
+/AgileForge/
 
 # vercel
 .vercel

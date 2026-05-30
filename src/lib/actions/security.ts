@@ -8,6 +8,7 @@ import { prisma } from "@/lib/db";
 import { requireUser } from "@/lib/auth/guards";
 import { getSession } from "@/lib/auth/current-user";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
+import { encryptMfaSecret } from "@/lib/auth/mfa-crypto";
 import { isPasswordValid } from "@/lib/domain/password-policy";
 
 // -- Change password --------------------------------------------------------
@@ -140,12 +141,13 @@ export async function confirmMfa(_prev: MfaState, formData: FormData): Promise<M
 
   await prisma.user.update({
     where: { id: user.id },
-    // mfaSecret stores the Base32 secret; mfaRecoveryCodes stores bcrypt
+    // mfaSecret stores the AES-256-GCM-encrypted Base32 secret (BUG-H02);
+    // mfaRecoveryCodes stores bcrypt
     // hashes (joined by newline) so the plaintext is shown to the user exactly
     // once here and never again.
     data: {
       mfaEnabled: true,
-      mfaSecret: secret,
+      mfaSecret: encryptMfaSecret(secret),
       mfaRecoveryCodes: hashedRecovery.join("\n"),
     },
   });
@@ -169,8 +171,19 @@ export interface DisableMfaState {
   ok?: boolean;
 }
 
-export async function disableMfa(): Promise<DisableMfaState> {
+export async function disableMfa(password?: string): Promise<DisableMfaState> {
   const user = await requireUser();
+
+  // BUG-L03: disabling a security control is a sensitive action and must be
+  // re-authenticated. Require the account password before stripping MFA so a
+  // hijacked (but already-authenticated) session cannot silently weaken the
+  // account.
+  const record = await prisma.user.findUnique({ where: { id: user.id } });
+  if (!record) return { error: "Account not found" };
+  if (!password || !(await verifyPassword(password, record.passwordHash))) {
+    return { error: "Enter your current password to disable two-factor authentication." };
+  }
+
   await prisma.user.update({
     where: { id: user.id },
     data: { mfaEnabled: false, mfaSecret: null, mfaRecoveryCodes: null },

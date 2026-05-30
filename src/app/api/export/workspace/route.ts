@@ -3,6 +3,8 @@ import { prisma } from "@/lib/db";
 import { requireUser } from "@/lib/auth/guards";
 import { can } from "@/lib/domain/permissions";
 import { assertSameOrigin } from "@/lib/http/origin";
+import { authenticateApiToken, tokenHasScope } from "@/lib/auth/api-token";
+import type { Role } from "@/lib/domain/constants";
 
 function csvEscape(value: unknown): string {
   const s = value == null ? "" : String(value);
@@ -22,16 +24,29 @@ function toCsv(rows: Record<string, unknown>[]): string {
  * ?format=csv (default) or ?format=json.
  */
 export async function GET(request: Request) {
-  // SEC-007: reject browser-originated cross-origin downloads.
-  const blocked = assertSameOrigin(request);
-  if (blocked) return blocked;
+  // BUG-M01: this export endpoint is the canonical consumer of developer API
+  // tokens. A valid `Authorization: Bearer agf_…` token authenticates the
+  // request programmatically; otherwise we fall back to the browser session
+  // (and enforce same-origin to block cross-site browser downloads).
+  const apiToken = await authenticateApiToken(request);
+  let actorRole: Role;
+  if (apiToken) {
+    if (!tokenHasScope(apiToken, "read")) {
+      return NextResponse.json({ error: "Token missing read scope" }, { status: 403 });
+    }
+    actorRole = apiToken.role;
+  } else {
+    const blocked = assertSameOrigin(request);
+    if (blocked) return blocked;
+    const user = await requireUser();
+    actorRole = user.role;
+  }
 
-  const user = await requireUser();
-  if (!can(user.role, "report.view") || !can(user.role, "project.view")) {
+  if (!can(actorRole, "report.view") || !can(actorRole, "project.view")) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   // Workspace-wide export is limited to workspace managers.
-  if (!can(user.role, "settings.manage_workspace")) {
+  if (!can(actorRole, "settings.manage_workspace")) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

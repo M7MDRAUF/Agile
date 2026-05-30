@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,7 +12,7 @@ import { can } from "@/lib/domain/permissions";
 export const metadata: Metadata = { title: "Teams" };
 
 export default async function TeamsPage() {
-  const user = await requireUser();
+  const user = await requirePermission("team.view");
   const canManage = can(user.role, "team.manage");
   const teams = await prisma.team.findMany({
     orderBy: { name: "asc" },

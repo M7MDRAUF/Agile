@@ -20,8 +20,8 @@ export default function GlobalError({
       <body className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-50 p-8 text-center text-slate-900">
         <h1 className="text-2xl font-semibold">Application failed to start</h1>
         <p className="max-w-md text-sm text-slate-600">
-          A fatal error prevented the page from loading. Try again, or contact your administrator
-          if the problem continues.
+          A fatal error prevented the page from loading. Try again, or contact your administrator if
+          the problem continues.
         </p>
         {error.digest ? (
           <p className="font-mono text-xs text-slate-500">Reference: {error.digest}</p>

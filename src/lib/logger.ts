@@ -3,6 +3,8 @@
  * dependency, so swapping in Pino later is one import change. All entries are
  * single-line JSON for log aggregators.
  */
+import { randomUUID } from "node:crypto";
+
 type Level = "debug" | "info" | "warn" | "error";
 
 interface LogFields {
@@ -32,3 +34,19 @@ export const logger = {
   warn: (msg: string, fields?: LogFields) => emit("warn", msg, fields),
   error: (msg: string, fields?: LogFields) => emit("error", msg, fields),
 };
+
+/**
+ * BUG-L02: log a server-side error with a fresh correlation ID and return that
+ * ID so the caller can surface it to the client WITHOUT leaking the raw error
+ * message/stack. The full error stays in the server logs; the user only ever
+ * sees an opaque reference they can quote to support.
+ */
+export function logErrorWithId(msg: string, error: unknown, fields?: LogFields): string {
+  const correlationId = randomUUID();
+  emit("error", msg, {
+    correlationId,
+    err: error instanceof Error ? error : new Error(String(error)),
+    ...(fields ?? {}),
+  });
+  return correlationId;
+}

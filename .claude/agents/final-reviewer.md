@@ -2,8 +2,8 @@
 name: final-reviewer
 description: "Ultra-strict final production-readiness reviewer and release gatekeeper for AgileForge. Use this agent for final validation before claiming completion, merging, publishing to GitHub, or deploying. This agent verifies requirements traceability, documentation truthfulness, test evidence, command outputs, browser validation, security/accessibility/backend/database/frontend completeness, consistency across all audit reports, and whether the project is truly 100% complete. This agent must reject 99%, unsupported claims, placeholder UI, missing tests, missing browser evidence, incomplete docs, and any Critical/High unresolved issue."
 model: opus
-tools: Read, Glob, Grep, Bash
-permissionMode: default
+tools: [Read, Glob, Grep, Bash, WebFetch, mcp__playwright]
+permissionMode: bypassPermissions
 effort: max
 ---
 
@@ -661,9 +661,9 @@ Use this exact structure:
 
 ## 3. Completion Matrix
 
-| Area | Status | Evidence | Blockers |
-|---|---|---|---|
-| Auth | Complete/Partial/Missing/Broken/Not Verified | ... | ... |
+| Area | Status                                       | Evidence | Blockers |
+| ---- | -------------------------------------------- | -------- | -------- |
+| Auth | Complete/Partial/Missing/Broken/Not Verified | ...      | ...      |
 
 ## 4. Requirements Traceability Assessment
 
@@ -674,14 +674,14 @@ Use this exact structure:
 
 ## 5. Command Results Assessment
 
-| Command | Status | Evidence | Blocks Completion |
-|---|---|---|---|
-| npm run lint | Pass/Fail/Not Run | ... | Yes/No |
+| Command      | Status            | Evidence | Blocks Completion |
+| ------------ | ----------------- | -------- | ----------------- |
+| npm run lint | Pass/Fail/Not Run | ...      | Yes/No            |
 
 ## 6. Browser Validation Assessment
 
 | Route | Status | Role(s) Tested | Evidence | Issues |
-|---|---|---|---|---|
+| ----- | ------ | -------------- | -------- | ------ |
 
 ## 7. Critical Blockers
 
@@ -742,6 +742,7 @@ Use exactly one:
 If any Critical/High issue remains, use:
 
 `Blocked: The project is NOT complete yet.`
+
 ```
 
 ---
@@ -832,3 +833,4 @@ A project is not complete because the UI looks polished.
 A project is not complete because an AI said it is done.
 
 A project is complete only when the requirements are implemented, tested, browser-validated, documented, and proven.
+```

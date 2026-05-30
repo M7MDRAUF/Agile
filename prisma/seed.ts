@@ -861,7 +861,7 @@ async function main() {
       ]);
       const tc = await prisma.testCase.create({
         data: {
-          key: `TC-${project.key}-${i + 1}`,
+          key: `${project.key}-TC${i + 1}`,
           title: pick(testTitles),
           description: "Validates expected behaviour for a critical user flow.",
           steps: "1. Navigate to the page\n2. Perform the action\n3. Observe the result",

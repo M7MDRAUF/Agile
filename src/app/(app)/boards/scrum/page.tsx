@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { sprintProgress } from "@/lib/domain/metrics";
 import { PageHeader } from "@/components/page-header";
@@ -9,7 +9,7 @@ import { EmptyState } from "@/components/empty-state";
 export const metadata: Metadata = { title: "Scrum Board" };
 
 export default async function ScrumBoardPage() {
-  await requireUser();
+  await requirePermission("workitem.view");
 
   const sprint = await prisma.sprint.findFirst({
     where: { status: "active" },

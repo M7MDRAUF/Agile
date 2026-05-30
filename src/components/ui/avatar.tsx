@@ -1,4 +1,4 @@
-import { cn, initials } from "@/lib/utils";
+import { accessibleBadgeBackground, cn, initials } from "@/lib/utils";
 
 export function Avatar({
   name,
@@ -18,7 +18,7 @@ export function Avatar({
         className,
       )}
       style={{
-        backgroundColor: color ?? "#6366f1",
+        backgroundColor: accessibleBadgeBackground(color),
         width: size,
         height: size,
         fontSize: size * 0.4,

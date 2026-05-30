@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { withDbRetry } from "@/lib/db-retry";
 import { requireUser } from "@/lib/auth/guards";
 import { can } from "@/lib/domain/permissions";
 
@@ -38,13 +39,16 @@ export async function createTeam(_prev: TeamFormState, formData: FormData): Prom
   const existing = await prisma.team.findUnique({ where: { key } });
   if (existing) return { error: "A team with that key already exists" };
 
-  const team = await prisma.team.create({
-    data: {
-      key,
-      name: parsed.data.name,
-      description: parsed.data.description || null,
-    },
-  });
+  // REL-010: retry the write on transient SQLITE_BUSY contention.
+  const team = await withDbRetry(() =>
+    prisma.team.create({
+      data: {
+        key,
+        name: parsed.data.name,
+        description: parsed.data.description || null,
+      },
+    }),
+  );
 
   revalidatePath("/teams");
   return { ok: true, id: team.id };
@@ -63,8 +67,13 @@ export async function addTeamMember(teamId: string, userId: string, roleName: st
   });
   if (existing) return { error: "User is already a member" };
 
+  const trimmedRole = roleName?.trim() || null;
+  if (trimmedRole && trimmedRole.length > 60) {
+    return { error: "Role name is too long (max 60 characters)" };
+  }
+
   await prisma.teamMember.create({
-    data: { teamId, userId, roleName: roleName || null },
+    data: { teamId, userId, roleName: trimmedRole },
   });
 
   revalidatePath(`/teams/${teamId}`);

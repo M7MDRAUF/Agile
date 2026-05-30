@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { can } from "@/lib/domain/permissions";
 import { PageHeader } from "@/components/page-header";
@@ -15,7 +15,7 @@ import { TestRunForm } from "@/components/qa/TestRunForm";
 export const metadata: Metadata = { title: "Test Case" };
 
 export default async function TestCaseDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const user = await requireUser();
+  const user = await requirePermission("qa.view");
   const { id } = await params;
 
   const testCase = await prisma.testCase.findUnique({

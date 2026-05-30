@@ -39,11 +39,25 @@ export function WorkItemForm({
     if (state.ok) router.push("/work-items");
   }, [state.ok, router]);
 
+  const fieldErrors = state.fieldErrors ?? {};
+
   return (
     <form action={action} className="grid max-w-2xl gap-4">
       <div className="grid gap-2">
         <Label htmlFor="title">Title *</Label>
-        <Input id="title" name="title" placeholder="Short, descriptive title" required />
+        <Input
+          id="title"
+          name="title"
+          placeholder="Short, descriptive title"
+          required
+          aria-invalid={fieldErrors.title ? true : undefined}
+          aria-describedby={fieldErrors.title ? "title-error" : undefined}
+        />
+        {fieldErrors.title ? (
+          <p id="title-error" className="text-xs text-destructive">
+            {fieldErrors.title}
+          </p>
+        ) : null}
       </div>
 
       <div className="grid gap-2">
@@ -82,13 +96,24 @@ export function WorkItemForm({
       <div className="grid grid-cols-2 gap-4">
         <div className="grid gap-2">
           <Label htmlFor="projectId">Project *</Label>
-          <Select id="projectId" name="projectId" required>
+          <Select
+            id="projectId"
+            name="projectId"
+            required
+            aria-invalid={fieldErrors.projectId ? true : undefined}
+            aria-describedby={fieldErrors.projectId ? "projectId-error" : undefined}
+          >
             {projects.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.label}
               </option>
             ))}
           </Select>
+          {fieldErrors.projectId ? (
+            <p id="projectId-error" className="text-xs text-destructive">
+              {fieldErrors.projectId}
+            </p>
+          ) : null}
         </div>
         <div className="grid gap-2">
           <Label htmlFor="assigneeId">Assignee</Label>
@@ -148,7 +173,8 @@ export function WorkItemForm({
       {state.error ? (
         <p
           role="alert"
-          className="flex items-center gap-2 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700"
+          aria-live="assertive"
+          className="flex items-center gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
         >
           <AlertCircle className="size-4" />
           {state.error}

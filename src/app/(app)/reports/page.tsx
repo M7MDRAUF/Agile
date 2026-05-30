@@ -9,6 +9,7 @@ import {
   blockerAgeDays,
 } from "@/lib/domain/metrics";
 import { humanize } from "@/lib/utils";
+import { METRICS_SCAN_LIMIT } from "@/lib/domain/constants";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/stat-card";
@@ -47,6 +48,7 @@ export default async function ReportsPage() {
         createdAt: true,
         completedAt: true,
       },
+      take: METRICS_SCAN_LIMIT,
     }),
     prisma.blocker.findMany({ where: { status: "open" }, select: { createdAt: true } }),
     prisma.user.findMany({ where: { status: "active" }, select: { id: true, name: true } }),
@@ -57,6 +59,7 @@ export default async function ReportsPage() {
       where: { type: "status_change", newValue: "in_progress" },
       select: { workItemId: true, createdAt: true },
       orderBy: { createdAt: "asc" },
+      take: METRICS_SCAN_LIMIT,
     }),
   ]);
 

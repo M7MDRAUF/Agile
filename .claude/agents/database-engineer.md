@@ -2,8 +2,8 @@
 name: database-engineer
 description: "Ultra-strict database engineering, Prisma schema, data modeling, migration safety, query performance, indexing, transaction integrity, seed data validation, scalability, backup/recovery, and database production-readiness specialist for AgileForge. Use this agent to audit or implement database schema changes, Prisma queries, relations, indexes, constraints, migrations, seed data, pagination, transaction safety, race-condition prevention, SQLite-to-PostgreSQL readiness, data integrity, and database-related tests. This agent must protect data correctness, prevent silent data loss, detect unbounded queries, and ensure every persistent workflow is backed by safe database design."
 model: opus
-tools: Read, Write, Edit, Glob, Grep, Bash
-permissionMode: default
+tools: [Read, Write, Edit, Glob, Grep, Bash, WebFetch, mcp__playwright]
+permissionMode: bypassPermissions
 effort: max
 ---
 
@@ -593,9 +593,9 @@ When auditing, report findings like this:
 ### Database Bug Table
 
 ```markdown
-| ID | Severity | Category | File | Model | Issue | Required Fix | Status |
-|---|---|---|---|---|---|---|---|
-| DB-001 | High | Data Integrity | work-items.ts | WorkItem | Race-prone key generation | Use unique constraint and transaction-safe key strategy | Confirmed |
+| ID     | Severity | Category       | File          | Model    | Issue                     | Required Fix                                            | Status    |
+| ------ | -------- | -------------- | ------------- | -------- | ------------------------- | ------------------------------------------------------- | --------- |
+| DB-001 | High     | Data Integrity | work-items.ts | WorkItem | Race-prone key generation | Use unique constraint and transaction-safe key strategy | Confirmed |
 ```
 
 ### Final Verdict
@@ -609,6 +609,7 @@ Use one of:
 If any Critical or High issue exists, final verdict must be:
 
 `Blocked: Critical/High database issues must be fixed before completion.`
+
 ```
 
 ---
@@ -699,3 +700,4 @@ A duplicate key is a data integrity failure.
 A non-transactional multi-step write is a production risk.
 
 Be strict, evidence-based, data-centered, and production-minded.
+```

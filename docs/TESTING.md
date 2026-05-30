@@ -85,8 +85,8 @@ On branch `implement-production-readiness-fixes`, the test surface has grown mat
 - **CI gates:** lint, typecheck, build, and the Playwright e2e job are wired into `ci.yml` and pass.
 
 Authoritative current state:
-[`production-readiness/REMEDIATION_PROGRESS_2026-05-29.md`](production-readiness/REMEDIATION_PROGRESS_2026-05-29.md)
-and [`production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md`](production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md).
+[`production-readiness/11_REMEDIATION_ROADMAP.md`](production-readiness/11_REMEDIATION_ROADMAP.md)
+and [`production-readiness/14_FINAL_PLAN_MODE_SUMMARY.md`](production-readiness/14_FINAL_PLAN_MODE_SUMMARY.md).
 **Verdict: CONDITIONAL APPROVAL.** Open testing-adjacent gaps: the full 19-route × 7-browser
 manual validation matrix has not yet been walked, and the A11Y batch 8 WCAG 2.1 AA pass
 (A11Y-001..006) is still outstanding.

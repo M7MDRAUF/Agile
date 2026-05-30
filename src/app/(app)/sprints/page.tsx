@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { format } from "date-fns";
 import { Plus } from "lucide-react";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { can } from "@/lib/domain/permissions";
 import { sprintProgress } from "@/lib/domain/metrics";
@@ -15,7 +15,7 @@ import { buttonVariants } from "@/components/ui/button";
 export const metadata: Metadata = { title: "Sprints" };
 
 export default async function SprintsPage() {
-  const user = await requireUser();
+  const user = await requirePermission("sprint.view");
   const canManage = can(user.role, "sprint.manage");
 
   const sprints = await prisma.sprint.findMany({

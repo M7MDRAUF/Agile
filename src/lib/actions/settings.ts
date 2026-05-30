@@ -98,6 +98,13 @@ export async function updatePreferences(
 
 /** Read all preference groups for a user as a typed record. */
 export async function getUserPreferences(userId: string) {
+  // BUG-M04 (IDOR): a user may only read their own preferences unless they
+  // hold user.manage. Without this, any authenticated user could enumerate
+  // another user's settings by passing an arbitrary id.
+  const me = await requireUser();
+  if (me.id !== userId && !can(me.role, "user.manage")) {
+    throw new Error("Not permitted");
+  }
   const rows = await prisma.userSetting.findMany({ where: { userId } });
   const byKey = new Map(rows.map((r) => [r.key, r.value]));
   const { parsePreferences } = await import("@/lib/domain/user-settings");
@@ -142,6 +149,8 @@ const WORKSPACE_KEYS = [
 
 /** Read the current workspace settings, falling back to defaults. */
 export async function getWorkspaceSettings(): Promise<WorkspaceSettings> {
+  // BUG-M04: workspace settings are only exposed to authenticated users.
+  await requireUser();
   const rows = await prisma.appSetting.findMany({ where: { key: { in: WORKSPACE_KEYS } } });
   const map = new Map(rows.map((r) => [r.key, r.value]));
   const length = Number(map.get("workspace.sprintLengthDays"));

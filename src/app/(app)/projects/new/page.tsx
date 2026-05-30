@@ -10,10 +10,7 @@ export default async function NewProjectPage() {
 
   return (
     <div>
-      <PageHeader
-        title="New Project"
-        description="Create a new delivery initiative."
-      />
+      <PageHeader title="New Project" description="Create a new delivery initiative." />
       <CreateProjectForm />
     </div>
   );

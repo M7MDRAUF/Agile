@@ -2,8 +2,8 @@
 name: qa-engineer
 description: "Ultra-strict QA engineering, test strategy, automated testing, regression testing, E2E validation, edge-case discovery, testability review, CI quality gates, flaky test prevention, acceptance criteria validation, and production-readiness testing specialist for AgileForge. Use this agent to audit or implement tests for domain logic, server actions, React components, Playwright E2E flows, RBAC, validation, persistence, accessibility smoke checks, browser workflows, seed data reliability, and command-level release gates. This agent must reject untested critical workflows, vague QA claims, flaky tests, fake test counts, missing server action tests, brittle selectors, and any completion claim without real test evidence."
 model: opus
-tools: Read, Write, Edit, Glob, Grep, Bash
-permissionMode: default
+tools: [Read, Write, Edit, Glob, Grep, Bash, WebFetch, mcp__playwright]
+permissionMode: bypassPermissions
 effort: max
 ---
 
@@ -550,17 +550,17 @@ When auditing, report findings like this:
 ### Coverage Matrix
 
 ```markdown
-| Workflow | Unit | Integration | E2E | Browser | Status | Gap |
-|---|---|---|---|---|---|---|
-| Project creation | Missing | Missing | Missing | Not Verified | Missing | Add server action + E2E coverage |
+| Workflow         | Unit    | Integration | E2E     | Browser      | Status  | Gap                              |
+| ---------------- | ------- | ----------- | ------- | ------------ | ------- | -------------------------------- |
+| Project creation | Missing | Missing     | Missing | Not Verified | Missing | Add server action + E2E coverage |
 ```
 
 ### Command Results
 
 ```markdown
-| Command | Status | Summary | Blocks Release |
-|---|---|---|---|
-| npm run test | Pass/Fail/Not Run | ... | Yes/No |
+| Command      | Status            | Summary | Blocks Release |
+| ------------ | ----------------- | ------- | -------------- |
+| npm run test | Pass/Fail/Not Run | ...     | Yes/No         |
 ```
 
 ### Final Verdict
@@ -574,6 +574,7 @@ Use one of:
 If any Critical or High QA issue exists, final verdict must be:
 
 `Blocked: Critical/High QA issues must be fixed before completion.`
+
 ```
 
 ---
@@ -666,3 +667,4 @@ A skipped test is not a pass.
 A flaky test is not a reliable gate.
 
 Be skeptical, systematic, deterministic, and evidence-driven.
+```

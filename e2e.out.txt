@@ -1,0 +1,21 @@
+
+> agileforge@0.1.0 test:e2e
+> playwright test
+
+[WebServer] Γ¿» Failed to start server
+[WebServer] Error: listen EADDRINUSE: address already in use :::3100
+[WebServer]     at <unknown> (Error: listen EADDRINUSE: address already in use :::3100)
+[WebServer]     at new Promise (<anonymous>) {
+[WebServer]   code: 'EADDRINUSE',
+[WebServer]   errno: -4091,
+[WebServer]   syscall: 'listen',
+[WebServer]   address: '::',
+[WebServer]   port: 3100
+[WebServer] }
+Error: Process from config.webServer was not able to start. Exit code: 1
+
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

@@ -30,6 +30,7 @@ const AUTHENTICATED_ROUTES = [
   "/backlog",
   "/boards/kanban",
   "/projects",
+  "/reports",
   "/settings",
 ] as const;
 
@@ -76,6 +77,25 @@ test.describe("Accessibility — axe smoke", () => {
         /* some routes stream — fall back to whatever loaded */
       });
       await runAxe(page, route);
+    });
+  }
+
+  // Dark-mode pass: contrast tokens differ in the dark theme, so re-run axe
+  // against a representative set of routes (including charts on /reports) with
+  // the `.dark` class forced on, mirroring the appearance setting.
+  const DARK_ROUTES = ["/dashboard", "/work-items", "/boards/kanban", "/reports"] as const;
+  for (const route of DARK_ROUTES) {
+    test(`${route} (dark mode) has no serious/critical axe violations`, async ({ page }) => {
+      await login(page, ADMIN_EMAIL);
+      await page.goto(route);
+      await page.waitForLoadState("networkidle").catch(() => {
+        /* some routes stream — fall back to whatever loaded */
+      });
+      await page.evaluate(() => {
+        document.documentElement.classList.add("dark");
+        document.getElementById("app-shell")?.classList.add("dark");
+      });
+      await runAxe(page, `${route} (dark)`);
     });
   }
 });

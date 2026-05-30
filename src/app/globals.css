@@ -10,54 +10,54 @@
  * bg-card, text-muted-foreground and border-border work everywhere.
  */
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #FDFAF6;
+  --foreground: #1c0f0f;
   --card: #ffffff;
-  --card-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #555f6d;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #6366f1;
-  --primary: #4f46e5;
+  --card-foreground: #1c0f0f;
+  --muted: #f5ece3;
+  --muted-foreground: #6b5a52;
+  --border: #ead9cc;
+  --input: #ead9cc;
+  --ring: #eb4c4c;
+  --primary: #eb4c4c;
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --accent: #eef2ff;
-  --accent-foreground: #3730a3;
+  --secondary: #f5ece3;
+  --secondary-foreground: #1c0f0f;
+  --accent: #fef2f2;
+  --accent-foreground: #b91c1c;
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
   --success: #16a34a;
   --warning: #d97706;
-  --sidebar: #0f172a;
-  --sidebar-foreground: #cbd5e1;
-  --sidebar-accent: #1e293b;
+  --sidebar: #1a0808;
+  --sidebar-foreground: #f5ece3;
+  --sidebar-accent: #2d1818;
   --radius: 0.5rem;
 }
 
 .dark {
-  --background: #0b1120;
-  --foreground: #e2e8f0;
-  --card: #111827;
-  --card-foreground: #e2e8f0;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --border: #1e293b;
-  --input: #1e293b;
-  --ring: #6366f1;
-  --primary: #6366f1;
+  --background: #071020;
+  --foreground: #c4e2f5;
+  --card: #0d1d38;
+  --card-foreground: #c4e2f5;
+  --muted: #0f2040;
+  --muted-foreground: #4bb8fa;
+  --border: #1a3560;
+  --input: #1a3560;
+  --ring: #4bb8fa;
+  --primary: #1591dc;
   --primary-foreground: #ffffff;
-  --secondary: #1e293b;
-  --secondary-foreground: #e2e8f0;
-  --accent: #1e1b4b;
-  --accent-foreground: #c7d2fe;
+  --secondary: #0f2040;
+  --secondary-foreground: #c4e2f5;
+  --accent: #0a2050;
+  --accent-foreground: #4bb8fa;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   --success: #22c55e;
   --warning: #f59e0b;
-  --sidebar: #060b16;
-  --sidebar-foreground: #cbd5e1;
-  --sidebar-accent: #111827;
+  --sidebar: #040c1a;
+  --sidebar-foreground: #c4e2f5;
+  --sidebar-accent: #0d1d38;
 }
 
 @theme inline {
@@ -109,14 +109,41 @@
   transition-duration: 0.001ms !important;
   scroll-behavior: auto !important;
 }
+
+/* BUG-M26 — honor the OS "reduce motion" preference even when the in-app
+ * appearance toggle is off, so motion-sensitive users are protected by default. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* BUG-L09 — guarantee a visible keyboard focus indicator on interactive
+ * elements (nav links, board cards, buttons) regardless of component styles. */
+a:focus-visible,
+button:focus-visible,
+[role="menuitem"]:focus-visible,
+[role="tab"]:focus-visible,
+[tabindex]:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
 .high-contrast {
-  --border: #94a3b8;
-  --muted-foreground: #475569;
+  --border: #c4a898;
+  --muted-foreground: #3d2a22;
 }
 .dark.high-contrast,
 .high-contrast.dark {
-  --border: #cbd5e1;
-  --muted-foreground: #cbd5e1;
+  --border: #4bb8fa;
+  --muted-foreground: #c4e2f5;
 }
 
 body {

@@ -67,6 +67,8 @@ COPY --from=build --chown=node:node /app/.next ./.next
 COPY --from=build --chown=node:node /app/public ./public
 COPY --from=build --chown=node:node /app/prisma ./prisma
 COPY --from=build --chown=node:node /app/src/generated ./src/generated
+COPY --chown=node:node docker-entrypoint.sh ./docker-entrypoint.sh
+RUN chmod +x ./docker-entrypoint.sh
 
 # Writable directory for SQLite (dev). Production should mount a volume here
 # or switch DATABASE_URL to Postgres — see DEPLOY.md.
@@ -80,4 +82,6 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
   CMD node -e "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
+# `migrate deploy` applies committed migrations before `next start` boots.
+ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["node", "node_modules/next/dist/bin/next", "start"]

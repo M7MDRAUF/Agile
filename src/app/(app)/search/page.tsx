@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth/guards";
+import { can } from "@/lib/domain/permissions";
 import { prisma } from "@/lib/db";
 import { humanize } from "@/lib/utils";
 import { PageHeader } from "@/components/page-header";
@@ -20,25 +21,38 @@ export default async function SearchPage({
 }: {
   searchParams: Promise<{ q?: string }>;
 }) {
-  await requireUser();
+  const user = await requireUser();
   const { q } = await searchParams;
   const query = q?.trim();
 
+  // BUG-M34: only search the entity types the caller is permitted to view, so
+  // global search never leaks records a role cannot otherwise reach (e.g. a
+  // stakeholder must not discover work items or people through search).
+  const canViewWorkItems = can(user.role, "workitem.view");
+  const canViewProjects = can(user.role, "project.view");
+  const canViewUsers = can(user.role, "user.view");
+
   const [workItems, projects, users] = query
     ? await Promise.all([
-        prisma.workItem.findMany({
-          where: { OR: [{ title: { contains: query } }, { key: { contains: query } }] },
-          include: { project: { select: { key: true } } },
-          take: 25,
-        }),
-        prisma.project.findMany({
-          where: { OR: [{ name: { contains: query } }, { key: { contains: query } }] },
-          take: 10,
-        }),
-        prisma.user.findMany({
-          where: { OR: [{ name: { contains: query } }, { email: { contains: query } }] },
-          take: 10,
-        }),
+        canViewWorkItems
+          ? prisma.workItem.findMany({
+              where: { OR: [{ title: { contains: query } }, { key: { contains: query } }] },
+              include: { project: { select: { key: true } } },
+              take: 25,
+            })
+          : Promise.resolve([]),
+        canViewProjects
+          ? prisma.project.findMany({
+              where: { OR: [{ name: { contains: query } }, { key: { contains: query } }] },
+              take: 10,
+            })
+          : Promise.resolve([]),
+        canViewUsers
+          ? prisma.user.findMany({
+              where: { OR: [{ name: { contains: query } }, { email: { contains: query } }] },
+              take: 10,
+            })
+          : Promise.resolve([]),
       ])
     : [[], [], []];
 

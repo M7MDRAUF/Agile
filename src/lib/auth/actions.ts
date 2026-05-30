@@ -6,6 +6,7 @@ import { authenticator } from "otplib";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { verifyPassword } from "@/lib/auth/password";
+import { decryptMfaSecret } from "@/lib/auth/mfa-crypto";
 import { isRole } from "@/lib/domain/constants";
 import { describeUserAgent } from "@/lib/domain/user-agent";
 import {
@@ -16,24 +17,15 @@ import {
   setPendingMfaCookie,
   setSessionCookie,
 } from "@/lib/auth/current-user";
+import { consumeRateLimit, isRateLimited, resetRateLimit } from "@/lib/auth/rate-limit";
 
-// NOTE: In-memory rate limiting is scoped to a single Node.js process. It will not
-// persist across serverless cold starts or multiple instances, but meaningfully
-// reduces single-process brute-force risk in the demo environment. A shared
-// store (Redis/Upstash) is scheduled in Batch 2.
-const loginAttempts = new Map<string, { count: number; resetAt: number }>();
+// Rate-limit policy. The limiter itself lives in @/lib/auth/rate-limit so the
+// same fixed-window store backs both password login and MFA verification.
 const MAX_ATTEMPTS = 10;
 const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
-
-function incrementLoginAttempts(ip: string): void {
-  const now = Date.now();
-  const current = loginAttempts.get(ip);
-  if (current && now < current.resetAt) {
-    loginAttempts.set(ip, { count: current.count + 1, resetAt: current.resetAt });
-  } else {
-    loginAttempts.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-  }
-}
+// MFA codes are a 6-digit space, so brute force is throttled far more tightly.
+const MFA_MAX_ATTEMPTS = 5;
+const MFA_WINDOW_MS = 15 * 60 * 1000;
 
 const loginSchema = z.object({
   email: z.string().email("Enter a valid email address"),
@@ -79,9 +71,8 @@ export async function signInAction(_prev: LoginState, formData: FormData): Promi
   const ip =
     hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ?? hdrs.get("x-real-ip") ?? "unknown";
 
-  const now = Date.now();
-  const entry = loginAttempts.get(ip);
-  if (entry && entry.count >= MAX_ATTEMPTS && now < entry.resetAt) {
+  const loginKey = `login:${ip}`;
+  if (isRateLimited(loginKey, MAX_ATTEMPTS)) {
     return { error: "Too many login attempts. Please try again later." };
   }
 
@@ -97,17 +88,17 @@ export async function signInAction(_prev: LoginState, formData: FormData): Promi
     where: { email: parsed.data.email.toLowerCase().trim() },
   });
   if (!user || user.status !== "active") {
-    incrementLoginAttempts(ip);
+    consumeRateLimit(loginKey, MAX_ATTEMPTS, WINDOW_MS);
     return { error: "Invalid email or password" };
   }
 
   const valid = await verifyPassword(parsed.data.password, user.passwordHash);
   if (!valid) {
-    incrementLoginAttempts(ip);
+    consumeRateLimit(loginKey, MAX_ATTEMPTS, WINDOW_MS);
     return { error: "Invalid email or password" };
   }
 
-  loginAttempts.delete(ip);
+  resetRateLimit(loginKey);
 
   const next = formData.get("next");
   const nextStr = typeof next === "string" ? next : null;
@@ -146,6 +137,12 @@ export async function verifyMfaLoginAction(
   const pending = await getPendingMfa();
   if (!pending) return { error: "Sign in again — your MFA session expired." };
 
+  // BUG-M09: throttle MFA verification to defeat brute force of the 6-digit code.
+  const mfaKey = `mfa:${pending.userId}`;
+  if (isRateLimited(mfaKey, MFA_MAX_ATTEMPTS)) {
+    return { error: "Too many attempts. Sign in again in a few minutes." };
+  }
+
   const code = String(formData.get("code") ?? "").trim();
   const isRecovery = String(formData.get("recovery") ?? "") === "true";
 
@@ -173,12 +170,18 @@ export async function verifyMfaLoginAction(
         break;
       }
     }
-    if (matchIdx === -1) return { mfaRequired: true, error: "That recovery code is not valid." };
+    if (matchIdx === -1) {
+      consumeRateLimit(mfaKey, MFA_MAX_ATTEMPTS, MFA_WINDOW_MS);
+      return { mfaRequired: true, error: "That recovery code is not valid." };
+    }
     lines.splice(matchIdx, 1);
     recoveryConsumed = lines.join("\n");
   } else {
-    const ok = authenticator.verify({ token: code, secret: user.mfaSecret });
-    if (!ok) return { mfaRequired: true, error: "That code is invalid. Try the latest 6-digit code." };
+    const ok = authenticator.verify({ token: code, secret: decryptMfaSecret(user.mfaSecret) });
+    if (!ok) {
+      consumeRateLimit(mfaKey, MFA_MAX_ATTEMPTS, MFA_WINDOW_MS);
+      return { mfaRequired: true, error: "That code is invalid. Try the latest 6-digit code." };
+    }
   }
 
   if (recoveryConsumed !== null) {
@@ -190,6 +193,7 @@ export async function verifyMfaLoginAction(
 
   const hdrs = await headers();
   const userAgent = hdrs.get("user-agent") ?? undefined;
+  resetRateLimit(mfaKey);
   await completeSignIn(user, pending.next ?? null, userAgent);
   return {};
 }

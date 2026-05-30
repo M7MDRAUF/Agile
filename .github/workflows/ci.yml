@@ -40,8 +40,14 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Unit + integration tests
-        run: npm run test -- --run
+      - name: Doc-vs-code consistency check
+        run: npm run check:docs
+
+      - name: Dependency audit (fail on high/critical)
+        run: npm run check:audit
+
+      - name: Unit + integration tests (with coverage gate)
+        run: npm run test:coverage
 
       - name: Push schema to dev db (for e2e/build)
         run: npx prisma db push --skip-generate --accept-data-loss

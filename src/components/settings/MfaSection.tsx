@@ -13,6 +13,8 @@ export function MfaSection({ enabled }: { enabled: boolean }) {
   const [setupSecret, setSetupSecret] = useState<string | null>(null);
   const [beginning, startBegin] = useTransition();
   const [disabling, startDisable] = useTransition();
+  const [disablePassword, setDisablePassword] = useState("");
+  const [disableError, setDisableError] = useState<string | null>(null);
   const [state, confirmAction, confirming] = useActionState<MfaState, FormData>(confirmMfa, {});
 
   function begin() {
@@ -23,8 +25,14 @@ export function MfaSection({ enabled }: { enabled: boolean }) {
   }
 
   function disable() {
+    setDisableError(null);
     startDisable(async () => {
-      await disableMfa();
+      const res = await disableMfa(disablePassword);
+      if (res.error) {
+        setDisableError(res.error);
+      } else {
+        window.location.reload();
+      }
     });
   }
 
@@ -68,7 +76,23 @@ export function MfaSection({ enabled }: { enabled: boolean }) {
         <p className="text-xs text-muted-foreground">
           Local-development simulated TOTP — no codes are sent or externally verified.
         </p>
-        <Button variant="destructive" onClick={disable} disabled={disabling}>
+        <div className="max-w-sm space-y-2">
+          <Label htmlFor="mfa-disable-password">Confirm your password to disable</Label>
+          <Input
+            id="mfa-disable-password"
+            type="password"
+            autoComplete="current-password"
+            value={disablePassword}
+            onChange={(e) => setDisablePassword(e.target.value)}
+            placeholder="Current password"
+          />
+        </div>
+        {disableError ? <ErrorAlert message={disableError} /> : null}
+        <Button
+          variant="destructive"
+          onClick={disable}
+          disabled={disabling || disablePassword.length === 0}
+        >
           {disabling ? <LoaderCircle className="animate-spin" /> : <ShieldOff className="size-4" />}
           Disable two-factor authentication
         </Button>

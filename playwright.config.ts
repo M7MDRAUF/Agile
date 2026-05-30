@@ -27,5 +27,18 @@ export default defineConfig({
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
+    // The production server (`next start`) fails fast on a weak/placeholder
+    // AUTH_SECRET (BUG-H01). Inject a strong, non-placeholder signing key for
+    // the e2e server so the suite boots deterministically without weakening the
+    // dev `.env` or the runtime security guard. Next.js does not overwrite an
+    // already-set process env var with a `.env` value.
+    env: {
+      AUTH_SECRET:
+        process.env.AUTH_SECRET &&
+        process.env.AUTH_SECRET.length >= 32 &&
+        !/changeme|insecure|dev-?secret/i.test(process.env.AUTH_SECRET)
+          ? process.env.AUTH_SECRET
+          : "agileforge-e2e-signing-key-0123456789abcdefghijklmnop",
+    },
   },
 });

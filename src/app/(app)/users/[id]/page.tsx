@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { can } from "@/lib/domain/permissions";
 import { humanize } from "@/lib/utils";
@@ -17,7 +17,7 @@ import { StatusToggle } from "@/components/admin/StatusToggle";
 export const metadata: Metadata = { title: "User" };
 
 export default async function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const me = await requireUser();
+  const me = await requirePermission("user.view");
   const { id } = await params;
   const isAdmin = can(me.role, "admin.access");
 

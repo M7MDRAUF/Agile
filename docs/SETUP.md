@@ -86,7 +86,7 @@ Setup has gained a few moving parts since this doc was written
 - MFA enrolment now uses real TOTP (`otplib`); demo accounts can scan the QR with any authenticator.
 
 Authoritative current state:
-[`production-readiness/REMEDIATION_PROGRESS_2026-05-29.md`](production-readiness/REMEDIATION_PROGRESS_2026-05-29.md)
-and [`production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md`](production-readiness/POST_REMEDIATION_FINAL_VERDICT_2026-05-29.md).
+[`production-readiness/11_REMEDIATION_ROADMAP.md`](production-readiness/11_REMEDIATION_ROADMAP.md)
+and [`production-readiness/14_FINAL_PLAN_MODE_SUMMARY.md`](production-readiness/14_FINAL_PLAN_MODE_SUMMARY.md).
 **Verdict: CONDITIONAL APPROVAL.** Open gaps: 19×7 browser matrix walk and A11Y batch 8
 (WCAG 2.1 AA, A11Y-001..006) remain outstanding before unconditional production sign-off.

@@ -26,17 +26,19 @@ export const getSession = cache(async (): Promise<SessionPayload | null> => {
 export const getCurrentUser = cache(async () => {
   const session = await getSession();
   if (!session) return null;
-  // When the token is bound to a device session, ensure it has not been
-  // revoked (e.g. via "sign out other devices").
-  if (session.sid) {
-    const row = await prisma.userSession.findUnique({ where: { id: session.sid } });
-    if (!row || row.revokedAt) return null;
-  }
+  // BUG-L01: revocation must be fail-closed. Every session this codebase issues
+  // carries a device-session id (`sid`); a token lacking one is either forged
+  // or from an incompatible prior format, so reject it rather than skipping the
+  // revocation lookup.
+  if (!session.sid) return null;
+  const row = await prisma.userSession.findUnique({ where: { id: session.sid } });
+  if (!row || row.revokedAt) return null;
   const user = await prisma.user.findUnique({ where: { id: session.userId } });
   if (!user || user.status !== "active") return null;
   // SEC-013: reject sessions whose `sv` claim no longer matches the user's
-  // current sessionVersion (e.g. after role change or forced sign-out).
-  if (typeof session.sv === "number" && session.sv !== user.sessionVersion) return null;
+  // current sessionVersion (e.g. after role change or forced sign-out). The
+  // claim is mandatory — a missing `sv` is treated as a mismatch (fail-closed).
+  if (typeof session.sv !== "number" || session.sv !== user.sessionVersion) return null;
   return user;
 });
 

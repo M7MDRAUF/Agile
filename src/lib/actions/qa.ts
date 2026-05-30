@@ -6,6 +6,12 @@ import { prisma } from "@/lib/db";
 import { requireUser } from "@/lib/auth/guards";
 import { can } from "@/lib/domain/permissions";
 import { TEST_STATUSES, PRIORITIES } from "@/lib/domain/constants";
+import {
+  createWithSequentialKey,
+  nextKeyNumber,
+  testCaseKey,
+  workItemKey,
+} from "@/lib/domain/keys";
 
 const testCaseSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -45,23 +51,32 @@ export async function createTestCase(
   const project = await prisma.project.findUnique({ where: { id: parsed.data.projectId } });
   if (!project) return { error: "Project not found" };
 
-  const count = await prisma.testCase.count({ where: { projectId: project.id } });
-  const key = `${project.key}-TC${count + 1}`;
-
-  const testCase = await prisma.testCase.create({
-    data: {
-      key,
-      title: parsed.data.title,
-      description: parsed.data.description || null,
-      steps: parsed.data.steps || null,
-      expected: parsed.data.expected || null,
-      priority: parsed.data.priority,
-      status: "not_run",
-      projectId: project.id,
-      workItemId: parsed.data.workItemId || null,
-      createdById: user.id,
+  // Delete-safe key derived from the max existing TC suffix, with retry on
+  // unique-key collisions under concurrency.
+  const testCase = await createWithSequentialKey(
+    async () => {
+      const keys = await prisma.testCase.findMany({
+        where: { projectId: project.id },
+        select: { key: true },
+      });
+      return testCaseKey(project.key, nextKeyNumber(keys.map((k) => k.key)));
     },
-  });
+    (key) =>
+      prisma.testCase.create({
+        data: {
+          key,
+          title: parsed.data.title,
+          description: parsed.data.description || null,
+          steps: parsed.data.steps || null,
+          expected: parsed.data.expected || null,
+          priority: parsed.data.priority,
+          status: "not_run",
+          projectId: project.id,
+          workItemId: parsed.data.workItemId || null,
+          createdById: user.id,
+        },
+      }),
+  );
 
   revalidatePath("/qa");
   return { ok: true, id: testCase.id };
@@ -124,32 +139,44 @@ export async function recordTestRun(
   const testCase = await prisma.testCase.findUnique({ where: { id: testCaseId } });
   if (!testCase) return { error: "Test case not found" };
 
-  let bugId: string | undefined;
-  if (status === "failed" && createBug) {
-    const count = await prisma.workItem.count({ where: { projectId: testCase.projectId } });
-    const project = await prisma.project.findUnique({ where: { id: testCase.projectId } });
-    const key = `${project?.key ?? "BUG"}-${count + 1}`;
-    const bug = await prisma.workItem.create({
-      data: {
-        key,
-        title: `Bug: ${testCase.title}`,
-        description: `Auto-created from failed test ${testCase.key}.\n\n${notes}`,
-        type: "bug",
-        priority: "high",
-        status: "backlog",
-        projectId: testCase.projectId,
-        reporterId: user.id,
-      },
-    });
-    bugId = bug.id;
-  }
+  // Run + optional auto-bug + test-case status update are written atomically.
+  const result = await prisma.$transaction(async (tx) => {
+    let bugId: string | undefined;
+    if (status === "failed" && createBug) {
+      const project = await tx.project.findUnique({ where: { id: testCase.projectId } });
+      const bug = await createWithSequentialKey(
+        async () => {
+          const keys = await tx.workItem.findMany({
+            where: { projectId: testCase.projectId },
+            select: { key: true },
+          });
+          return workItemKey(project?.key ?? "BUG", nextKeyNumber(keys.map((k) => k.key)));
+        },
+        (key) =>
+          tx.workItem.create({
+            data: {
+              key,
+              title: `Bug: ${testCase.title}`,
+              description: `Auto-created from failed test ${testCase.key}.\n\n${notes}`,
+              type: "bug",
+              priority: "high",
+              status: "backlog",
+              projectId: testCase.projectId,
+              reporterId: user.id,
+            },
+          }),
+      );
+      bugId = bug.id;
+    }
 
-  await prisma.testRun.create({
-    data: { testCaseId, status, notes: notes || null, runById: user.id, bugId },
+    await tx.testRun.create({
+      data: { testCaseId, status, notes: notes || null, runById: user.id, bugId },
+    });
+    await tx.testCase.update({ where: { id: testCaseId }, data: { status } });
+    return { bugId };
   });
-  await prisma.testCase.update({ where: { id: testCaseId }, data: { status } });
 
   revalidatePath("/qa");
   revalidatePath(`/qa/test-cases/${testCaseId}`);
-  return { ok: true, bugId };
+  return { ok: true, bugId: result.bugId };
 }

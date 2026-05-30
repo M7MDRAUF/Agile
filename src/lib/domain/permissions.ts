@@ -13,6 +13,7 @@ export const PERMISSIONS = [
   "team.view",
   "project.create",
   "project.edit",
+  "project.archive",
   "project.view",
   "workitem.create",
   "workitem.edit_any",
@@ -56,6 +57,7 @@ const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
     "team.manage",
     "project.create",
     "project.edit",
+    "project.archive",
     "workitem.create",
     "workitem.edit_any",
     "sprint.manage",
@@ -68,6 +70,7 @@ const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
   product_owner: [
     ...COMMON,
     "project.edit",
+    "project.archive",
     "workitem.create",
     "workitem.edit_any",
     "backlog.prioritize",

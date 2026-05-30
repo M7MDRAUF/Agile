@@ -12,10 +12,17 @@ const nextConfig: NextConfig = {
     // inline scripts for hydration payloads and route segment data, and Tailwind
     // generates an inline <style> for critical CSS, so 'unsafe-inline' must
     // remain on script-src/style-src here. The nonce-based variant requires
-    // proxy.ts (Next 16) which is scheduled in Batch 9.
+    // proxy.ts (Next 16) which is scheduled in a later batch.
+    // BUG-M03: 'unsafe-eval' is only needed by the dev/HMR runtime (Turbopack).
+    // Production builds do not use eval, so it is dropped there to shrink the
+    // XSS attack surface.
+    const isDev = process.env.NODE_ENV !== "production";
+    const scriptSrc = isDev
+      ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+      : "script-src 'self' 'unsafe-inline'";
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      scriptSrc,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob:",
       "font-src 'self' data:",

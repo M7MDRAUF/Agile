@@ -1,0 +1,63 @@
+
+> agileforge@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.2.6 (Turbopack)
+- Environments: .env
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 5.6s
+  Running TypeScript ...
+  Finished TypeScript in 5.8s ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/27) ...
+  Generating static pages using 15 workers (6/27) 
+  Generating static pages using 15 workers (13/27) 
+  Generating static pages using 15 workers (20/27) 
+Γ£ô Generating static pages using 15 workers (27/27) in 291ms
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ ╞Æ /admin
+Γö£ ╞Æ /api/export/profile
+Γö£ ╞Æ /api/export/workspace
+Γö£ ╞Æ /api/health
+Γö£ ╞Æ /api/ready
+Γö£ ╞Æ /backlog
+Γö£ ╞Æ /boards/kanban
+Γö£ ╞Æ /boards/scrum
+Γö£ ╞Æ /dashboard
+Γö£ ╞Æ /login
+Γö£ ╞Æ /my-work
+Γö£ ╞Æ /notifications
+Γö£ ╞Æ /projects
+Γö£ ╞Æ /projects/[id]
+Γö£ ╞Æ /projects/[id]/reports
+Γö£ ╞Æ /projects/[id]/roadmap
+Γö£ ╞Æ /projects/new
+Γö£ ╞Æ /qa
+Γö£ ╞Æ /qa/test-cases/[id]
+Γö£ ╞Æ /qa/test-cases/new
+Γö£ ╞Æ /reports
+Γö£ ╞Æ /search
+Γö£ ╞Æ /settings
+Γö£ ╞Æ /sprints
+Γö£ ╞Æ /sprints/[id]
+Γö£ ╞Æ /sprints/new
+Γö£ ╞Æ /teams
+Γö£ ╞Æ /teams/[id]
+Γö£ ╞Æ /users
+Γö£ ╞Æ /users/[id]
+Γö£ ╞Æ /work-items
+Γö£ ╞Æ /work-items/[id]
+Γö£ ╞Æ /work-items/[id]/edit
+Γöö ╞Æ /work-items/new
+
+
+╞Æ Proxy (Middleware)
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+

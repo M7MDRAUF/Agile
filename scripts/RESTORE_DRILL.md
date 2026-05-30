@@ -8,9 +8,9 @@ A backup that has never been restored is not a backup. This document is the oper
 
 ## 1. Prerequisites
 
-| Backend | Required tools |
-|---|---|
-| SQLite | `sqlite3` 3.40+, `gzip` |
+| Backend    | Required tools                                                                  |
+| ---------- | ------------------------------------------------------------------------------- |
+| SQLite     | `sqlite3` 3.40+, `gzip`                                                         |
 | PostgreSQL | `pg_restore` from libpq 16+, a throwaway target DB (`agileforge_restore_drill`) |
 
 The drill must run against a **throwaway** database — never the production one.
@@ -113,9 +113,9 @@ If any step fails, file a P1 incident and stop shipping until backups are demons
 
 ## 5. Failure Modes & Recovery
 
-| Failure | Likely cause | Recovery |
-|---|---|---|
-| `pg_restore: error: could not execute query: ERROR: role "..." does not exist` | Backup taken with `--owner` set, restored into a DB without that role | Re-run backup with `--no-owner --no-privileges` (already the script default) |
-| `sqlite3: integrity_check` reports anything other than `ok` | Source DB was corrupted before snapshot | Use the previous night's snapshot; investigate the prod DB |
-| `/api/ready` returns 503 after restore | Prisma client out of sync with restored schema | Run `npx prisma migrate deploy` against the restored DB before serving traffic |
-| Backup file is 0 bytes | Disk full at snapshot time, or `pg_dump` was killed | Check the cron host's disk + memory; re-run; investigate retention pruning |
+| Failure                                                                        | Likely cause                                                          | Recovery                                                                       |
+| ------------------------------------------------------------------------------ | --------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `pg_restore: error: could not execute query: ERROR: role "..." does not exist` | Backup taken with `--owner` set, restored into a DB without that role | Re-run backup with `--no-owner --no-privileges` (already the script default)   |
+| `sqlite3: integrity_check` reports anything other than `ok`                    | Source DB was corrupted before snapshot                               | Use the previous night's snapshot; investigate the prod DB                     |
+| `/api/ready` returns 503 after restore                                         | Prisma client out of sync with restored schema                        | Run `npx prisma migrate deploy` against the restored DB before serving traffic |
+| Backup file is 0 bytes                                                         | Disk full at snapshot time, or `pg_dump` was killed                   | Check the cron host's disk + memory; re-run; investigate retention pruning     |

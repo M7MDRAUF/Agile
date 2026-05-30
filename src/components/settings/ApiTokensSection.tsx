@@ -2,11 +2,7 @@
 
 import { useActionState, useState, useTransition } from "react";
 import { LoaderCircle, Copy, Check, Trash2, KeyRound } from "lucide-react";
-import {
-  createApiToken,
-  revokeApiToken,
-  type CreateTokenState,
-} from "@/lib/actions/api-tokens";
+import { createApiToken, revokeApiToken, type CreateTokenState } from "@/lib/actions/api-tokens";
 import { TOKEN_SCOPES } from "@/lib/domain/api-tokens";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

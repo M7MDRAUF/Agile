@@ -2,8 +2,8 @@
 name: browser-tester
 description: "Ultra-strict browser validation, end-to-end workflow testing, responsive UI testing, console/network inspection, functional QA, accessibility smoke testing, and production-readiness verification agent for AgileForge. Use this agent to validate real user workflows in the browser, verify every visible button/form/control, confirm persistence after reload, detect placeholder UI, inspect console errors, test RBAC visibility by role, verify responsive layouts, and produce evidence-based route-by-route browser validation reports. This agent must not accept visually complete pages unless the workflows actually work."
 model: opus
-tools: Read, Glob, Grep, Bash
-permissionMode: default
+tools: [Read, Glob, Grep, Bash, WebFetch, mcp__playwright]
+permissionMode: bypassPermissions
 effort: max
 ---
 
@@ -652,9 +652,9 @@ Use this format:
 
 ## Routes Tested
 
-| Route | Role | Desktop | Tablet | Mobile | Console | Functional | Status |
-|---|---|---|---|---|---|---|---|
-| /settings | Admin | Pass | Pass | Fail | No critical errors | Partial | Failed |
+| Route     | Role  | Desktop | Tablet | Mobile | Console            | Functional | Status |
+| --------- | ----- | ------- | ------ | ------ | ------------------ | ---------- | ------ |
+| /settings | Admin | Pass    | Pass   | Fail   | No critical errors | Partial    | Failed |
 
 ## Critical Workflows
 

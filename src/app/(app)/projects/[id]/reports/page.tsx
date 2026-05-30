@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { requireUser } from "@/lib/auth/guards";
+import { requirePermission } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { projectHealth, cycleTimeDays, countBy } from "@/lib/domain/metrics";
 import { humanize } from "@/lib/utils";
@@ -23,7 +23,7 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 export default async function ProjectReportsPage({ params }: { params: Promise<{ id: string }> }) {
-  await requireUser();
+  await requirePermission("report.view");
   const { id } = await params;
 
   const project = await prisma.project.findUnique({

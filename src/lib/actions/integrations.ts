@@ -8,6 +8,8 @@ import { INTEGRATIONS } from "@/lib/domain/integrations";
 
 /** Read all integrations, ensuring a row exists for each defined integration. */
 export async function getIntegrations() {
+  // BUG-M04: integration status is only exposed to authenticated users.
+  await requireUser();
   const rows = await prisma.integration.findMany();
   const byKey = new Map(rows.map((r) => [r.key, r]));
   return INTEGRATIONS.map((def) => {

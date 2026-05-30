@@ -99,9 +99,7 @@ describe("GET /api/export/workspace (SEC-007 + PERF-002 + perms)", () => {
       },
     ]);
     const { GET } = await import("@/app/api/export/workspace/route");
-    const res = await GET(
-      makeReq("http://localhost:3000/api/export/workspace?format=json"),
-    );
+    const res = await GET(makeReq("http://localhost:3000/api/export/workspace?format=json"));
     expect(res.headers.get("content-type")).toBe("application/json");
     const body = (await res.json()) as { truncated: boolean; count: number; rows: unknown[] };
     expect(body.truncated).toBe(false);
@@ -129,9 +127,7 @@ describe("GET /api/export/workspace (SEC-007 + PERF-002 + perms)", () => {
     const res = await GET(
       makeReq("http://localhost:3000/api/export/workspace?limit=5&format=json"),
     );
-    expect(mockPrisma.workItem.findMany).toHaveBeenCalledWith(
-      expect.objectContaining({ take: 5 }),
-    );
+    expect(mockPrisma.workItem.findMany).toHaveBeenCalledWith(expect.objectContaining({ take: 5 }));
     expect(res.headers.get("x-export-truncated")).toBe("true; cap=5");
   });
 
@@ -139,9 +135,7 @@ describe("GET /api/export/workspace (SEC-007 + PERF-002 + perms)", () => {
     mockRequireUser.mockResolvedValue(adminUser);
     mockPrisma.workItem.findMany.mockResolvedValue([]);
     const { GET } = await import("@/app/api/export/workspace/route");
-    await GET(
-      makeReq("http://localhost:3000/api/export/workspace?limit=-99&format=json"),
-    );
+    await GET(makeReq("http://localhost:3000/api/export/workspace?limit=-99&format=json"));
     expect(mockPrisma.workItem.findMany).toHaveBeenCalledWith(
       expect.objectContaining({ take: 50_000 }),
     );
