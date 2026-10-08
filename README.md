@@ -1,6 +1,6 @@
 # AgileForge
 
-> A self-hosted, production-grade Agile project management and software engineering operations platform.
+> A self-hosted Agile project management and software engineering operations platform.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
@@ -245,8 +245,8 @@ npm run test:e2e
 
 ### What's covered
 
-- **537 unit tests** across 33 test files — server actions, auth helpers, RBAC matrix (440 assertions), seed determinism, export route, domain logic
-- **27 Playwright E2E tests** — auth flows, navigation, board persistence, RBAC by role, accessibility smoke (`axe-core`), workflow coverage
+- **Vitest unit tests** — server actions, auth helpers, RBAC matrix, seed determinism, export route, domain logic
+- **Playwright end-to-end tests** — auth flows, navigation, board persistence, RBAC by role, accessibility smoke (`axe-core`), workflow coverage
 - **Coverage gate** enforced via `@vitest/coverage-v8`
 
 See [docs/TESTING.md](docs/TESTING.md) for full testing strategy and conventions.
