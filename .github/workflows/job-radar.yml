@@ -1,0 +1,76 @@
+name: Job Radar
+
+# Looks for new junior / new-grad software and full-stack jobs every two hours and sends a push
+# notification. Scheduled workflows only run from the default branch.
+on:
+  schedule:
+    - cron: "17 */2 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Print matches without notifying or saving state"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "job-radar/**"
+      - ".github/workflows/job-radar.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Job Radar tests
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: job-radar
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: job-radar/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+
+  scan:
+    name: Scan for new jobs
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    concurrency:
+      group: job-radar-scan
+      cancel-in-progress: false
+    defaults:
+      run:
+        working-directory: job-radar
+    env:
+      NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+      NTFY_SERVER: ${{ secrets.NTFY_SERVER }}
+      NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: job-radar/package-lock.json
+      - run: npm ci
+      - name: Restore state
+        working-directory: .
+        run: job-radar/scripts/state-branch.sh restore
+      - name: Search and notify
+        run: npm run once -- ${{ inputs.dry_run && '--dry-run' || '' }}
+      - name: Save state
+        if: ${{ !inputs.dry_run && !cancelled() }}
+        working-directory: .
+        run: job-radar/scripts/state-branch.sh save

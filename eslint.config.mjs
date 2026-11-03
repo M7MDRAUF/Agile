@@ -13,6 +13,8 @@ const eslintConfig = defineConfig([
     "build/**",
     "coverage/**",
     "next-env.d.ts",
+    // Standalone job-radar tool with its own toolchain.
+    "job-radar/**",
   ]),
 ]);
 
